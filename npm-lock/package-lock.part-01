@@ -370,7 +370,7 @@
     "node_modules/@next/swc-linux-arm64-gnu": {
       "version": "16.3.8",
       "resolved": "https://registry.npmjs.org/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-16.3.8.tgz",
-      "integrity": "sha512-O659ygeQYqneJ1fBKMpFxIFqYkYswu8IAS1OCKK/4f3ZgJMhm1dRz4fVJZRi/kLLWjnBKnebOePA4WNv+sV1pVA==",
+      "integrity": "sha512-O659ygeQYqneJ1fBKMpFxIFqYkYswu8IAS1OCKK/4f3ZgJJm1dRz4fVJZRi/kLLWjnBKnebOePA4WNv+sV1pVA==",
       "cpu": [
         "arm64"
       ],
@@ -787,7 +787,7 @@
     "node_modules/@tailwindcss/postcss": {
       "version": "4.3.3",
       "resolved": "https://registry.npmjs.org/@tailwindcss/postcss/-/postcss-4.3.3.tgz",
-      "integrity": "sha512-JTSZZGQi1AyKirbLN3azmjVzef92tcX7h+iSqPdaeStyFpGpDlKvvpxeOE8njhbUanbRwr3Z8DyzhICWnMtQeg==",
+      "integrity": "sha512-JTSZZGQi1AyKirbLN3azmjVzef92tcX7h+iSqPdaeStyFpGpDlKvvpxeOE8njhbUanbRwr3z8DyzhICWnMtQeg==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
