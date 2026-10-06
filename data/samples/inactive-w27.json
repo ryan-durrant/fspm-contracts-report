@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-05",
+  "filter": "Winter 2027 + Winter 2027/Spring 2027",
+  "counts": {
+    "Avonlea for Men": 11,
+    "Avonlea for Women": 9,
+    "Avonlea House": 1,
+    "Carriage House Apartments": 8,
+    "Carriage House Townhouse": 0,
+    "Haven Blue": 17,
+    "Haven Green": 2,
+    "Haven House 129": 1,
+    "Haven House 149": 4,
+    "Haven House 163": 1,
+    "Haven House 175": 1,
+    "Haven House 179": 2,
+    "Haven Red": 6,
+    "Haven White": 4
+  },
+  "total": 67,
+  "raw_row_count": 95,
+  "kept_row_count": 67
+}

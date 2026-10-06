@@ -1,0 +1,34 @@
+{
+  "roomchoice_to_google": {
+    "Avonlea for Men": "Avonlea for Men",
+    "Avonlea for Women": "Avonlea (W)",
+    "Avonlea House": "Avonlea House",
+    "Carriage House Apartments": "The Carriage House",
+    "Carriage House Townhouse": "Carriage House Townhouse",
+    "Haven Blue": "Haven Blue",
+    "Haven Green": "Haven Green",
+    "Haven Red": "Haven Red",
+    "Haven White": "Haven White",
+    "Haven House 129": "Haven House 129",
+    "Haven House 149": "Haven House 149",
+    "Haven House 163": "Haven House 163",
+    "Haven House 175": "Haven House 175",
+    "Haven House 179": "Haven House 179"
+  },
+  "google_to_report": {
+    "The Carriage House": "Carriage House",
+    "Carriage House Townhouse": "Carriage House Townhouse",
+    "Avonlea House": "Avonlea House",
+    "Avonlea (W)": "Avonlea Women",
+    "Haven Blue": "Haven Blue",
+    "Haven House 179": "Haven 179",
+    "Haven House 175": "Haven 175",
+    "Haven House 163": "Haven 163",
+    "Haven House 149": "Haven 149",
+    "Haven White": "Haven White",
+    "Avonlea for Men": "Avonlea Men",
+    "Haven House 129": "Haven 129",
+    "Haven Green": "Haven Green",
+    "Haven Red": "Haven Red"
+  }
+}

@@ -1,0 +1,49 @@
+{
+ "lease": "Winter 2027",
+ "date": "2026-10-05",
+ "properties": {
+  "Carriage House Apartments": {
+   "count": 11
+  },
+  "Carriage House Townhouse": {
+   "count": 0
+  },
+  "Avonlea House": {
+   "count": 0
+  },
+  "Avonlea for Women": {
+   "count": 5
+  },
+  "Haven Blue": {
+   "count": 11
+  },
+  "Haven House 179": {
+   "count": 1
+  },
+  "Haven House 175": {
+   "count": 0
+  },
+  "Haven House 163": {
+   "count": 0
+  },
+  "Haven House 149": {
+   "count": 3
+  },
+  "Haven White": {
+   "count": 2
+  },
+  "Avonlea for Men": {
+   "count": 8
+  },
+  "Haven House 129": {
+   "count": 1
+  },
+  "Haven Green": {
+   "count": 2
+  },
+  "Haven Red": {
+   "count": 3
+  }
+ },
+ "total": 47
+}

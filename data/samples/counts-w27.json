@@ -1,0 +1,22 @@
+{
+ "lease": "Winter 2027",
+ "date": "2026-10-05",
+ "properties": {
+  "Carriage House Apartments": 223,
+  "Carriage House Townhouse": 8,
+  "Avonlea House": 14,
+  "Avonlea for Women": 59,
+  "Haven Blue": 114,
+  "Haven House 179": 5,
+  "Haven House 175": 7,
+  "Haven House 163": 7,
+  "Haven House 149": 6,
+  "Haven White": 22,
+  "Avonlea for Men": 62,
+  "Haven House 129": 4,
+  "Haven Green": 46,
+  "Haven Red": 43
+ },
+ "total": 620,
+ "unmapped": []
+}
