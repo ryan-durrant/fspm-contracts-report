@@ -1,0 +1,183 @@
+{
+  "quote": {
+    "text": "Whether you think you can or you think you can't, you're right.",
+    "attribution": "Henry Ford"
+  },
+  "tip": {
+    "intro": "Are you finished with everything you need to get ready for the Fall Semester in your units? Here is the list to ensure it's all updated on the CAMRY report:",
+    "link": "https://docs.google.com/spreadsheets/d/13BpOIwKpTQc213cA1nwBObmmCs27Llxg1CZ860vQ8jQ/edit?gid=92730148#gid=92730148",
+    "closing": "These final weeks always come fast! Make sure each day you are in units or preparing for the Fall Semester checkins."
+  },
+  "marketCapacity": 16244,
+  "goalsCopy": {
+    "paragraphs": [
+      "Goals reflect the desires of our hearts and our vision of what we can accomplish. Through goals and plans, our hopes are transformed into action. Goal setting and planning are acts of faith.",
+      "You may also set goals for your personal development. Do everything within your power to achieve your goals while respecting the agency of others. The ultimate measure of success is not in achieving goals alone but in the service you render and the progress of our company."
+    ],
+    "bonus": [
+      "Each month, you will receive an additional $200 of pay. This is essentially a guaranteed contract bonus each month for Winter, Spring, and Fall semesters!",
+      "The $200 a month assumes we hit 100% for Fall and Winter Semesters and 85% for Spring."
+    ]
+  },
+  "communityNote": "Managers, please send an email to Ryan every Friday with your community housing numbers as well as any upcoming move-outs within the next 60 days for your properties.",
+  "teams": [
+    {
+      "id": "shalynn-kate",
+      "name": "Shalynn & Kate's Properties",
+      "headerColor": "#0088E8",
+      "propertyIds": ["carriage-house", "carriage-townhouse"]
+    },
+    {
+      "id": "kelsee-shaylee",
+      "name": "Kelsee and Shaylee's Properties",
+      "headerColor": "#E06808",
+      "propertyIds": ["avonlea-women", "avonlea-men", "avonlea-house"]
+    },
+    {
+      "id": "kenzie-lauren",
+      "name": "Kenzie, & Lauren's Properties",
+      "headerColor": "#303888",
+      "propertyIds": [
+        "haven-blue",
+        "haven-green",
+        "haven-red",
+        "haven-white",
+        "haven-129",
+        "haven-149",
+        "haven-163",
+        "haven-175",
+        "haven-179"
+      ]
+    }
+  ],
+  "properties": [
+    {
+      "id": "carriage-house",
+      "name": "Carriage House",
+      "capacity": 234,
+      "category": "apt",
+      "aliases": ["The Carriage House", "Carriage House Apartments", "Carriage House"]
+    },
+    {
+      "id": "carriage-townhouse",
+      "name": "Carriage House Townhouse",
+      "capacity": 8,
+      "category": "house",
+      "aliases": ["Carriage House Townhouse"]
+    },
+    {
+      "id": "avonlea-women",
+      "name": "Avonlea Women",
+      "capacity": 66,
+      "category": "apt",
+      "aliases": ["Avonlea (W)", "Avonlea for Women", "Avonlea Women"]
+    },
+    {
+      "id": "avonlea-men",
+      "name": "Avonlea Men",
+      "capacity": 79,
+      "category": "apt",
+      "aliases": ["Avonlea for Men", "Avonlea Men"]
+    },
+    {
+      "id": "avonlea-house",
+      "name": "Avonlea House",
+      "capacity": 14,
+      "category": "house",
+      "aliases": ["Avonlea House"]
+    },
+    {
+      "id": "haven-blue",
+      "name": "Haven Blue",
+      "capacity": 140,
+      "category": "apt",
+      "aliases": ["Haven Blue"]
+    },
+    {
+      "id": "haven-green",
+      "name": "Haven Green",
+      "capacity": 48,
+      "category": "apt",
+      "aliases": ["Haven Green"]
+    },
+    {
+      "id": "haven-red",
+      "name": "Haven Red",
+      "capacity": 48,
+      "category": "apt",
+      "aliases": ["Haven Red"]
+    },
+    {
+      "id": "haven-white",
+      "name": "Haven White",
+      "capacity": 24,
+      "category": "apt",
+      "aliases": ["Haven White"]
+    },
+    {
+      "id": "haven-129",
+      "name": "Haven 129",
+      "capacity": 6,
+      "category": "house",
+      "aliases": ["Haven House 129", "Haven 129", "HH129"]
+    },
+    {
+      "id": "haven-149",
+      "name": "Haven 149",
+      "capacity": 12,
+      "category": "house",
+      "aliases": ["Haven House 149", "Haven 149", "HH149"]
+    },
+    {
+      "id": "haven-163",
+      "name": "Haven 163",
+      "capacity": 7,
+      "category": "house",
+      "aliases": ["Haven House 163", "Haven 163", "HH163"]
+    },
+    {
+      "id": "haven-175",
+      "name": "Haven 175",
+      "capacity": 7,
+      "category": "house",
+      "aliases": ["Haven House 175", "Haven 175", "HH175"]
+    },
+    {
+      "id": "haven-179",
+      "name": "Haven 179",
+      "capacity": 7,
+      "category": "house",
+      "aliases": ["Haven House 179", "Haven 179", "HH179"]
+    }
+  ],
+  "offices": [
+    {
+      "id": "avonlea-office",
+      "name": "Avonlea Office",
+      "headerColor": "#0088E8",
+      "properties": [
+        { "id": "liberty-corner", "name": "Liberty Corner", "capacity": 18 },
+        { "id": "lc-ii", "name": "LC II", "capacity": 8 },
+        { "id": "lc-house", "name": "LC House", "capacity": 3 },
+        { "id": "lc-duplex", "name": "LC Duplex", "capacity": 2 }
+      ]
+    },
+    {
+      "id": "haven-office",
+      "name": "Haven Office",
+      "headerColor": "#303888",
+      "properties": [
+        { "id": "t-house", "name": "T House", "capacity": 1 },
+        { "id": "bell-house", "name": "Bell House", "capacity": 1 },
+        { "id": "birch-house", "name": "Birch House", "capacity": 1 },
+        { "id": "east-triplex", "name": "East Triplex", "capacity": 3 },
+        { "id": "north-triplex", "name": "North Triplex", "capacity": 3 },
+        { "id": "classic-122", "name": "#122 Classic", "capacity": 2 },
+        { "id": "piano-casa", "name": "Piano Casa", "capacity": 1 },
+        { "id": "rock-casa", "name": "Rock Casa", "capacity": 3 },
+        { "id": "haven-green-townhouse", "name": "Haven Green Townhouse", "capacity": 1 },
+        { "id": "the-nest", "name": "The Nest", "capacity": 1 }
+      ]
+    }
+  ]
+}
