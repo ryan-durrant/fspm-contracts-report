@@ -250,7 +250,7 @@ function HighlightsPage({ report }: { report: ReportData }) {
               yStep={2000}
               ariaLabel={`BYU-Idaho approved housing market beds sold. ${highlights.monthlyMarketBeds
                 .map((point) => `${point.label} ${formatNumber(point.value)}`)
-                .join(", ")}. Market capacity ${formatNumber(highlights.marketCapacity)}.`} 
+                .join(", ")}. Market capacity ${formatNumber(highlights.marketCapacity)}.`}
             />
           </>
         }
