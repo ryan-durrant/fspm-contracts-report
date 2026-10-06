@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-source), "Segoe UI", Calibri, "Gill Sans", sans-serif;
+  --color-brand: #1b5386;
+  --color-unapproved: #00a850;
+  --color-inactive: #0088e8;
+  --color-sheet: #d8d8d8;
+  --color-desk: #e7e7e7;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-desk);
+  color: #111;
+  font-family: var(--font-sans);
+}
+
+.sheet {
+  scroll-margin-top: 4.75rem;
+}
+
+@media print {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    background: white;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .sheet {
+    break-after: page;
+    box-shadow: none !important;
+  }
+
+  * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
