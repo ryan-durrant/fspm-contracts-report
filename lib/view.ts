@@ -21,7 +21,6 @@ export function teamTotals(
 }
 
 export function propertiesInOrder(config: TeamsConfig) {
-  const byId = propertyMap(config);
   return config.teams.flatMap((team) =>
     team.propertyIds.flatMap((id) => {
       const property = byId.get(id);
