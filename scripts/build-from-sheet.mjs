@@ -326,7 +326,7 @@ function marketFromFile(file) {
 
 function topMover(deltas, category) {
   const rows = deltas.filter((row) => row.category === category);
-  if (!rows.length) return { label: "\u2014", count: 0 };
+  if (!rows.length) return { label: "—", count: 0 };
   const best = Math.max(...rows.map((row) => row.delta));
   const leaders = rows.filter((row) => row.delta === best);
   if (leaders.length > 1) return { label: "There was a tie", count: best };
@@ -344,8 +344,8 @@ function blankReport(semester, reportDate) {
     lastYear: null,
     highlights: {
       contractsSoldThisWeek: 0,
-      houses: { label: "\u2014", count: 0 },
-      apartments: { label: "\u2014", count: 0 },
+      houses: { label: "—", count: 0 },
+      apartments: { label: "—", count: 0 },
       marketCapacity: 0,
       marketSold: 0,
       women: null,
@@ -513,8 +513,8 @@ export function buildReport({
   };
   report.highlights = {
     contractsSoldThisWeek: weekTotal,
-    houses: deltas.length ? topMover(deltas, "house") : { label: "\u2014", count: 0 },
-    apartments: deltas.length ? topMover(deltas, "apt") : { label: "\u2014", count: 0 },
+    houses: deltas.length ? topMover(deltas, "house") : { label: "—", count: 0 },
+    apartments: deltas.length ? topMover(deltas, "apt") : { label: "—", count: 0 },
     marketCapacity: resolvedMarketCapacity,
     marketSold: resolvedMarketSold,
     women: null,
@@ -673,7 +673,7 @@ export function fetchTrackerFromSheets() {
   throw new Error(
     [
       "Live Google Sheets reads are stubbed in v1.",
-      "Export the tab yourself (File \u2192 Download \u2192 Comma-separated values) and pass --tracker.",
+      "Export the tab yourself (File → Download → Comma-separated values) and pass --tracker.",
       "Spreadsheet: Rexburg Real Estate Database",
       "ID: 1gLi53sg64WOoLf0LsCB1wTmsfQGZoeS4QTE3pjqy98c",
       "Tabs: contract_tracker - W27 and contract_tracker - S27.",
@@ -693,7 +693,7 @@ function printHelp() {
 
   --tracker <csv>         contract_tracker export for the semester being reported
   --as-of <YYYY-MM-DD>    snapshot date (default: latest date column)
-  --next <csv>            following semester tracker (Winter while reporting Fall, \u2026)
+  --next <csv>            following semester tracker (Winter while reporting Fall, …)
   --next-as-of <date>     snapshot date inside --next (default: latest)
   --counts <json>         aggregated property counts, instead of a tracker CSV
   --unapproved <json>     green numbers (skipped when the CSV already has a duplicate date)
