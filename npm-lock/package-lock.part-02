@@ -67,7 +67,7 @@
     "node_modules/@typescript-eslint/parser": {
       "version": "8.71.0",
       "resolved": "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-8.71.0.tgz",
-      "integrity": "sha512-CG4nPk1f2zc8yw4pALqHsFYH2h+h1T9daSp21+Hnxi9LOE3GT9hAfTKJCBXVNM2GmYs1eMEP615wPoeOgk3A==",
+      "integrity": "sha512-CG4nPk1f2zc8yw4pALqHsFYH2hdo+h1T9daSp21+Hnxi9LOE3GT9hAfTKJCBXVNM2GmYs1eMEP615wPoeOgk3A==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -92,7 +92,7 @@
     "node_modules/@typescript-eslint/project-service": {
       "version": "8.71.0",
       "resolved": "https://registry.npmjs.org/@typescript-eslint/project-service/-/project-service-8.71.0.tgz",
-      "integrity": "sha512-aABjw5rjBacYONVPaPiWOCjJu0vEF4a25iQuodlmQYL1trtLZ0X/y+2Vzl3bKI1odM4LnwLE1oUDXYp1wzx1TQ==",
+      "integrity": "sha512-aABjw5rjBacYONVPaPiWOCjJu0vEF4a25iQuodlmQYL1trtLZ0X/y+2Vzl3BKI1odM4LnwLE1oUDXYp1wzx1TQ==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
