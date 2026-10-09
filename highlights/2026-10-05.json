@@ -1,0 +1,20 @@
+[
+  {
+    "page": "w27",
+    "property": "carriage-house",
+    "field": "unapproved",
+    "color": "red"
+  },
+  {
+    "page": "w27",
+    "property": "haven-blue",
+    "field": "unapproved",
+    "color": "red"
+  },
+  {
+    "page": "w27",
+    "property": "avonlea-men",
+    "field": "unapproved",
+    "color": "red"
+  }
+]

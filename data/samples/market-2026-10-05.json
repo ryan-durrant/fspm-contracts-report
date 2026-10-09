@@ -1,1 +1,11 @@
-{"date":"2026-10-05","winter_2027":{"market":9529,"women":4833,"men":4696},"spring_2027":null,"notes":"Report has 4 pages. Page 3 title says 'Winter 2026', but the page 1 overview labels the Winter column 2027 (58.7%, which matches page 3), so page 3 was read as Winter 2027. Women + men = 9,529, which equals the market total. Up from 7,997 on 9/28 (+1,532). Page 4 is titled 'Spring 2026' (10,021 sold; women 4,919, men 5,102; 63.6%), and the overview also labels Spring 2026, so Spring 2027 does not look published. Treated as null, but this is uncertain."}
+{
+  "date": "2026-10-05",
+  "winter_2027": {
+    "market": 9529,
+    "marketCapacity": 16244,
+    "women": 4833,
+    "womenCapacity": 8333,
+    "men": 4696,
+    "menCapacity": 7911
+  }
+}
