@@ -26,7 +26,8 @@
  *   --inactive     blue numbers (inactive leads). Not a column on contract_tracker.
  *   --counts       already-aggregated JSON (property -> filled) when you do not have the CSV
  *   --market       market bed JSON ({ winter_2027: { market, women, men } } or { sold })
- *   --editorial    quote-adjacent numbers the sheet does not know (YoY, goals, community, chart pins)
+ *   --editorial    quote-adjacent numbers the sheet does not know (YoY, goals, chart pins)
+ *   --community    numbers-only community-housing.json from the Friday email
  *   --previous     last week's report.json; community / last year / gender callouts carry forward
  *   --last-year    prior semester tracker CSV, read near the same calendar day last year
  *
@@ -380,6 +381,7 @@ export function buildReport({
   marketFile = null,
   editorial = null,
   previous = null,
+  communityFile = null,
   lastYearTracker = null,
   nextTracker = null,
   nextAsOf = null,
@@ -597,6 +599,7 @@ export function buildReport({
 
   applyPrevious(report, previous);
   applyEditorial(report, editorial);
+  applyCommunity(report, communityFile);
   return report;
 }
 
@@ -614,7 +617,11 @@ function sumCounts(tracker, aliasIndex, propertyOrder) {
 function applyPrevious(report, previous) {
   if (!previous) return;
   if (!report.lastYear && previous.lastYear) report.lastYear = previous.lastYear;
-  if (previous.community && Object.keys(report.community).length === 0) report.community = previous.community;
+  if (previous.community && Object.keys(report.community).length === 0) {
+    report.community = previous.community;
+    if (previous.communityHousing) report.communityHousing = previous.communityHousing;
+    if (previous.communityAsOf) report.communityAsOf = previous.communityAsOf;
+  }
   if (report.callouts.women == null && previous.callouts?.women != null) report.callouts.women = previous.callouts.women;
   if (report.callouts.men == null && previous.callouts?.men != null) report.callouts.men = previous.callouts.men;
   if (report.highlights.women == null && previous.highlights?.women != null) report.highlights.women = previous.highlights.women;
@@ -655,6 +662,7 @@ function applyEditorial(report, editorial) {
   }
   if (editorial.goals) report.goals = editorial.goals;
   if (editorial.community) report.community = editorial.community;
+  if (editorial.communityAsOf) report.communityAsOf = editorial.communityAsOf;
   if (editorial.nextSemester && report.nextSemester) {
     if (editorial.nextSemester.callouts) {
       report.nextSemester.callouts = { ...report.nextSemester.callouts, ...editorial.nextSemester.callouts };
@@ -682,6 +690,20 @@ export function fetchTrackerFromSheets() {
   );
 }
 
+function applyCommunity(report, communityFile) {
+  if (!communityFile) return;
+  const housing = readJson(communityFile);
+  if (!housing?.properties) return;
+  report.communityHousing = housing;
+  if (housing.asOf) report.communityAsOf = housing.asOf;
+  const filled = {};
+  for (const [id, row] of Object.entries(housing.properties)) {
+    if (!row || typeof row.filled !== "number") continue;
+    filled[id] = row.filled;
+  }
+  report.community = filled;
+}
+
 function argValue(argv, flag) {
   const index = argv.indexOf(flag);
   if (index === -1) return null;
@@ -700,7 +722,8 @@ function printHelp() {
   --inactive <json>       blue numbers (inactive leads)
   --market <json>         market beds sold, when not using the tracker market row
   --last-year <csv>       prior-year tracker used for the comparison page
-  --editorial <json>      pinned chart labels, goals, community, YoY overrides
+  --editorial <json>      pinned chart labels, goals, YoY overrides
+  --community <json>      community-housing.json (filled/total, office totals, asOf)
   --previous <json>       last report.json; carries community and callouts forward
   --teams <json>          default config/teams.json
   --out <file>            write the report JSON here
@@ -723,6 +746,7 @@ export function main(argv = process.argv.slice(2)) {
   const lastYearPath = argValue(argv, "--last-year");
   const editorialPath = argValue(argv, "--editorial");
   const previousPath = argValue(argv, "--previous");
+  const communityPath = argValue(argv, "--community");
   const report = buildReport({
     teams,
     tracker,
@@ -733,6 +757,7 @@ export function main(argv = process.argv.slice(2)) {
     marketFile: argValue(argv, "--market") ? path.resolve(argValue(argv, "--market")) : null,
     editorial: editorialPath ? readJson(path.resolve(editorialPath)) : null,
     previous: previousPath ? readJson(path.resolve(previousPath)) : null,
+    communityFile: communityPath ? path.resolve(communityPath) : null,
     lastYearTracker: lastYearPath ? parseTracker(fs.readFileSync(path.resolve(lastYearPath), "utf8")) : null,
     nextTracker: nextPath ? parseTracker(fs.readFileSync(path.resolve(nextPath), "utf8")) : null,
     nextAsOf: argValue(argv, "--next-as-of"),
