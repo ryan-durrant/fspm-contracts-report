@@ -319,9 +319,27 @@ function countsJsonToProperties(file, aliasIndex) {
 function marketFromFile(file) {
   if (!file) return null;
   const json = readJson(file);
-  if (typeof json.sold === "number") return { sold: json.sold, capacity: json.capacity ?? null };
+  if (typeof json.sold === "number") {
+    return {
+      sold: json.sold,
+      capacity: json.capacity ?? null,
+      women: typeof json.women === "number" ? json.women : null,
+      womenCapacity: json.womenCapacity ?? null,
+      men: typeof json.men === "number" ? json.men : null,
+      menCapacity: json.menCapacity ?? null,
+    };
+  }
   const nested = json.winter_2027 ?? json.spring_2027 ?? json.fall_2026 ?? null;
-  if (nested && typeof nested.market === "number") return { sold: nested.market, capacity: null };
+  if (nested && typeof nested.market === "number") {
+    return {
+      sold: nested.market,
+      capacity: nested.marketCapacity ?? nested.capacity ?? null,
+      women: typeof nested.women === "number" ? nested.women : null,
+      womenCapacity: nested.womenCapacity ?? null,
+      men: typeof nested.men === "number" ? nested.men : null,
+      menCapacity: nested.menCapacity ?? null,
+    };
+  }
   return null;
 }
 
@@ -364,6 +382,11 @@ function blankReport(semester, reportDate) {
 
 function ratio(part, whole) {
   if (!whole) return 0;
+  return part / whole;
+}
+
+function optionalRatio(part, whole) {
+  if (part == null || !whole) return null;
   return part / whole;
 }
 
@@ -467,6 +490,8 @@ export function buildReport({
   const fileMarket = marketFromFile(marketFile);
   const resolvedMarketSold = fileMarket?.sold ?? marketSold;
   const resolvedMarketCapacity = fileMarket?.capacity ?? marketCapacity ?? teams.marketCapacity ?? 0;
+  const womenRatio = optionalRatio(fileMarket?.women, fileMarket?.womenCapacity);
+  const menRatio = optionalRatio(fileMarket?.men, fileMarket?.menCapacity);
 
   const deltas = [];
   if (tracker && previousIndex >= 0) {
@@ -519,8 +544,8 @@ export function buildReport({
     apartments: deltas.length ? topMover(deltas, "apt") : { label: "—", count: 0 },
     marketCapacity: resolvedMarketCapacity,
     marketSold: resolvedMarketSold,
-    women: null,
-    men: null,
+    women: womenRatio,
+    men: menRatio,
     market: resolvedMarketCapacity ? ratio(resolvedMarketSold, resolvedMarketCapacity) : null,
     decimals: 0,
     monthlyMarketBeds: marketMonthly,
@@ -578,6 +603,7 @@ export function buildReport({
     }
     const nextMarketSold = nextTracker.marketSold[nextIndex] ?? 0;
     const nextMarketCapacity = nextTracker.marketCapacity ?? resolvedMarketCapacity;
+    const nextMarketPublished = (nextTracker.marketSold ?? []).some((value) => Number(value) > 0);
     report.nextSemester = {
       semester: nextTracker.semester,
       reportDate: nextDate,
@@ -585,7 +611,7 @@ export function buildReport({
       callouts: {
         totalContracts: nextCapacity,
         bnh: ratio(nextFilled, nextCapacity),
-        market: nextMarketCapacity ? ratio(nextMarketSold, nextMarketCapacity) : null,
+        market: nextMarketPublished && nextMarketCapacity ? ratio(nextMarketSold, nextMarketCapacity) : null,
         decimals: 1,
       },
       monthlyContracts: monthlySeries(
@@ -661,6 +687,7 @@ function applyEditorial(report, editorial) {
     };
   }
   if (editorial.goals) report.goals = editorial.goals;
+  if (editorial.tip) report.tip = editorial.tip;
   if (editorial.community) report.community = editorial.community;
   if (editorial.communityAsOf) report.communityAsOf = editorial.communityAsOf;
   if (editorial.nextSemester && report.nextSemester) {
@@ -681,7 +708,7 @@ export function fetchTrackerFromSheets() {
   throw new Error(
     [
       "Live Google Sheets reads are stubbed in v1.",
-      "Export the tab yourself (File → Download → Comma-separated values) and pass --tracker.",
+      "Export the tab yourself (File \u2192 Download \u2192 Comma-separated values) and pass --tracker.",
       "Spreadsheet: Rexburg Real Estate Database",
       "ID: 1gLi53sg64WOoLf0LsCB1wTmsfQGZoeS4QTE3pjqy98c",
       "Tabs: contract_tracker - W27 and contract_tracker - S27.",
