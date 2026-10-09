@@ -55,7 +55,7 @@ The script reads a local export. It does not call the Sheets API, and it does no
 | Total | | Checksum. The script warns if property rows do not add up. |
 | Market Beds Sold | `16244` in column B, then weekly counts | Market bed capacity, and the highlights chart |
 
-Inactive leads (the blue number) are not on `contract_tracker`. Pass them with `--inactive`. Community housing is typed in by managers; keep it in `--editorial` or let `--previous` carry last week forward.
+Inactive leads (the blue number) are not on `contract_tracker`. Pass them with `--inactive`. Community housing comes from the Friday email (see below). `--previous` still carries last week’s counts forward when this week has no newer email.
 
 Export path: open the tab, **File → Download → Comma-separated values (.csv)**. One CSV per tab.
 
@@ -69,13 +69,32 @@ node scripts/build-from-sheet.mjs \
   --inactive data/inbox/inactive.json \
   --unapproved data/inbox/unapproved.json \
   --editorial data/editorial/f26-2026-08-24.json \
+  --community data/community-housing.json \
   --previous data/report.json \
   --write
 ```
 
 `--write` updates `data/report.json` and `data/archive/<date>.json`. `/` and `/latest` read `data/report.json`. Drop `--as-of` to use the latest date column.
 
-`--unapproved` is optional when the tracker already has a duplicate date column (Winter 2027 does). `--previous` keeps community counts, last-year comparison, and women’s/men’s callouts when this week’s files do not include them.
+`--unapproved` is optional when the tracker already has a duplicate date column (Winter 2027 does). `--previous` keeps community counts, last-year comparison, and women’s/men’s callouts when this week’s files do not include them. `--community` is applied after `--editorial`, so the email file wins.
+
+## Community housing email
+
+Managers email the filled/total counts on Friday. Save the plain-text body (this script does not read Gmail) and run:
+
+```bash
+node scripts/parse-community-housing.mjs --body email.txt --as-of 2026-10-02 --write
+```
+
+`--as-of` is the email date (`YYYY-MM-DD`). `--write` updates `data/community-housing.json`. Pipe the body on stdin if you omit `--body`.
+
+The parser accepts `Name - filled/total`, including tight spacing such as `Bell House -1/1`. A greeting line and parenthetical notes are skipped. Aliases: `LC` and `LC 1` are Liberty Corner, `LCII` and `LC 2` are LC II, `LCD` is LC Duplex, and `Liberty Corner House` and `Red Brick House` are LC House. Unknown property names are printed on stderr and left out of the JSON.
+
+If you pass no body, or `--as-of` is not newer than the stored file, the last counts stay and the page keeps that as-of date. Cards missing from a newer email keep their stored count, and the script names them on stderr.
+
+Only filled, capacity, office totals, and `asOf` are stored. Notes are not written. The page still shows the note from `config/teams.json` asking managers to email Ryan every Friday.
+
+Then include the file on the Monday build with `--community data/community-housing.json`.
 
 Aggregated JSON also works if you already rolled the tab up:
 
@@ -88,7 +107,7 @@ node scripts/build-from-sheet.mjs \
   --as-of 2026-10-05
 ```
 
-`npm run report:build` regenerates the checked-in Fall 2026 sample from `data/samples/` and `data/editorial/f26-2026-08-24.json`.
+`npm run report:build` regenerates the checked-in Fall 2026 sample from `data/samples/`, `data/editorial/f26-2026-08-24.json`, and `data/community-housing.json`.
 
 A few chart labels on that published PDF were rounded off the sheet’s month-end totals (February is 283 on the tab and 282 on the PDF). The editorial file pins the printed labels. Later Mondays can omit `monthlyContracts` in the editorial file and the script will plot the last snapshot in each month.
 
@@ -130,7 +149,9 @@ Import the repo. Framework preset Next.js. `output: "export"` in `next.config.ts
 config/teams.json          groups, colors, tip, quote, capacities
 data/report.json           current week, read by / and /latest
 data/archive/<date>.json   snapshot written by --write
-data/editorial/            numbers the sheet does not store (YoY, goals, community, pinned chart labels)
+data/editorial/            numbers the sheet does not store (YoY, goals, pinned chart labels)
+data/community-housing.json  Friday email counts only (filled/total, office totals, asOf)
 data/samples/              F26 / W27 / S27 tracker exports and the 10/05 count files (counts only; no resident names)
 scripts/build-from-sheet.mjs
+scripts/parse-community-housing.mjs
 ```
