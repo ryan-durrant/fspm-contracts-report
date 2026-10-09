@@ -708,7 +708,7 @@ export function fetchTrackerFromSheets() {
   throw new Error(
     [
       "Live Google Sheets reads are stubbed in v1.",
-      "Export the tab yourself (File \u2192 Download \u2192 Comma-separated values) and pass --tracker.",
+      "Export the tab yourself (File → Download → Comma-separated values) and pass --tracker.",
       "Spreadsheet: Rexburg Real Estate Database",
       "ID: 1gLi53sg64WOoLf0LsCB1wTmsfQGZoeS4QTE3pjqy98c",
       "Tabs: contract_tracker - W27 and contract_tracker - S27.",
