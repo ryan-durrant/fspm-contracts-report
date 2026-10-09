@@ -382,29 +382,40 @@ function NextSemesterPage({ report, config }: { report: ReportData; config: Team
 }
 
 function CommunityPage({ report, config }: { report: ReportData; config: TeamsConfig }) {
-  const submitted = Object.keys(report.community).length > 0;
+  const housing = report.communityHousing;
+  const submitted = Object.keys(housing?.properties ?? report.community).length > 0;
+  const asOf = housing?.asOf ?? report.communityAsOf ?? report.reportDate;
   return (
-    <PageFrame id="community" title="Community Housing - #'s as of today">
+    <PageFrame id="community" title={`Community Housing - #'s as of ${formatRanOn(asOf)}`}>
       {!submitted && (
         <p className="bg-white px-3 py-3 text-sm">Community housing numbers have not been entered for this week.</p>
       )}
-      {config.offices.map((office) => (
-        <section key={office.id}>
-          <h3 className="mb-2 text-[15px] font-bold">{office.name}</h3>
-          <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-            {office.properties.map((property) => (
-              <PropertyCard
-                key={property.id}
-                name={property.name}
-                color={office.headerColor}
-                filled={report.community[property.id] ?? 0}
-                capacity={property.capacity}
-                variant="simple"
-              />
-            ))}
-          </div>
-        </section>
-      ))}
+      {config.offices.map((office) => {
+        const totals = housing?.offices?.[office.id];
+        return (
+          <section key={office.id}>
+            <h3 className="mb-2 text-[15px] font-bold">
+              {office.name}
+              {totals ? ` - ${totals.filled}/${totals.capacity}` : ""}
+            </h3>
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+              {office.properties.map((property) => {
+                const row = housing?.properties?.[property.id];
+                return (
+                  <PropertyCard
+                    key={property.id}
+                    name={property.name}
+                    color={office.headerColor}
+                    filled={row?.filled ?? report.community[property.id] ?? 0}
+                    capacity={row?.capacity ?? property.capacity}
+                    variant="simple"
+                  />
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
       <div className="mx-auto max-w-md border-2 border-black bg-white px-4 py-4 text-center text-[15px] leading-snug">
         {config.communityNote}
       </div>
