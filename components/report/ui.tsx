@@ -34,12 +34,24 @@ export function PageFrame({
   );
 }
 
-export function Callout({ label, value }: { label: ReactNode; value: ReactNode }) {
+export function Callout({ label, value, ring }: { label: ReactNode; value: ReactNode; ring?: ReactNode }) {
   return (
     <div className="border-2 border-black bg-white px-2 py-1.5 text-center">
       <div className="text-[11px] font-bold leading-tight sm:text-xs">{label}</div>
-      <div className="mt-0.5 text-xl font-bold leading-none tabular-nums sm:text-[26px]">{value}</div>
+      <div className="mt-0.5 text-xl font-bold leading-none tabular-nums sm:text-[26px]">
+        <Ringed ring={ring}>{value}</Ringed>
+      </div>
     </div>
+  );
+}
+
+export function Ringed({ children, ring }: { children: ReactNode; ring?: ReactNode }) {
+  if (!ring) return <>{children}</>;
+  return (
+    <span className="relative inline-block">
+      {children}
+      {ring}
+    </span>
   );
 }
 
@@ -48,13 +60,13 @@ export function ChartPanel({
   callouts,
 }: {
   chart: ReactNode;
-  callouts: { key: string; label: ReactNode; value: ReactNode; position: string }[];
+  callouts: { key: string; label: ReactNode; value: ReactNode; position: string; ring?: ReactNode }[];
 }) {
   return (
     <div className="border border-neutral-500 bg-white p-2 sm:p-3">
       <div className="mb-3 grid grid-cols-2 gap-2 md:hidden">
         {callouts.map((item) => (
-          <Callout key={item.key} label={item.label} value={item.value} />
+          <Callout key={item.key} label={item.label} value={item.value} ring={item.ring} />
         ))}
       </div>
       <div className="relative">
@@ -62,7 +74,7 @@ export function ChartPanel({
         <div className="pointer-events-none absolute inset-0 hidden md:block">
           {callouts.map((item) => (
             <div key={item.key} className={`absolute w-36 ${item.position}`}>
-              <Callout label={item.label} value={item.value} />
+              <Callout label={item.label} value={item.value} ring={item.ring} />
             </div>
           ))}
         </div>
