@@ -46,3 +46,8 @@ body {
     -webkit-print-color-adjust: exact;
   }
 }
+
+.hand-ring {
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}

@@ -1,20 +1,20 @@
 {
-  "asOf": "2026-08-24",
+  "asOf": "2026-10-02",
   "properties": {
     "liberty-corner": {
       "filled": 17,
       "capacity": 18
     },
     "lc-ii": {
-      "filled": 8,
+      "filled": 7,
       "capacity": 8
     },
     "lc-house": {
-      "filled": 2,
+      "filled": 3,
       "capacity": 3
     },
     "lc-duplex": {
-      "filled": 2,
+      "filled": 1,
       "capacity": 2
     },
     "t-house": {
@@ -46,11 +46,11 @@
       "capacity": 1
     },
     "rock-casa": {
-      "filled": 3,
-      "capacity": 3
+      "filled": 1,
+      "capacity": 1
     },
     "haven-green-townhouse": {
-      "filled": 1,
+      "filled": 0,
       "capacity": 1
     },
     "the-nest": {
@@ -61,13 +61,13 @@
   "offices": {
     "avonlea-office": {
       "name": "Avonlea Office",
-      "filled": 29,
+      "filled": 28,
       "capacity": 31
     },
     "haven-office": {
       "name": "Haven Office",
-      "filled": 16,
-      "capacity": 17
+      "filled": 13,
+      "capacity": 15
     }
   }
 }
