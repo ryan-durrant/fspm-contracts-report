@@ -107,7 +107,9 @@ node scripts/build-from-sheet.mjs \
   --as-of 2026-10-05
 ```
 
-`npm run report:build` regenerates the checked-in Fall 2026 sample from `data/samples/`, `data/editorial/f26-2026-08-24.json`, and `data/community-housing.json`.
+`npm run report:build` regenerates the current week (`data/report.json` and `data/archive/2026-10-05.json`) from the Winter 2027 tracker as of 10/5/2026, the Spring 2027 tracker, `data/community-housing.json`, and `data/editorial/w27-2026-10-05.json`. The 08/24 Fall snapshot stays in `data/archive/2026-08-24.json`.
+
+Hand-drawn rings for a week live in `highlights/YYYY-MM-DD.json`. See `HIGHLIGHTS.md`.
 
 A few chart labels on that published PDF were rounded off the sheet’s month-end totals (February is 283 on the tab and 282 on the PDF). The editorial file pins the printed labels. Later Mondays can omit `monthlyContracts` in the editorial file and the script will plot the last snapshot in each month.
 
@@ -154,4 +156,5 @@ data/community-housing.json  Friday email counts only (filled/total, office tota
 data/samples/              F26 / W27 / S27 tracker exports and the 10/05 count files (counts only; no resident names)
 scripts/build-from-sheet.mjs
 scripts/parse-community-housing.mjs
+highlights/<date>.json     rings for that week (see HIGHLIGHTS.md)
 ```
