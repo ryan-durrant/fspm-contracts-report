@@ -1,11 +1,32 @@
 import Link from "next/link";
 import { contractAxisMax, formatNumber, formatRanOn, marketAxisMax, percentText, ratioText } from "@/lib/format";
+import { loadHighlights, resolveHighlights, ringsFor } from "@/lib/highlights.mjs";
 import type { ReportData, TeamsConfig } from "@/lib/types";
 import { navSections, propertiesInOrder, propertyMap, snapshot, teamTotals } from "@/lib/view";
+import { HandDrawnRing } from "./HandDrawnRing";
 import { LineChart } from "./LineChart";
 import { PrintButton } from "./PrintButton";
 import { PropertyCard } from "./PropertyCard";
-import { Callout, ChartPanel, Logo, PageFrame, PipelineLegend } from "./ui";
+import { Callout, ChartPanel, Logo, PageFrame, PipelineLegend, Ringed } from "./ui";
+
+type Ring = { id: string; color: "red" | "yellow" | "green"; label?: string };
+
+function ringNode(rings: Ring[], id: string) {
+  const matches = ringsFor(rings, id);
+  if (!matches.length) return undefined;
+  return matches.map((ring: Ring) => (
+    <HandDrawnRing key={`${ring.id}-${ring.color}-${ring.label ?? ""}`} color={ring.color} label={ring.label} />
+  ));
+}
+
+function cardRings(rings: Ring[], page: string, propertyId: string) {
+  return {
+    filled: ringNode(rings, `${page}:card:${propertyId}:filled`),
+    percent: ringNode(rings, `${page}:card:${propertyId}:percent`),
+    unapproved: ringNode(rings, `${page}:card:${propertyId}:unapproved`),
+    inactive: ringNode(rings, `${page}:card:${propertyId}:inactive`),
+  };
+}
 
 const THIS_YEAR = "#0088E8";
 const LAST_YEAR = "#E07820";
@@ -23,6 +44,10 @@ export function ReportDocument({
 }) {
   const sections = navSections(config, Boolean(report.nextSemester), report.nextSemester?.semester ?? "Next");
   const showArchiveBanner = archiveDate != null && archiveDate !== currentDate;
+  const { rings } = resolveHighlights(loadHighlights(report.reportDate), {
+    teams: config,
+    hasNext: Boolean(report.nextSemester),
+  });
 
   return (
     <div className="min-h-screen bg-desk text-black">
@@ -63,18 +88,19 @@ export function ReportDocument({
           </p>
         )}
         <CoverPage report={report} config={config} />
-        <ContractsPage report={report} config={config} />
-        <ComparisonPage report={report} config={config} />
-        <HighlightsPage report={report} />
-        <GoalsPage report={report} config={config} />
-        {report.nextSemester && <NextSemesterPage report={report} config={config} />}
-        <CommunityPage report={report} config={config} />
+        <ContractsPage report={report} config={config} rings={rings} />
+        <ComparisonPage report={report} config={config} rings={rings} />
+        <HighlightsPage report={report} rings={rings} />
+        <GoalsPage report={report} config={config} rings={rings} />
+        {report.nextSemester && <NextSemesterPage report={report} config={config} rings={rings} />}
+        <CommunityPage report={report} config={config} rings={rings} />
       </main>
     </div>
   );
 }
 
 function CoverPage({ report, config }: { report: ReportData; config: TeamsConfig }) {
+  const tip = report.tip?.intro ? report.tip : config.tip;
   return (
     <section id="cover" className="sheet mx-auto mb-6 flex min-h-[680px] w-full max-w-[920px] flex-col overflow-hidden bg-white shadow-md md:min-h-[980px] md:flex-row print:mb-0 print:shadow-none">
       <aside className="flex flex-col bg-brand px-4 py-4 text-white md:w-[230px] md:px-4 md:py-5">
@@ -93,15 +119,15 @@ function CoverPage({ report, config }: { report: ReportData; config: TeamsConfig
         </div>
         <div className="mt-12 max-w-xl text-[17px] leading-relaxed">
           <p className="text-xl font-bold">Tip of the Week:</p>
-          <p className="mt-4">{config.tip.intro}</p>
-          {config.tip.link && (
+          <p className="mt-4">{tip.intro}</p>
+          {tip.link ? (
             <p className="mt-4">
-              <a href={config.tip.link} className="break-all font-semibold text-brand underline">
-                {config.tip.link}
+              <a href={tip.link} className="break-all font-semibold text-brand underline">
+                {tip.link}
               </a>
             </p>
-          )}
-          <p className="mt-4">{config.tip.closing}</p>
+          ) : null}
+          {tip.closing ? <p className="mt-4">{tip.closing}</p> : null}
         </div>
         <p className="mt-auto pt-16 text-lg font-bold">Report Ran on {formatRanOn(report.reportDate)}</p>
       </div>
@@ -109,15 +135,15 @@ function CoverPage({ report, config }: { report: ReportData; config: TeamsConfig
   );
 }
 
-function ContractsPage({ report, config }: { report: ReportData; config: TeamsConfig }) {
+function ContractsPage({ report, config, rings }: { report: ReportData; config: TeamsConfig; rings: Ring[] }) {
   const byId = propertyMap(config);
   const values = report.monthlyContracts.map((point) => point.value);
   const callouts = [
-    { key: "total", label: "Total Contracts:", value: formatNumber(report.callouts.totalContracts), position: "left-[2%] top-[2%]" },
-    { key: "women", label: <>Women&apos;s<br />Occupancy:</>, value: ratioText(report.callouts.women, report.callouts.decimals), position: "left-[4%] top-[28%]" },
-    { key: "men", label: <>Men&apos;s<br />Occupancy:</>, value: ratioText(report.callouts.men, report.callouts.decimals), position: "left-[4%] top-[58%]" },
-    { key: "bnh", label: <>BNH<br />Occupancy:</>, value: ratioText(report.callouts.bnh, report.callouts.decimals), position: "left-[28%] top-[36%]" },
-    { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(report.callouts.market, report.callouts.decimals), position: "left-[48%] top-[36%]" },
+    { key: "total", label: "Total Contracts:", value: formatNumber(report.callouts.totalContracts), position: "left-[2%] top-[2%]", ring: ringNode(rings, "w27:callout:total") },
+    { key: "women", label: <>Women&apos;s<br />Occupancy:</>, value: ratioText(report.callouts.women, report.callouts.decimals), position: "left-[4%] top-[28%]", ring: ringNode(rings, "w27:callout:women") },
+    { key: "men", label: <>Men&apos;s<br />Occupancy:</>, value: ratioText(report.callouts.men, report.callouts.decimals), position: "left-[4%] top-[58%]", ring: ringNode(rings, "w27:callout:men") },
+    { key: "bnh", label: <>BNH<br />Occupancy:</>, value: ratioText(report.callouts.bnh, report.callouts.decimals), position: "left-[28%] top-[36%]", ring: ringNode(rings, "w27:callout:bnh") },
+    { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(report.callouts.market, report.callouts.decimals), position: "left-[48%] top-[36%]", ring: ringNode(rings, "w27:callout:market") },
   ];
 
   return (
@@ -158,6 +184,7 @@ function ContractsPage({ report, config }: { report: ReportData; config: TeamsCo
                     unapproved={snap.unapproved}
                     inactive={snap.inactive}
                     variant="current"
+                    rings={cardRings(rings, "w27", id)}
                   />
                 );
               })}
@@ -170,16 +197,16 @@ function ContractsPage({ report, config }: { report: ReportData; config: TeamsCo
   );
 }
 
-function ComparisonPage({ report, config }: { report: ReportData; config: TeamsConfig }) {
+function ComparisonPage({ report, config, rings }: { report: ReportData; config: TeamsConfig; rings: Ring[] }) {
   const current = report.monthlyContracts.map((point) => point.value);
   const last = report.lastYear?.monthlyContracts.map((point) => point.value) ?? [];
   const labels = report.lastYear?.monthlyContracts.map((point) => point.label) ?? report.monthlyContracts.map((point) => point.label);
   const rows = propertiesInOrder(config);
   const callouts = [
-    { key: "bnh", label: <>BNH<br />Occupancy:</>, value: ratioText(report.callouts.bnh, report.callouts.decimals), position: "left-[3%] top-[8%]" },
-    { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(report.callouts.market, report.callouts.decimals), position: "left-[27%] top-[8%]" },
-    { key: "ly-bnh", label: <>Last Year -<br />BNH:</>, value: ratioText(report.lastYear?.bnh, report.lastYear?.decimals ?? 0), position: "left-[3%] top-[42%]" },
-    { key: "ly-market", label: <>Last Year<br />Market Occ.</>, value: ratioText(report.lastYear?.market, report.lastYear?.decimals ?? 0), position: "left-[27%] top-[42%]" },
+    { key: "bnh", label: <>BNH<br />Occupancy:</>, value: ratioText(report.callouts.bnh, report.callouts.decimals), position: "left-[3%] top-[8%]", ring: ringNode(rings, "comparison:callout:bnh") },
+    { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(report.callouts.market, report.callouts.decimals), position: "left-[27%] top-[8%]", ring: ringNode(rings, "comparison:callout:market") },
+    { key: "ly-bnh", label: <>Last Year -<br />BNH:</>, value: ratioText(report.lastYear?.bnh, report.lastYear?.decimals ?? 0), position: "left-[3%] top-[42%]", ring: ringNode(rings, "comparison:callout:last-bnh") },
+    { key: "ly-market", label: <>Last Year<br />Market Occ.</>, value: ratioText(report.lastYear?.market, report.lastYear?.decimals ?? 0), position: "left-[27%] top-[42%]", ring: ringNode(rings, "comparison:callout:last-market") },
   ];
 
   return (
@@ -213,6 +240,7 @@ function ComparisonPage({ report, config }: { report: ReportData; config: TeamsC
               capacity={snap.capacity}
               lastYear={snap.lastYear}
               variant="compare"
+              rings={cardRings(rings, "comparison", property.id)}
             />
           );
         })}
@@ -221,14 +249,14 @@ function ComparisonPage({ report, config }: { report: ReportData; config: TeamsC
   );
 }
 
-function HighlightsPage({ report }: { report: ReportData }) {
+function HighlightsPage({ report, rings }: { report: ReportData; rings: Ring[] }) {
   const highlights = report.highlights;
   const values = highlights.monthlyMarketBeds.map((point) => point.value);
   const callouts = [
     { key: "beds", label: "Market Beds:", value: formatNumber(highlights.marketCapacity), position: "left-[2%] top-[4%]" },
-    { key: "women", label: <>Women&apos;s<br />Occupancy:</>, value: ratioText(highlights.women, highlights.decimals), position: "left-[4%] top-[34%]" },
-    { key: "men", label: <>Men&apos;s<br />Occupancy:</>, value: ratioText(highlights.men, highlights.decimals), position: "left-[4%] top-[62%]" },
-    { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(highlights.market, highlights.decimals), position: "left-[28%] top-[40%]" },
+    { key: "women", label: <>Women&apos;s<br />Occupancy:</>, value: ratioText(highlights.women, highlights.decimals), position: "left-[4%] top-[34%]", ring: ringNode(rings, "highlights:callout:women") },
+    { key: "men", label: <>Men&apos;s<br />Occupancy:</>, value: ratioText(highlights.men, highlights.decimals), position: "left-[4%] top-[62%]", ring: ringNode(rings, "highlights:callout:men") },
+    { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(highlights.market, highlights.decimals), position: "left-[28%] top-[40%]", ring: ringNode(rings, "highlights:callout:market") },
   ];
 
   return (
@@ -269,7 +297,7 @@ function HighlightStat({ title, detail, value }: { title: string; detail?: strin
   );
 }
 
-function GoalsPage({ report, config }: { report: ReportData; config: TeamsConfig }) {
+function GoalsPage({ report, config, rings }: { report: ReportData; config: TeamsConfig; rings: Ring[] }) {
   return (
     <PageFrame id="goals" title="Individual and Team Goals">
       <div className="mx-auto max-w-3xl space-y-3 px-2 py-2 text-center text-[15px] leading-relaxed sm:text-base">
@@ -311,21 +339,21 @@ function GoalsPage({ report, config }: { report: ReportData; config: TeamsConfig
             </p>
           ))}
         </div>
-        <Callout label={<>Current BNH<br />Occupancy</>} value={ratioText(report.callouts.bnh, 0)} />
+        <Callout label={<>Current BNH<br />Occupancy</>} value={ratioText(report.callouts.bnh, 0)} ring={ringNode(rings, "goals:callout:bnh")} />
       </div>
     </PageFrame>
   );
 }
 
-function NextSemesterPage({ report, config }: { report: ReportData; config: TeamsConfig }) {
+function NextSemesterPage({ report, config, rings }: { report: ReportData; config: TeamsConfig; rings: Ring[] }) {
   const next = report.nextSemester;
   if (!next) return null;
   const byId = propertyMap(config);
   const values = next.monthlyContracts.map((point) => point.value);
   const callouts = [
-    { key: "total", label: "Total Contracts:", value: formatNumber(next.callouts.totalContracts), position: "left-[2%] top-[4%]" },
-    { key: "bnh", label: <>BNH<br />Occupancy:</>, value: ratioText(next.callouts.bnh, next.callouts.decimals), position: "left-[8%] top-[34%]" },
-    { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(next.callouts.market, next.callouts.decimals), position: "left-[32%] top-[28%]" },
+    { key: "total", label: "Total Contracts:", value: formatNumber(next.callouts.totalContracts), position: "left-[2%] top-[4%]", ring: ringNode(rings, "s27:callout:total") },
+    { key: "bnh", label: <>BNH<br />Occupancy:</>, value: ratioText(next.callouts.bnh, next.callouts.decimals), position: "left-[8%] top-[34%]", ring: ringNode(rings, "s27:callout:bnh") },
+    { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(next.callouts.market, next.callouts.decimals), position: "left-[32%] top-[28%]", ring: ringNode(rings, "s27:callout:market") },
   ];
   const snaps = Object.fromEntries(
     config.properties.map((property) => {
@@ -370,6 +398,7 @@ function NextSemesterPage({ report, config }: { report: ReportData; config: Team
                     filled={row.filled}
                     capacity={row.capacity}
                     variant="simple"
+                    rings={cardRings(rings, "s27", id)}
                   />
                 );
               })}
@@ -381,7 +410,7 @@ function NextSemesterPage({ report, config }: { report: ReportData; config: Team
   );
 }
 
-function CommunityPage({ report, config }: { report: ReportData; config: TeamsConfig }) {
+function CommunityPage({ report, config, rings }: { report: ReportData; config: TeamsConfig; rings: Ring[] }) {
   const housing = report.communityHousing;
   const submitted = Object.keys(housing?.properties ?? report.community).length > 0;
   const asOf = housing?.asOf ?? report.communityAsOf ?? report.reportDate;
@@ -396,7 +425,14 @@ function CommunityPage({ report, config }: { report: ReportData; config: TeamsCo
           <section key={office.id}>
             <h3 className="mb-2 text-[15px] font-bold">
               {office.name}
-              {totals ? ` - ${totals.filled}/${totals.capacity}` : ""}
+              {totals ? (
+                <>
+                  {" - "}
+                  <Ringed ring={ringNode(rings, `community:office:${office.id}:total`)}>
+                    {totals.filled}/{totals.capacity}
+                  </Ringed>
+                </>
+              ) : null}
             </h3>
             <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
               {office.properties.map((property) => {
@@ -409,6 +445,7 @@ function CommunityPage({ report, config }: { report: ReportData; config: TeamsCo
                     filled={row?.filled ?? report.community[property.id] ?? 0}
                     capacity={row?.capacity ?? property.capacity}
                     variant="simple"
+                    rings={cardRings(rings, "community", property.id)}
                   />
                 );
               })}
