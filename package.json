@@ -8,7 +8,7 @@
     "start": "next start -p 4317 -H 0.0.0.0",
     "lint": "eslint",
     "test": "node --test tests/*.test.mjs",
-    "report:build": "node scripts/build-from-sheet.mjs --tracker data/samples/contract_tracker-W27.csv --as-of 2026-10-12 --weekly --next data/samples/contract_tracker-S27.csv --next-as-of 2026-10-12 --inactive data/samples/inactive-w27-2026-10-12.json --market data/samples/market-2026-10-12.json --last-year data/samples/contract_tracker-W26.csv --editorial data/weeks/2026-10-12.json --community data/community-housing.json --write"
+    "report:build": "node scripts/build-from-sheet.mjs --tracker data/samples/contract_tracker-W27.csv --as-of 2026-10-12 --ran-on 2026-10-12 --weekly --next data/samples/contract_tracker-S27.csv --next-as-of 2026-10-12 --inactive data/samples/inactive-w27-2026-10-12.json --market data/samples/market-2026-10-12.json --last-year data/samples/contract_tracker-W26.csv --editorial data/weeks/2026-10-12.json --community data/community-housing.json --write"
   },
   "dependencies": {
     "next": "16.3.8",
