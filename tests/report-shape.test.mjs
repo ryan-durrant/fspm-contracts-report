@@ -153,11 +153,14 @@ test("shipped report is the 10/12/2026 Winter week", () => {
     filled: 15,
     capacity: 17,
   });
-  assert.match(report.tip.intro, /we added 37 contracts/);
-  assert.match(report.tip.intro, /657\/700 \(94%\)/);
-  assert.match(report.tip.closing, /This week's focus, on every team/);
-  assert.match(report.tip.closing, /signed and the payment in/);
-  assert.equal(/Haven Blue|Carriage House/.test(report.tip.intro + report.tip.closing), false);
+  assert.equal(
+    report.tip.intro,
+    "What a week. You added 37 contracts and pushed us to 657/700 (94%). You also cut the people holding beds without completed approval from 47 to 22, more than half gone in one week. Carriage House is 100% full. That's great work, and it shows.",
+  );
+  assert.equal(
+    report.tip.closing,
+    "We're close, so let's finish strong. Every team has the same focus this week: 43 beds are still open, 22 people are holding a bed without completed approval, and 42 leads are inactive. Haven Blue has the most to go, with 22 open beds, 8 unsigned and 14 inactive leads. Henry Ford said, \"Whether you think you can or you think you can't, you're right.\" I think we can. Work those lists, get every contract signed and get the payment in.",
+  );
   assert.equal(report.tip.link, "");
   assert.equal(JSON.stringify(report).includes("notes"), false);
   assert.equal(report.warnings.length, 0);
