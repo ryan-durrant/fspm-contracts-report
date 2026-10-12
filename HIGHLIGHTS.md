@@ -13,11 +13,11 @@ Create `highlights/YYYY-MM-DD.json`. The date is the report date, for example `h
 | `unapprovedAtLeast` | 10 | Red ring on a Winter unapproved count at or above the threshold |
 | `inactiveAtLeast` | 10 | Red ring on a Winter inactive count at or above the threshold |
 | `fullColor` | green | Green ring on filled/total when filled is at least capacity |
-| `fullPages` | `w27`, `s27`, `comparison` | Pages that get the full-property ring |
+| `fullPages` | `w27`, `s27` | Pages that get the full-property ring. The year-over-year comparison page is not in this list. |
 
 Change the numbers in `config/highlight-rules.json` to move the thresholds. Manual rings in the week file are drawn in addition to the standing rules.
 
-The 10/12 file turns the rules on. Haven Blue's inactive 14 is the only automatic red ring. Carriage House, Carriage House Townhouse, Avonlea House, Haven 149, and Haven 175 are full, so they get green rings on Winter and on the comparison page. The same file adds Ryan's community rings: red on Liberty Corner, LC II, and LC Duplex, and yellow on #122 Classic and Haven Green Townhouse.
+The 10/12 file turns the rules on. Haven Blue's inactive 14 is the only automatic red ring. Carriage House, Carriage House Townhouse, Avonlea House, Haven 149, and Haven 175 are full, so they get green rings on Winter. The comparison page does not get those full-bed rings. The same file adds Ryan's community rings: red on Liberty Corner, LC II, and LC Duplex, and yellow on #122 Classic and Haven Green Townhouse.
 
 ## Fields
 
