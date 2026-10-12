@@ -108,7 +108,7 @@ test("shipped report is the 10/12/2026 Winter week", () => {
     ],
   );
   assert.equal(Math.round(report.lastYear.bnh * 100), 84);
-  assert.equal(report.lastYear.market, null);
+  assert.equal(report.lastYear.market, 11089 / 16176);
   assert.equal(report.nextSemester.semester, "Spring 2027");
   assert.equal(report.nextSemester.capacity, 700);
   let nextFilled = 0;
@@ -152,7 +152,8 @@ test("shipped report is the 10/12/2026 Winter week", () => {
     capacity: 17,
   });
   assert.match(report.tip.intro, /37 new contracts puts us at 657 of 700/);
-  assert.match(report.tip.closing, /Haven Blue/);
+  assert.match(report.tip.closing, /sales and productivity on every team/);
+  assert.equal(/Haven Blue|Carriage House/.test(report.tip.intro + report.tip.closing), false);
   assert.equal(report.tip.link, "");
   assert.equal(JSON.stringify(report).includes("notes"), false);
   assert.equal(report.warnings.length, 0);
