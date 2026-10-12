@@ -207,6 +207,17 @@ function chartValue(value: number | null | undefined) {
   return value == null ? "none" : String(value);
 }
 
+function LastYearMarket({ value }: { value: ReportData["lastYear"] }) {
+  const percent = ratioText(value?.market, value?.decimals ?? 0);
+  if (!value?.marketSold) return percent;
+  return (
+    <span className="block leading-none">
+      <span className="block">{percent}</span>
+      <span className="mt-1 block text-[15px]">{formatNumber(value.marketSold)}</span>
+    </span>
+  );
+}
+
 function ComparisonPage({ report, config, rings }: { report: ReportData; config: TeamsConfig; rings: Ring[] }) {
   const byId = propertyMap(config);
   const current = report.monthlyContracts.map((point) => point.value);
@@ -216,7 +227,7 @@ function ComparisonPage({ report, config, rings }: { report: ReportData; config:
     { key: "bnh", label: <>BNH<br />Occupancy:</>, value: ratioText(report.callouts.bnh, report.callouts.decimals), position: "left-[3%] top-[8%]", ring: ringNode(rings, "comparison:callout:bnh") },
     { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(report.callouts.market, report.callouts.decimals), position: "left-[27%] top-[8%]", ring: ringNode(rings, "comparison:callout:market") },
     { key: "ly-bnh", label: <>Last Year -<br />BNH:</>, value: ratioText(report.lastYear?.bnh, report.lastYear?.decimals ?? 0), position: "left-[3%] top-[42%]", ring: ringNode(rings, "comparison:callout:last-bnh") },
-    { key: "ly-market", label: <>Last Year<br />Market Occ.</>, value: ratioText(report.lastYear?.market, report.lastYear?.decimals ?? 0), position: "left-[27%] top-[42%]", ring: ringNode(rings, "comparison:callout:last-market") },
+    { key: "ly-market", label: <>Last Year<br />Market Occ.</>, value: <LastYearMarket value={report.lastYear} />, position: "left-[27%] top-[42%]", ring: ringNode(rings, "comparison:callout:last-market") },
   ];
 
   return (
