@@ -1,0 +1,10 @@
+{
+  "rules": true,
+  "rings": [
+    { "page": "community", "property": "liberty-corner", "field": "filled", "color": "red" },
+    { "page": "community", "property": "lc-ii", "field": "filled", "color": "red" },
+    { "page": "community", "property": "lc-duplex", "field": "filled", "color": "red" },
+    { "page": "community", "property": "classic-122", "field": "filled", "color": "yellow" },
+    { "page": "community", "property": "haven-green-townhouse", "field": "filled", "color": "yellow" }
+  ]
+}

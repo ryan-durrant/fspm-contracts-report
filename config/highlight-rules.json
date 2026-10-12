@@ -1,0 +1,7 @@
+{
+  "unapprovedAtLeast": 10,
+  "inactiveAtLeast": 10,
+  "countColor": "red",
+  "fullColor": "green",
+  "fullPages": ["w27", "s27", "comparison"]
+}

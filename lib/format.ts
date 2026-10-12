@@ -28,14 +28,18 @@ export function formatNumber(value: number): string {
   return value.toLocaleString("en-US");
 }
 
+function numericValues(values: Array<number | null | undefined>): number[] {
+  return values.filter((value): value is number => typeof value === "number");
+}
+
 /** Contract charts in the PDF use a 0–800 axis unless the line climbs past it. */
-export function contractAxisMax(values: number[]): number {
-  const peak = Math.max(0, ...values);
+export function contractAxisMax(values: Array<number | null | undefined>): number {
+  const peak = Math.max(0, ...numericValues(values));
   return Math.max(800, Math.ceil(peak / 100) * 100);
 }
 
-export function marketAxisMax(values: number[]): number {
-  const peak = Math.max(0, ...values);
+export function marketAxisMax(values: Array<number | null | undefined>): number {
+  const peak = Math.max(0, ...numericValues(values));
   const step = 2000;
   const ceil = Math.max(step, Math.ceil(peak / step) * step);
   return ceil - peak < step * 0.2 ? ceil + step : ceil;

@@ -1,6 +1,6 @@
 export type MonthPoint = {
   label: string;
-  value: number;
+  value: number | null;
 };
 
 export type PropertySnapshot = {
@@ -68,6 +68,7 @@ export type ReportData = {
 export type CommunityCount = {
   filled: number;
   capacity: number;
+  note?: string;
 };
 
 export type CommunityHousingData = {

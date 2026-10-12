@@ -1,0 +1,40 @@
+{
+  "tip": {
+    "intro": "Another strong week: 37 new contracts puts us at 657 of 700 (94%), and Carriage House is 100% full. We cut the people holding beds without signing from 47 to 22.",
+    "link": "",
+    "closing": "This week, let's focus on Haven Blue. It has the most open beds (22), the most unsigned residents (8) and the most inactive leads (14). Reach out to every one of them, help them finish signing and paying, and let them know we want them to live here!"
+  },
+  "callouts": {
+    "women": 0.96,
+    "men": 0.9,
+    "bnh": 0.94,
+    "decimals": 0
+  },
+  "nextSemester": {
+    "callouts": {
+      "decimals": 0
+    }
+  },
+  "lastYear": {
+    "byProperty": {
+      "carriage-house": 232,
+      "carriage-townhouse": 7,
+      "avonlea-house": 14,
+      "avonlea-women": 63,
+      "haven-blue": 115,
+      "haven-179": 6,
+      "haven-175": 5,
+      "haven-163": 6,
+      "haven-149": 11,
+      "haven-white": 19,
+      "avonlea-men": 50,
+      "haven-129": 4,
+      "haven-green": 38,
+      "haven-red": 18
+    }
+  },
+  "lastYearChart": [
+    { "date": "2025-09-22", "value": 457 },
+    { "date": "2025-10-13", "value": 588 }
+  ]
+}
