@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { contractAxisMax, formatNumber, formatRanOn, marketAxisMax, percentText, ratioText } from "@/lib/format";
-import { loadHighlights, resolveHighlights, ringsFor } from "@/lib/highlights.mjs";
+import highlightRules from "@/config/highlight-rules.json";
+import { loadHighlightFile, resolveHighlights, ringsFor, standingRings } from "@/lib/highlights.mjs";
 import type { ReportData, TeamsConfig } from "@/lib/types";
-import { navSections, propertiesInOrder, propertyMap, snapshot, teamTotals } from "@/lib/view";
+import { navSections, propertyMap, snapshot, teamTotals } from "@/lib/view";
 import { HandDrawnRing } from "./HandDrawnRing";
 import { LineChart } from "./LineChart";
 import { PrintButton } from "./PrintButton";
@@ -44,10 +45,15 @@ export function ReportDocument({
 }) {
   const sections = navSections(config, Boolean(report.nextSemester), report.nextSemester?.semester ?? "Next");
   const showArchiveBanner = archiveDate != null && archiveDate !== currentDate;
-  const { rings } = resolveHighlights(loadHighlights(report.reportDate), {
+  const highlightFile = loadHighlightFile(report.reportDate);
+  const manual = resolveHighlights(highlightFile.entries, {
     teams: config,
     hasNext: Boolean(report.nextSemester),
   });
+  const rings = [
+    ...(highlightFile.rules ? standingRings(report, config, highlightRules) : []),
+    ...manual.rings,
+  ];
 
   return (
     <div className="min-h-screen bg-desk text-black">
@@ -157,7 +163,7 @@ function ContractsPage({ report, config, rings }: { report: ReportData; config: 
             yMax={contractAxisMax(values)}
             yStep={100}
             ariaLabel={`Total contracts by month for ${report.semester}. ${report.monthlyContracts
-              .map((point) => `${point.label} ${point.value}`)
+              .map((point) => `${point.label} ${chartValue(point.value)}`)
               .join(", ")}.`}
           />
         }
@@ -197,11 +203,15 @@ function ContractsPage({ report, config, rings }: { report: ReportData; config: 
   );
 }
 
+function chartValue(value: number | null | undefined) {
+  return value == null ? "none" : String(value);
+}
+
 function ComparisonPage({ report, config, rings }: { report: ReportData; config: TeamsConfig; rings: Ring[] }) {
+  const byId = propertyMap(config);
   const current = report.monthlyContracts.map((point) => point.value);
   const last = report.lastYear?.monthlyContracts.map((point) => point.value) ?? [];
   const labels = report.lastYear?.monthlyContracts.map((point) => point.label) ?? report.monthlyContracts.map((point) => point.label);
-  const rows = propertiesInOrder(config);
   const callouts = [
     { key: "bnh", label: <>BNH<br />Occupancy:</>, value: ratioText(report.callouts.bnh, report.callouts.decimals), position: "left-[3%] top-[8%]", ring: ringNode(rings, "comparison:callout:bnh") },
     { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(report.callouts.market, report.callouts.decimals), position: "left-[27%] top-[8%]", ring: ringNode(rings, "comparison:callout:market") },
@@ -223,28 +233,40 @@ function ComparisonPage({ report, config, rings }: { report: ReportData; config:
             yMax={contractAxisMax([...current, ...last])}
             yStep={100}
             ariaLabel={`This year versus last year contracts. ${labels
-              .map((label, index) => `${label}: last year ${last[index] ?? 0}, this year ${current[index] ?? 0}`)
+              .map((label, index) => `${label}: last year ${chartValue(last[index])}, this year ${chartValue(current[index])}`)
               .join("; ")}.`}
           />
         }
       />
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-        {rows.map(({ team, property }) => {
-          const snap = snapshot(report.properties, property.id, property.capacity);
-          return (
-            <PropertyCard
-              key={property.id}
-              name={property.name}
-              color={team.headerColor}
-              filled={snap.filled}
-              capacity={snap.capacity}
-              lastYear={snap.lastYear}
-              variant="compare"
-              rings={cardRings(rings, "comparison", property.id)}
-            />
-          );
-        })}
-      </div>
+      {config.teams.map((team) => {
+        const totals = teamTotals(team.propertyIds, report.properties);
+        return (
+          <section key={team.id}>
+            <h3 className="mb-2 text-[15px] font-bold">
+              {team.name} - {percentText(totals.filled, totals.capacity)} Full
+            </h3>
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+              {team.propertyIds.map((id) => {
+                const property = byId.get(id);
+                if (!property) return null;
+                const snap = snapshot(report.properties, id, property.capacity);
+                return (
+                  <PropertyCard
+                    key={id}
+                    name={property.name}
+                    color={team.headerColor}
+                    filled={snap.filled}
+                    capacity={snap.capacity}
+                    lastYear={snap.lastYear}
+                    variant="compare"
+                    rings={cardRings(rings, "comparison", id)}
+                  />
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
     </PageFrame>
   );
 }
@@ -277,7 +299,7 @@ function HighlightsPage({ report, rings }: { report: ReportData; rings: Ring[] }
               yMax={marketAxisMax(values)}
               yStep={2000}
               ariaLabel={`BYU-Idaho approved housing market beds sold. ${highlights.monthlyMarketBeds
-                .map((point) => `${point.label} ${formatNumber(point.value)}`)
+                .map((point) => `${point.label} ${point.value == null ? "none" : formatNumber(point.value)}`)
                 .join(", ")}. Market capacity ${formatNumber(highlights.marketCapacity)}.`}
             />
           </>
@@ -373,7 +395,7 @@ function NextSemesterPage({ report, config, rings }: { report: ReportData; confi
             yMax={contractAxisMax(values)}
             yStep={100}
             ariaLabel={`${next.semester} contracts by month. ${next.monthlyContracts
-              .map((point) => `${point.label} ${point.value}`)
+              .map((point) => `${point.label} ${chartValue(point.value)}`)
               .join(", ")}.`}
           />
         }
@@ -445,6 +467,7 @@ function CommunityPage({ report, config, rings }: { report: ReportData; config: 
                     filled={row?.filled ?? report.community[property.id] ?? 0}
                     capacity={row?.capacity ?? property.capacity}
                     variant="simple"
+                    note={row?.note}
                     rings={cardRings(rings, "community", property.id)}
                   />
                 );
