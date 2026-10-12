@@ -109,6 +109,8 @@ test("shipped report is the 10/12/2026 Winter week", () => {
   );
   assert.equal(Math.round(report.lastYear.bnh * 100), 84);
   assert.equal(report.lastYear.market, 11089 / 16176);
+  assert.equal(report.lastYear.marketSold, 11089);
+  assert.equal(report.lastYear.marketCapacity, 16176);
   assert.equal(report.nextSemester.semester, "Spring 2027");
   assert.equal(report.nextSemester.capacity, 700);
   let nextFilled = 0;

@@ -30,6 +30,8 @@ export type ReportData = {
   lastYear: {
     bnh: number;
     market: number | null;
+    marketSold?: number | null;
+    marketCapacity?: number | null;
     decimals: number;
     monthlyContracts: MonthPoint[];
   } | null;
