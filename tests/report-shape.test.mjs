@@ -153,8 +153,10 @@ test("shipped report is the 10/12/2026 Winter week", () => {
     filled: 15,
     capacity: 17,
   });
-  assert.match(report.tip.intro, /37 new contracts puts us at 657 of 700/);
-  assert.match(report.tip.closing, /sales and productivity on every team/);
+  assert.match(report.tip.intro, /we added 37 contracts/);
+  assert.match(report.tip.intro, /657\/700 \(94%\)/);
+  assert.match(report.tip.closing, /This week's focus, on every team/);
+  assert.match(report.tip.closing, /signed and the payment in/);
   assert.equal(/Haven Blue|Carriage House/.test(report.tip.intro + report.tip.closing), false);
   assert.equal(report.tip.link, "");
   assert.equal(JSON.stringify(report).includes("notes"), false);
