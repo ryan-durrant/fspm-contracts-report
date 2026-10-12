@@ -23,19 +23,19 @@
   "teams": [
     {
       "id": "shalynn-kate",
-      "name": "Shalynn & Kate's Properties",
+      "name": "Trista and Ava's Properties",
       "headerColor": "#0088E8",
       "propertyIds": ["carriage-house", "carriage-townhouse"]
     },
     {
       "id": "kelsee-shaylee",
-      "name": "Kelsee and Shaylee's Properties",
+      "name": "Shaylee's Properties",
       "headerColor": "#E06808",
       "propertyIds": ["avonlea-women", "avonlea-men", "avonlea-house"]
     },
     {
       "id": "kenzie-lauren",
-      "name": "Kenzie, & Lauren's Properties",
+      "name": "Lauren & Paige & Kate's Properties",
       "headerColor": "#303888",
       "propertyIds": [
         "haven-blue",

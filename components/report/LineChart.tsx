@@ -1,13 +1,19 @@
 import { formatNumber } from "@/lib/format";
 
+type PointValue = number | null;
+
 type Series = {
   name?: string;
   color: string;
-  values: number[];
+  values: PointValue[];
 };
 
 const VIEW_W = 760;
-const VIEW_H = 320;
+const BASE_H = 320;
+
+function presentIndexes(values: PointValue[]) {
+  return values.flatMap((value, index) => (typeof value === "number" ? [index] : []));
+}
 
 export function LineChart({
   labels,
@@ -23,18 +29,22 @@ export function LineChart({
   ariaLabel: string;
 }) {
   const named = series.some((item) => item.name);
-  const pad = { l: 52, r: named ? 132 : 36, t: 28, b: 36 };
+  const crowded = labels.length > 8;
+  const viewH = BASE_H;
+  const pad = { l: 52, r: named ? 132 : 36, t: 28, b: crowded ? 44 : 36 };
+  const labelSize = crowded ? 8 : 12;
   const innerW = VIEW_W - pad.l - pad.r;
-  const innerH = VIEW_H - pad.t - pad.b;
+  const innerH = viewH - pad.t - pad.b;
   const xAt = (index: number) =>
     pad.l + (labels.length <= 1 ? innerW / 2 : (index / (labels.length - 1)) * innerW);
   const yAt = (value: number) => pad.t + (1 - Math.min(value, yMax) / yMax) * innerH;
   const ticks: number[] = [];
   for (let tick = 0; tick <= yMax; tick += yStep) ticks.push(tick);
+  const axisY = viewH - pad.b;
 
   return (
     <svg
-      viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+      viewBox={`0 0 ${VIEW_W} ${viewH}`}
       className="h-auto w-full"
       role="img"
       aria-label={ariaLabel}
@@ -54,30 +64,29 @@ export function LineChart({
           </text>
         </g>
       ))}
-      <line
-        x1={pad.l}
-        x2={pad.l}
-        y1={pad.t}
-        y2={VIEW_H - pad.b}
-        stroke="#222"
-        strokeWidth="1.25"
-      />
-      {labels.map((label, index) => (
-        <text
-          key={label}
-          x={xAt(index)}
-          y={VIEW_H - 12}
-          textAnchor="middle"
-          fontSize="12"
-          fill="#222"
-        >
-          {label}
-        </text>
-      ))}
+      <line x1={pad.l} x2={pad.l} y1={pad.t} y2={axisY} stroke="#222" strokeWidth="1.25" />
+      {labels.map((label, index) => {
+        const x = xAt(index);
+        return (
+          <g key={`${label}-${index}`}>
+            <line x1={x} x2={x} y1={axisY} y2={axisY + 4} stroke="#222" strokeWidth="1" />
+            <text x={x} y={axisY + (crowded ? 14 : 16)} textAnchor="middle" fontSize={labelSize} fill="#222">
+              {label}
+            </text>
+          </g>
+        );
+      })}
       {series.map((item) => {
-        const points = item.values
-          .map((value, index) => `${xAt(index)},${yAt(value)}`)
-          .join(" ");
+        const plotted = presentIndexes(item.values).map((index) => ({
+          index,
+          value: item.values[index] as number,
+        }));
+        if (!plotted.length) return null;
+        if (plotted.length === 1) {
+          const point = plotted[0];
+          return <circle key={item.name ?? item.color} cx={xAt(point.index)} cy={yAt(point.value)} r="4" fill={item.color} />;
+        }
+        const points = plotted.map((point) => `${xAt(point.index)},${yAt(point.value)}`).join(" ");
         return (
           <polyline
             key={item.name ?? item.color}
@@ -94,15 +103,19 @@ export function LineChart({
         const anchor = index === 0 ? "start" : index === labels.length - 1 ? "end" : "middle";
         const x = index === 0 ? xAt(index) + 4 : index === labels.length - 1 ? xAt(index) - 2 : xAt(index);
         const ranked = series
-          .map((item, seriesIndex) => ({
-            seriesIndex,
-            value: item.values[index] ?? 0,
-            pointY: yAt(item.values[index] ?? 0),
-          }))
+          .map((item, seriesIndex) => {
+            const present = presentIndexes(item.values);
+            const show =
+              present.includes(index) && (present.length > 10 ? index === present[present.length - 1] : true);
+            const value = item.values[index];
+            if (!show || typeof value !== "number") return null;
+            return { seriesIndex, value, pointY: yAt(value) };
+          })
+          .filter((item): item is { seriesIndex: number; value: number; pointY: number } => item != null)
           .sort((a, b) => a.pointY - b.pointY);
         return ranked.map((item, rank) => {
-          const crowded = rank > 0 && Math.abs(item.pointY - ranked[rank - 1].pointY) < 18;
-          const y = crowded ? Math.min(VIEW_H - pad.b - 4, item.pointY + 16) : Math.max(14, item.pointY - 8);
+          const tight = rank > 0 && Math.abs(item.pointY - ranked[rank - 1].pointY) < 18;
+          const y = tight ? Math.min(axisY - 4, item.pointY + 16) : Math.max(14, item.pointY - 8);
           return (
             <text
               key={`${item.seriesIndex}-${index}`}
