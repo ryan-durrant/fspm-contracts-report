@@ -12,6 +12,7 @@ export function PropertyCard({
   lastYear,
   variant,
   rings,
+  note,
 }: {
   name: string;
   color: string;
@@ -22,6 +23,7 @@ export function PropertyCard({
   lastYear?: number | null;
   variant: "current" | "compare" | "simple";
   rings?: Partial<Record<"filled" | "percent" | "unapproved" | "inactive", ReactNode>>;
+  note?: string;
 }) {
   return (
     <article className="min-w-0 border border-neutral-300 bg-white">
@@ -32,7 +34,7 @@ export function PropertyCard({
         {variant === "compare" ? (
           <>
             <p className="text-[13px] leading-snug text-black">
-              This year: {filled} / Last year: {lastYear ?? "—"}
+              This year: <Ringed ring={rings?.filled}>{filled}</Ringed> / Last year: {lastYear ?? "—"}
             </p>
             <p className="mt-1 text-[28px] font-bold leading-none tabular-nums">
               <Ringed ring={rings?.percent}>{yoyText(filled, lastYear)}</Ringed>
@@ -62,6 +64,11 @@ export function PropertyCard({
                 <Ringed ring={rings?.percent}>{percentText(filled, capacity)}</Ringed>
               </p>
             )}
+            {note ? (
+              <p className="mt-1 inline-block rounded border border-black px-1.5 py-0.5 text-[10px] font-bold leading-none">
+                {note}
+              </p>
+            ) : null}
           </>
         )}
       </div>
