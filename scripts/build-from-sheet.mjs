@@ -206,6 +206,66 @@ export function parseTracker(csvText) {
   };
 }
 
+export function boiseDate(now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Boise",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(now);
+  const get = (type) => parts.find((part) => part.type === type)?.value ?? "";
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+export function weeklySeries(dates, values, asOf) {
+  return dates
+    .map((iso, index) => ({ iso, value: values[index] ?? 0 }))
+    .filter((point) => point.iso <= asOf)
+    .map((point) => {
+      const [, month, day] = point.iso.split("-");
+      return { iso: point.iso, label: `${Number(month)}/${Number(day)}`, value: point.value };
+    });
+}
+
+function alignLastYearChart(currentPoints, marks) {
+  const values = currentPoints.map(() => null);
+  for (const mark of marks ?? []) {
+    if (!mark?.date || typeof mark.value !== "number") continue;
+    let bestIndex = -1;
+    let bestDelta = Infinity;
+    for (let index = 0; index < currentPoints.length; index += 1) {
+      const shifted = `${currentPoints[index].iso.slice(0, 4)}-${String(mark.date).slice(5)}`;
+      const delta = Math.abs(Date.parse(currentPoints[index].iso) - Date.parse(shifted));
+      if (delta < bestDelta) {
+        bestDelta = delta;
+        bestIndex = index;
+      }
+    }
+    if (bestIndex >= 0 && bestDelta <= 3 * 24 * 60 * 60 * 1000) values[bestIndex] = mark.value;
+  }
+  return currentPoints.map((point, index) => ({ label: point.label, value: values[index] }));
+}
+
+/**
+ * Month-to-date approved delta.
+ * Sum every snapshot that falls in the same calendar month as `asOf` and on
+ * or before `asOf`. Each term is that snapshot minus the previous snapshot,
+ * so the prior month is only a baseline and a new month starts over.
+ * Declines count. There is no delta for the first snapshot in the tracker.
+ */
+export function monthToDateDelta(dates, counts, asOf) {
+  if (!asOf || !Array.isArray(dates) || dates.length < 2) return 0;
+  const month = asOf.slice(0, 7);
+  let total = 0;
+  for (let index = 1; index < dates.length; index += 1) {
+    const iso = dates[index];
+    if (iso > asOf) break;
+    if (iso.slice(0, 7) !== month) continue;
+    total += (counts?.[index] ?? 0) - (counts?.[index - 1] ?? 0);
+  }
+  return total;
+}
+
 export function monthlySeries(dates, values, asOf) {
   const points = dates
     .map((iso, index) => ({ iso, value: values[index] ?? 0 }))
@@ -408,6 +468,7 @@ export function buildReport({
   lastYearTracker = null,
   nextTracker = null,
   nextAsOf = null,
+  weekly = false,
 }) {
   const aliasIndex = buildAliasIndex(teams);
   const warnings = [];
@@ -482,9 +543,12 @@ export function buildReport({
   }
 
   const contractsTotal = propertyOrder.reduce((sum, id) => sum + (filled.get(id) ?? 0), 0);
-  const computedMonthly = tracker ? monthlySeries(dates, sumCounts(tracker, aliasIndex, propertyOrder), reportDate) : [];
+  const seriesFor = weekly ? weeklySeries : (seriesDates, seriesValues, seriesAsOf) =>
+    monthlySeries(seriesDates, seriesValues, seriesAsOf).map((point) => ({ ...point, iso: null }));
+  const contractPoints = tracker ? seriesFor(dates, sumCounts(tracker, aliasIndex, propertyOrder), reportDate) : [];
+  const computedMonthly = contractPoints.map(({ label, value }) => ({ label, value }));
   const marketMonthly = tracker
-    ? monthlySeries(dates, marketSoldSeries, reportDate)
+    ? seriesFor(dates, marketSoldSeries, reportDate).map(({ label, value }) => ({ label, value }))
     : [];
   const marketSold = tracker && dateIndex >= 0 ? (marketSoldSeries[dateIndex] ?? 0) : (marketFromFile(marketFile)?.sold ?? previous?.highlights?.marketSold ?? 0);
   const fileMarket = marketFromFile(marketFile);
@@ -508,10 +572,26 @@ export function buildReport({
   }
   const weekTotal = deltas.reduce((sum, row) => sum + row.delta, 0);
 
+  const countsById = new Map();
+  if (tracker) {
+    for (const row of tracker.properties) {
+      const property = lookupProperty(aliasIndex, row.sourceName);
+      if (!property) continue;
+      countsById.set(property.id, row.counts);
+    }
+  }
+
   const goals = {};
   for (const team of teams.teams) {
     const week = team.propertyIds.reduce((sum, id) => sum + (deltas.find((row) => row.id === id)?.delta ?? 0), 0);
-    goals[team.id] = { week, month: week };
+    // A counts-only file has no earlier weeks, so month cannot be derived.
+    const month = tracker
+      ? team.propertyIds.reduce(
+          (sum, id) => sum + monthToDateDelta(dates, countsById.get(id) ?? [], reportDate),
+          0,
+        )
+      : week;
+    goals[team.id] = { week, month };
   }
 
   const properties = {};
@@ -572,7 +652,9 @@ export function buildReport({
     const lyMarketCapacity = lastYearTracker.marketCapacity ?? resolvedMarketCapacity;
     report.lastYear = {
       bnh: ratio(lyFilled, lyCapacity || capacity),
-      market: lyMarketCapacity ? ratio(lyMarketSold, lyMarketCapacity) : null,
+      market: lyMarketSold > 0 && lyMarketCapacity ? ratio(lyMarketSold, lyMarketCapacity) : null,
+      marketSold: lyMarketSold > 0 ? lyMarketSold : null,
+      marketCapacity: lyMarketCapacity || null,
       decimals: 0,
       monthlyContracts: monthlySeries(
         lastYearTracker.dates,
@@ -614,17 +696,20 @@ export function buildReport({
         market: nextMarketPublished && nextMarketCapacity ? ratio(nextMarketSold, nextMarketCapacity) : null,
         decimals: 1,
       },
-      monthlyContracts: monthlySeries(
+      monthlyContracts: seriesFor(
         nextTracker.dates,
         sumCounts(nextTracker, aliasIndex, propertyOrder),
         nextDate,
-      ),
+      ).map(({ label, value }) => ({ label, value })),
       properties: nextProperties,
     };
   }
 
   applyPrevious(report, previous);
   applyEditorial(report, editorial);
+  if (weekly && editorial?.lastYearChart && report.lastYear && contractPoints.length) {
+    report.lastYear.monthlyContracts = alignLastYearChart(contractPoints, editorial.lastYearChart);
+  }
   applyCommunity(report, communityFile);
   return report;
 }
@@ -667,9 +752,11 @@ function applyEditorial(report, editorial) {
   if (editorial.monthlyContracts) report.monthlyContracts = editorial.monthlyContracts;
   if (editorial.lastYear) {
     report.lastYear = {
-      bnh: editorial.lastYear.bnh,
-      market: editorial.lastYear.market,
-      decimals: editorial.lastYear.decimals ?? 0,
+      bnh: editorial.lastYear.bnh ?? report.lastYear?.bnh ?? 0,
+      market: editorial.lastYear.market ?? report.lastYear?.market ?? null,
+      marketSold: editorial.lastYear.marketSold ?? report.lastYear?.marketSold ?? null,
+      marketCapacity: editorial.lastYear.marketCapacity ?? report.lastYear?.marketCapacity ?? null,
+      decimals: editorial.lastYear.decimals ?? report.lastYear?.decimals ?? 0,
       monthlyContracts: editorial.lastYear.monthlyContracts ?? report.lastYear?.monthlyContracts ?? [],
     };
     const byProperty = editorial.lastYear.byProperty ?? {};
@@ -754,6 +841,8 @@ function printHelp() {
   --previous <json>       last report.json; carries community and callouts forward
   --teams <json>          default config/teams.json
   --out <file>            write the report JSON here
+  --weekly                plot every sheet week instead of one point per month
+  --ran-on <YYYY-MM-DD>   cover date (default: today in America/Boise)
   --write                 write data/report.json and data/archive/<date>.json
   --help
 
@@ -788,7 +877,10 @@ export function main(argv = process.argv.slice(2)) {
     lastYearTracker: lastYearPath ? parseTracker(fs.readFileSync(path.resolve(lastYearPath), "utf8")) : null,
     nextTracker: nextPath ? parseTracker(fs.readFileSync(path.resolve(nextPath), "utf8")) : null,
     nextAsOf: argValue(argv, "--next-as-of"),
+    weekly: argv.includes("--weekly"),
   });
+  const ranOn = argValue(argv, "--ran-on");
+  if (ranOn !== "sheet") report.reportDate = ranOn || boiseDate();
   const json = `${JSON.stringify(report, null, 2)}\n`;
   const outFlag = argValue(argv, "--out");
   if (argv.includes("--write") || outFlag) {
