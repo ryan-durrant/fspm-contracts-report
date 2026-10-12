@@ -4,9 +4,13 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import {
+  boiseDate,
+  buildAliasIndex,
   buildReport,
   fetchTrackerFromSheets,
+  monthToDateDelta,
   monthlySeries,
+  normalizeName,
   parseTracker,
   parseUsDate,
 } from "../scripts/build-from-sheet.mjs";
@@ -113,6 +117,52 @@ test("aggregated counts JSON maps sheet names onto report properties", () => {
   assert.equal(report.highlights.marketSold, 9529);
   const filled = Object.values(report.properties).reduce((sum, property) => sum + property.filled, 0);
   assert.equal(filled, 620);
+});
+
+test("month-to-date actuals reset each month and keep negative deltas", () => {
+  const dates = ["2026-09-28", "2026-10-05", "2026-10-12", "2026-11-02"];
+  const counts = [62, 59, 63, 70];
+  assert.equal(monthToDateDelta(dates, counts, "2026-10-12"), 1);
+  assert.equal(monthToDateDelta(dates, counts, "2026-10-05"), -3);
+  assert.equal(monthToDateDelta(dates, counts, "2026-09-28"), 0);
+  assert.equal(monthToDateDelta(dates, counts, "2026-11-02"), 7);
+  assert.equal(monthToDateDelta([], counts, "2026-10-12"), 0);
+});
+
+test("W27 goals month sums every approved week that ends in the report month", () => {
+  const tracker = readTracker("contract_tracker-W27.csv");
+  const index = buildAliasIndex(teams);
+  const report = buildReport({ teams, tracker, asOf: "2026-10-12" });
+  const dateIndex = tracker.dates.indexOf("2026-10-12");
+  for (const team of teams.teams) {
+    let month = 0;
+    let week = 0;
+    for (const id of team.propertyIds) {
+      const source = tracker.properties.find((row) => index.get(normalizeName(row.sourceName))?.id === id);
+      assert.ok(source, id);
+      month += monthToDateDelta(tracker.dates, source.counts, "2026-10-12");
+      week += source.counts[dateIndex] - source.counts[dateIndex - 1];
+    }
+    assert.equal(report.goals[team.id].month, month, team.id);
+    assert.equal(report.goals[team.id].week, week, team.id);
+  }
+  assert.equal(report.goals["shalynn-kate"].week, 11);
+  assert.equal(report.goals["kelsee-shaylee"].week, 15);
+  assert.equal(report.goals["kenzie-lauren"].week, 11);
+  assert.equal(report.goals["shalynn-kate"].month, 66);
+  assert.equal(report.goals["kelsee-shaylee"].month, 24);
+  assert.equal(report.goals["kenzie-lauren"].month, 51);
+
+  const firstOctoberWeek = buildReport({ teams, tracker, asOf: "2026-10-05" });
+  assert.equal(firstOctoberWeek.goals["shalynn-kate"].month, 55);
+  assert.equal(firstOctoberWeek.goals["kelsee-shaylee"].month, 9);
+  assert.equal(firstOctoberWeek.goals["kenzie-lauren"].month, 40);
+  assert.equal(firstOctoberWeek.goals["shalynn-kate"].week, firstOctoberWeek.goals["shalynn-kate"].month);
+});
+
+test("report date follows America/Boise", () => {
+  assert.equal(boiseDate(new Date("2026-10-12T05:00:00Z")), "2026-10-11");
+  assert.equal(boiseDate(new Date("2026-10-12T06:00:00Z")), "2026-10-12");
 });
 
 test("live Sheets helper stays read-only and unimplemented", () => {

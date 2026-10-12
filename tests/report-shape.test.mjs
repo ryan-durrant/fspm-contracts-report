@@ -127,6 +127,9 @@ test("shipped report is the 10/12/2026 Winter week", () => {
   assert.equal(report.goals["shalynn-kate"].week, 11);
   assert.equal(report.goals["kelsee-shaylee"].week, 15);
   assert.equal(report.goals["kenzie-lauren"].week, 11);
+  assert.equal(report.goals["shalynn-kate"].month, 66);
+  assert.equal(report.goals["kelsee-shaylee"].month, 24);
+  assert.equal(report.goals["kenzie-lauren"].month, 51);
   assert.equal(report.highlights.houses.label, "Haven 149");
   assert.equal(report.highlights.houses.count, 6);
   assert.equal(report.highlights.apartments.label, "There was a tie");
@@ -182,6 +185,9 @@ test("10/5 archive stays the week that was published", () => {
   assert.equal(october5.callouts.women, null);
   assert.equal(Math.round(october5.callouts.market * 100), 59);
   assert.equal(october5.highlights.contractsSoldThisWeek, 104);
+  assert.equal(october5.goals["shalynn-kate"].month, 55);
+  assert.equal(october5.goals["kelsee-shaylee"].month, 9);
+  assert.equal(october5.goals["kenzie-lauren"].month, 40);
 });
 
 test("08/24 archive still matches the Fall 2026 PDF", () => {
@@ -193,4 +199,7 @@ test("08/24 archive still matches the Fall 2026 PDF", () => {
   assert.equal(fall.properties["carriage-house"].filled, 231);
   assert.equal(fall.community["liberty-corner"], 17);
   assert.equal(fall.highlights.contractsSoldThisWeek, 8);
+  assert.equal(fall.goals["shalynn-kate"].month, 1);
+  assert.equal(fall.goals["kelsee-shaylee"].month, 1);
+  assert.equal(fall.goals["kenzie-lauren"].month, 6);
 });
