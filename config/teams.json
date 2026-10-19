@@ -174,7 +174,7 @@
         { "id": "north-triplex", "name": "North Triplex", "capacity": 3 },
         { "id": "classic-122", "name": "#122 Classic", "capacity": 2 },
         { "id": "piano-casa", "name": "Piano Casa", "capacity": 1 },
-        { "id": "rock-casa", "name": "Rock Casa", "capacity": 1 },
+        { "id": "rock-casa", "name": "Rock Casa", "capacity": 3 },
         { "id": "haven-green-townhouse", "name": "Haven Green Townhouse", "capacity": 1 },
         { "id": "the-nest", "name": "The Nest", "capacity": 1 }
       ]
