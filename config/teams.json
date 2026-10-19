@@ -77,77 +77,77 @@
       "name": "Avonlea Men",
       "capacity": 79,
       "category": "apt",
-      "aliases": ["Avonlea for Men", "Avonlea Men"]
+      "aliases": ["Avonlea for Men", "Avonlea Men", "Avonlea (M)"]
     },
     {
       "id": "avonlea-house",
       "name": "Avonlea House",
       "capacity": 14,
       "category": "house",
-      "aliases": ["Avonlea House"]
+      "aliases": ["Avonlea House", "Sunset Hall"]
     },
     {
       "id": "haven-blue",
       "name": "Haven Blue",
       "capacity": 140,
       "category": "apt",
-      "aliases": ["Haven Blue"]
+      "aliases": ["Haven Blue", "Greenbrier"]
     },
     {
       "id": "haven-green",
       "name": "Haven Green",
       "capacity": 48,
       "category": "apt",
-      "aliases": ["Haven Green"]
+      "aliases": ["Haven Green", "Blue Door"]
     },
     {
       "id": "haven-red",
       "name": "Haven Red",
       "capacity": 48,
       "category": "apt",
-      "aliases": ["Haven Red"]
+      "aliases": ["Haven Red", "Red Door"]
     },
     {
       "id": "haven-white",
       "name": "Haven White",
       "capacity": 24,
       "category": "apt",
-      "aliases": ["Haven White"]
+      "aliases": ["Haven White", "Briarwood"]
     },
     {
       "id": "haven-129",
       "name": "Haven 129",
       "capacity": 6,
       "category": "house",
-      "aliases": ["Haven House 129", "Haven 129", "HH129"]
+      "aliases": ["Haven House 129", "Haven 129", "HH129", "Greenbrier House"]
     },
     {
       "id": "haven-149",
       "name": "Haven 149",
       "capacity": 12,
       "category": "house",
-      "aliases": ["Haven House 149", "Haven 149", "HH149"]
+      "aliases": ["Haven House 149", "Haven 149", "HH149", "Jacob's House"]
     },
     {
       "id": "haven-163",
       "name": "Haven 163",
       "capacity": 7,
       "category": "house",
-      "aliases": ["Haven House 163", "Haven 163", "HH163"]
+      "aliases": ["Haven House 163", "Haven 163", "HH163", "Pincock House"]
     },
     {
       "id": "haven-175",
       "name": "Haven 175",
       "capacity": 7,
       "category": "house",
-      "aliases": ["Haven House 175", "Haven 175", "HH175"]
+      "aliases": ["Haven House 175", "Haven 175", "HH175", "Whitfield House"]
     },
     {
       "id": "haven-179",
       "name": "Haven 179",
       "capacity": 7,
       "category": "house",
-      "aliases": ["Haven House 179", "Haven 179", "HH179"]
+      "aliases": ["Haven House 179", "Haven 179", "HH179", "Chapman"]
     }
   ],
   "offices": [
@@ -174,7 +174,7 @@
         { "id": "north-triplex", "name": "North Triplex", "capacity": 3 },
         { "id": "classic-122", "name": "#122 Classic", "capacity": 2 },
         { "id": "piano-casa", "name": "Piano Casa", "capacity": 1 },
-        { "id": "rock-casa", "name": "Rock Casa", "capacity": 3 },
+        { "id": "rock-casa", "name": "Rock Casa", "capacity": 1 },
         { "id": "haven-green-townhouse", "name": "Haven Green Townhouse", "capacity": 1 },
         { "id": "the-nest", "name": "The Nest", "capacity": 1 }
       ]

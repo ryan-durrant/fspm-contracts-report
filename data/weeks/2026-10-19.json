@@ -1,0 +1,38 @@
+{
+  "tip": {
+    "intro": "We're at 665 of 700 (95%), with just 35 beds left to fill. Great work, team. 23 people are holding a bed and haven't signed yet: Haven Blue has 8, Haven Red 6 and Avonlea Men 4. They've already picked their spot, so walk each one through signing and paying this week. Inactive leads also climbed from 42 to 55. Haven Blue and Haven Red have 9 each, and Avonlea Men has 8. Reach out to every one of them. A quick \"still interested?\" brings a lot of them back.",
+    "link": "",
+    "closing": "We're also in a slower stretch of the semester, so let's use it to get our properties in tip-top shape. Walk your property the way a parent would, like we practiced at the manager meeting training. Check the parking lot, the entry, the hallways and any open units, and fix anything you wouldn't want a parent to see. A great-looking property helps close every one of these leads."
+  },
+  "callouts": {
+    "women": 0.96,
+    "men": 0.9,
+    "decimals": 0
+  },
+  "nextSemester": {
+    "callouts": {
+      "decimals": 0
+    }
+  },
+  "lastYearChart": [
+    { "date": "2025-04-28", "value": 66 },
+    { "date": "2025-05-05", "value": 107 },
+    { "date": "2025-05-12", "value": 127 },
+    { "date": "2025-05-19", "value": 154 },
+    { "date": "2025-06-03", "value": 187 },
+    { "date": "2025-06-09", "value": 201 },
+    { "date": "2025-06-16", "value": 220 },
+    { "date": "2025-07-01", "value": 232 },
+    { "date": "2025-07-07", "value": 237 },
+    { "date": "2025-07-21", "value": 283 },
+    { "date": "2025-08-08", "value": 347 },
+    { "date": "2025-08-18", "value": 376 },
+    { "date": "2025-08-27", "value": 394 },
+    { "date": "2025-09-01", "value": 399 },
+    { "date": "2025-09-09", "value": 401 },
+    { "date": "2025-09-15", "value": 425 },
+    { "date": "2025-09-22", "value": 457 },
+    { "date": "2025-10-13", "value": 588 },
+    { "date": "2025-10-20", "value": 631 }
+  ]
+}
