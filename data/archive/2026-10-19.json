@@ -1,1 +1,37 @@
-FROM_FILE
+{
+  "semester": "Winter 2027",
+  "reportDate": "2026-10-19",
+  "capacity": 700,
+  "callouts": {
+    "totalContracts": 700,
+    "bnh": 0.95,
+    "women": 0.96,
+    "men": 0.9,
+    "market": 0.7145407535089879,
+    "decimals": 0
+  },
+  "monthlyContracts": [
+    {"label": "4/27", "value": 72},
+    {"label": "5/4", "value": 110},
+    {"label": "5/11", "value": 130},
+    {"label": "5/18", "value": 154},
+    {"label": "5/25", "value": 168},
+    {"label": "6/1", "value": 175},
+    {"label": "6/8", "value": 185},
+    {"label": "6/15", "value": 204},
+    {"label": "6/22", "value": 220},
+    {"label": "6/29", "value": 242},
+    {"label": "7/7", "value": 265},
+    {"label": "7/13", "value": 276},
+    {"label": "7/20", "value": 284},
+    {"label": "8/24", "value": 361},
+    {"label": "9/1", "value": 389},
+    {"label": "9/14", "value": 389},
+    {"label": "9/21", "value": 440},
+    {"label": "9/22", "value": 490},
+    {"label": "9/28", "value": 516},
+    {"label": "10/5", "value": 620},
+    {"label": "10/12", "value": 657},
+    {"label": "10/19", "value": 665}
+  ]
+}
