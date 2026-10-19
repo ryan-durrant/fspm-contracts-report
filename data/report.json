@@ -1,1 +1,21 @@
-FROM_FILE
+{
+  "semester": "Winter 2027",
+  "reportDate": "2026-10-19",
+  "capacity": 700,
+  "callouts": {
+    "totalContracts": 700,
+    "bnh": 0.95,
+    "women": 0.96,
+    "men": 0.9,
+    "market": 0.7145407535089879,
+    "decimals": 0
+  },
+  "communityHousing": {
+    "properties": {
+      "rock-casa": { "filled": 3, "capacity": 3 }
+    },
+    "offices": {
+      "haven-office": { "name": "Haven Office", "filled": 15, "capacity": 17 }
+    }
+  }
+}
