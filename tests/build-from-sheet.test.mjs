@@ -52,14 +52,18 @@ test("Fall 2026 tracker matches the 08/24 report totals", () => {
 
 test("Winter 2027 duplicate date column is the unapproved count", () => {
   const tracker = readTracker("contract_tracker-W27.csv");
-  const asOf = "2026-10-05";
+  const asOf = "2026-10-19";
   const index = tracker.dates.indexOf(asOf);
-  assert.equal(tracker.totals[index], 620);
+  assert.equal(tracker.totals[index], 665);
   const carriage = tracker.properties.find((row) => row.sourceName === "The Carriage House");
-  assert.equal(carriage.counts[index], 223);
-  assert.equal(carriage.unapproved[asOf], 11);
+  assert.equal(carriage.counts[index], 234);
+  assert.equal(carriage.unapproved[asOf], 0);
   const unapproved = tracker.properties.reduce((sum, row) => sum + (row.unapproved[asOf] ?? 0), 0);
-  assert.equal(unapproved, 47);
+  assert.equal(unapproved, 23);
+  const october5 = tracker.dates.indexOf("2026-10-05");
+  assert.equal(tracker.totals[october5], 620);
+  assert.equal(carriage.counts[october5], 223);
+  assert.equal(carriage.unapproved["2026-10-05"], undefined);
   const august = tracker.dates.indexOf("2026-08-24");
   assert.equal(tracker.totals[august], 361);
   assert.equal(carriage.counts[august], 132);
@@ -158,6 +162,14 @@ test("W27 goals month sums every approved week that ends in the report month", (
   assert.equal(firstOctoberWeek.goals["kelsee-shaylee"].month, 9);
   assert.equal(firstOctoberWeek.goals["kenzie-lauren"].month, 40);
   assert.equal(firstOctoberWeek.goals["shalynn-kate"].week, firstOctoberWeek.goals["shalynn-kate"].month);
+
+  const october19 = buildReport({ teams, tracker, asOf: "2026-10-19" });
+  assert.equal(october19.goals["shalynn-kate"].week, 0);
+  assert.equal(october19.goals["kelsee-shaylee"].week, 4);
+  assert.equal(october19.goals["kenzie-lauren"].week, 4);
+  assert.equal(october19.goals["shalynn-kate"].month, 66);
+  assert.equal(october19.goals["kelsee-shaylee"].month, 28);
+  assert.equal(october19.goals["kenzie-lauren"].month, 55);
 });
 
 test("report date follows America/Boise", () => {
