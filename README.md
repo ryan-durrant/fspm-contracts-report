@@ -107,9 +107,36 @@ node scripts/build-from-sheet.mjs \
   --as-of 2026-10-05
 ```
 
-`npm run report:build` regenerates the current week (`data/report.json` and `data/archive/2026-10-05.json`) from the Winter 2027 tracker as of 10/5/2026, the Spring 2027 tracker, `data/community-housing.json`, and `data/editorial/w27-2026-10-05.json`. The 08/24 Fall snapshot stays in `data/archive/2026-08-24.json`.
+`npm run report:build` regenerates the current week (`data/report.json` and `data/archive/2026-10-19.json`) from the Winter 2027 tracker as of 10/19/2026, the Spring 2027 tracker, `data/community-housing.json`, and `data/weeks/2026-10-19.json`. The cover date is the build date in America/Boise unless you pass `--ran-on YYYY-MM-DD` (`--ran-on sheet` keeps the tracker column date). The 10/12, 10/5, and 08/24 snapshots stay in `data/archive/`.
 
-Hand-drawn rings for a week live in `highlights/YYYY-MM-DD.json`. See `HIGHLIGHTS.md`.
+`--weekly` plots every sheet week. Without it, the chart keeps the last snapshot in each month. Team names live in `config/teams.json`. A week file in `data/weeks/<date>.json` can still pin the tip and the cover callouts.
+
+## Women's and men's occupancy
+
+The cover percentages are FSPM beds, not the BYU-Idaho market. `config/gender-split.json` says which beds count as women's and which count as men's. The Monday build divides approved contracts by that split. A week file can override `callouts.women` and `callouts.men`; the 10/19 file does, at 96% and 90%. Leave those two keys out of the next week file and the config computes them.
+
+Whole properties:
+
+| Women | Beds | Men | Beds |
+| --- | --- | --- | --- |
+| Carriage House | 234 | Avonlea Men | 79 |
+| Carriage House Townhouse | 8 | Haven White | 24 |
+| Avonlea House | 14 | Haven 129 | 6 |
+| Avonlea Women | 66 | Haven 149 | 12 |
+| Haven 175 | 7 | Haven 163 | 7 |
+| Haven 179 | 7 | | |
+
+Split properties use bed counts, and approved contracts are shared in that proportion:
+
+| Property | Women's beds | Men's beds |
+| --- | --- | --- |
+| Haven Blue | 92 | 48 |
+| Haven Green | 24 | 24 |
+| Haven Red | 24 | 24 |
+
+Haven Green and Haven Red are an even split of 48 beds. Haven Blue's 92 and 48 add to its 140 beds. Together the lists are 476 women's beds and 224 men's beds.
+
+Hand-drawn rings for a week live in `highlights/YYYY-MM-DD.json`. Automatic rings (unapproved or inactive at the threshold, and a full property) are in `config/highlight-rules.json` and apply only when the week file sets `"rules": true`. See `HIGHLIGHTS.md`.
 
 A few chart labels on that published PDF were rounded off the sheet’s month-end totals (February is 283 on the tab and 282 on the PDF). The editorial file pins the printed labels. Later Mondays can omit `monthlyContracts` in the editorial file and the script will plot the last snapshot in each month.
 
@@ -152,8 +179,10 @@ config/teams.json          groups, colors, tip, quote, capacities
 data/report.json           current week, read by / and /latest
 data/archive/<date>.json   snapshot written by --write
 data/editorial/            numbers the sheet does not store (YoY, goals, pinned chart labels)
-data/community-housing.json  Friday email counts only (filled/total, office totals, asOf)
-data/samples/              F26 / W27 / S27 tracker exports and the 10/05 count files (counts only; no resident names)
+data/weeks/                per-week tip, occupancy callouts, and last-year chart marks
+data/community-housing.json  Friday email counts (filled/total, office totals, asOf, optional date note)
+config/highlight-rules.json  standing ring thresholds
+data/samples/              F26 / W27 / S27 tracker exports and count files (counts only; no resident names)
 scripts/build-from-sheet.mjs
 scripts/parse-community-housing.mjs
 highlights/<date>.json     rings for that week (see HIGHLIGHTS.md)
