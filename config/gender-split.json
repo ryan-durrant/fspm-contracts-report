@@ -1,0 +1,22 @@
+{
+  "women": [
+    "carriage-house",
+    "carriage-townhouse",
+    "avonlea-house",
+    "avonlea-women",
+    "haven-175",
+    "haven-179"
+  ],
+  "men": [
+    "avonlea-men",
+    "haven-white",
+    "haven-129",
+    "haven-149",
+    "haven-163"
+  ],
+  "splits": {
+    "haven-blue": { "women": 92, "men": 48 },
+    "haven-green": { "women": 24, "men": 24 },
+    "haven-red": { "women": 24, "men": 24 }
+  }
+}
