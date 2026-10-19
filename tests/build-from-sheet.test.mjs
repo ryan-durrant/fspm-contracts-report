@@ -8,6 +8,7 @@ import {
   buildAliasIndex,
   buildReport,
   fetchTrackerFromSheets,
+  genderOccupancy,
   monthToDateDelta,
   monthlySeries,
   normalizeName,
@@ -170,6 +171,37 @@ test("W27 goals month sums every approved week that ends in the report month", (
   assert.equal(october19.goals["shalynn-kate"].month, 66);
   assert.equal(october19.goals["kelsee-shaylee"].month, 28);
   assert.equal(october19.goals["kenzie-lauren"].month, 55);
+});
+
+test("gender split apportions 10/19 approved contracts and a week file can pin the cover", () => {
+  const split = JSON.parse(fs.readFileSync(path.join(root, "config/gender-split.json"), "utf8"));
+  const tracker = readTracker("contract_tracker-W27.csv");
+  const computed = buildReport({ teams, tracker, asOf: "2026-10-19" });
+  const blue = 122;
+  const womenFilled = 234 + 8 + 14 + 65 + 7 + 5 + blue * (92 / 140) + 47 * (24 / 48) + 42 * (24 / 48);
+  const womenCapacity = 234 + 8 + 14 + 66 + 7 + 7 + 92 + 24 + 24;
+  const menFilled = 75 + 24 + 4 + 12 + 6 + blue * (48 / 140) + 47 * (24 / 48) + 42 * (24 / 48);
+  const menCapacity = 79 + 24 + 6 + 12 + 7 + 48 + 24 + 24;
+  assert.equal(womenCapacity, 476);
+  assert.equal(menCapacity, 224);
+  assert.equal(womenFilled + menFilled, 665);
+  const direct = genderOccupancy(computed.properties, split);
+  assert.equal(direct.women, womenFilled / womenCapacity);
+  assert.equal(direct.men, menFilled / menCapacity);
+  assert.equal(computed.callouts.women, direct.women);
+  assert.equal(computed.callouts.men, direct.men);
+  assert.equal((computed.callouts.women * 100).toFixed(0), "96");
+  assert.equal((computed.callouts.men * 100).toFixed(0), "93");
+  assert.deepEqual(direct.warnings, []);
+
+  const pinned = buildReport({
+    teams,
+    tracker,
+    asOf: "2026-10-19",
+    editorial: JSON.parse(fs.readFileSync(path.join(root, "data/weeks/2026-10-19.json"), "utf8")),
+  });
+  assert.equal(pinned.callouts.women, 0.96);
+  assert.equal(pinned.callouts.men, 0.9);
 });
 
 test("report date follows America/Boise", () => {
