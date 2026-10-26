@@ -140,7 +140,7 @@ Hand-drawn rings for a week live in `highlights/YYYY-MM-DD.json`. Automatic ring
 
 A few chart labels on that published PDF were rounded off the sheet’s month-end totals (February is 283 on the tab and 282 on the PDF). The editorial file pins the printed labels. Later Mondays can omit `monthlyContracts` in the editorial file and the script will plot the last snapshot in each month.
 
-Haven 179 on the Winter 2027 page of the 08/24 PDF is printed as 5/7. The `contract_tracker - W27` cell for 8/24/2026 is 3, which is what makes the chart total 361 and BNH occupancy 51.6%. The editorial file keeps the printed card.
+Haven 179 on the Winter 2027 page of the 08/24 PDF is printed as 5/7. The `contract_tracker - W27` cell for 8/24/2026 is 3, which is what makes the chart total 361 and FSPM occupancy 51.6%. The editorial file keeps the printed card.
 
 ### Live API
 

@@ -12,6 +12,10 @@ import { Callout, ChartPanel, Logo, PageFrame, PipelineLegend, Ringed } from "./
 
 type Ring = { id: string; color: "red" | "yellow" | "green"; label?: string };
 
+function companyName(config: TeamsConfig) {
+  return config.company?.trim() || "FSPM";
+}
+
 function ringNode(rings: Ring[], id: string) {
   const matches = ringsFor(rings, id);
   if (!matches.length) return undefined;
@@ -60,7 +64,7 @@ export function ReportDocument({
       <header className="no-print sticky top-0 z-30 border-b border-black/10 bg-brand text-white">
         <div className="mx-auto flex max-w-[960px] flex-wrap items-center gap-x-4 gap-y-2 px-3 py-2 sm:px-4">
           <Link href="/" className="text-sm font-semibold tracking-tight sm:text-base">
-            FSPM Contracts
+            {companyName(config)} Contracts
           </Link>
           <p className="text-sm text-white/85">Ran {formatRanOn(report.reportDate)}</p>
           <nav className="order-3 flex w-full gap-1 overflow-x-auto md:order-none md:w-auto md:flex-1" aria-label="Report pages">
@@ -122,7 +126,7 @@ function CoverPage({ report, config }: { report: ReportData; config: TeamsConfig
       <div className="flex flex-1 flex-col px-6 py-8 sm:px-10 sm:py-12">
         <div>
           <h1 className="max-w-[18ch] border-b-[3px] border-brand pb-1 text-[32px] font-semibold leading-tight tracking-tight text-black sm:text-4xl">
-            FSPM Contracts - {report.semester}
+            {companyName(config)} Contracts - {report.semester}
           </h1>
         </div>
         <div className="mt-12 max-w-xl text-[17px] leading-relaxed">
@@ -160,12 +164,12 @@ function ContractsPage({ report, config, rings }: { report: ReportData; config: 
     { key: "total", label: "Total Contracts:", value: formatNumber(report.callouts.totalContracts), position: "left-[2%] top-[2%]", ring: ringNode(rings, "w27:callout:total") },
     { key: "women", label: <>Women&apos;s<br />Occupancy:</>, value: ratioText(report.callouts.women, report.callouts.decimals), position: "left-[4%] top-[28%]", ring: ringNode(rings, "w27:callout:women") },
     { key: "men", label: <>Men&apos;s<br />Occupancy:</>, value: ratioText(report.callouts.men, report.callouts.decimals), position: "left-[4%] top-[58%]", ring: ringNode(rings, "w27:callout:men") },
-    { key: "bnh", label: <>BNH<br />Occupancy:</>, value: ratioText(report.callouts.bnh, report.callouts.decimals), position: "left-[28%] top-[36%]", ring: ringNode(rings, "w27:callout:bnh") },
+    { key: "bnh", label: <>{companyName(config)}<br />Occupancy:</>, value: ratioText(report.callouts.bnh, report.callouts.decimals), position: "left-[28%] top-[36%]", ring: ringNode(rings, "w27:callout:bnh") },
     { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(report.callouts.market, report.callouts.decimals), position: "left-[48%] top-[36%]", ring: ringNode(rings, "w27:callout:market") },
   ];
 
   return (
-    <PageFrame id="contracts" title={`FSPM Contracts - ${report.semester}`}>
+    <PageFrame id="contracts" title={`${companyName(config)} Contracts - ${report.semester}`}>
       <ChartPanel
         callouts={callouts}
         chart={
@@ -236,9 +240,9 @@ function ComparisonPage({ report, config, rings }: { report: ReportData; config:
   const last = report.lastYear?.monthlyContracts.map((point) => point.value) ?? [];
   const labels = report.lastYear?.monthlyContracts.map((point) => point.label) ?? report.monthlyContracts.map((point) => point.label);
   const callouts = [
-    { key: "bnh", label: <>BNH<br />Occupancy:</>, value: ratioText(report.callouts.bnh, report.callouts.decimals), position: "left-[3%] top-[8%]", ring: ringNode(rings, "comparison:callout:bnh") },
+    { key: "bnh", label: <>{companyName(config)}<br />Occupancy:</>, value: ratioText(report.callouts.bnh, report.callouts.decimals), position: "left-[3%] top-[8%]", ring: ringNode(rings, "comparison:callout:bnh") },
     { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(report.callouts.market, report.callouts.decimals), position: "left-[27%] top-[8%]", ring: ringNode(rings, "comparison:callout:market") },
-    { key: "ly-bnh", label: <>Last Year -<br />BNH:</>, value: ratioText(report.lastYear?.bnh, report.lastYear?.decimals ?? 0), position: "left-[3%] top-[42%]", ring: ringNode(rings, "comparison:callout:last-bnh") },
+    { key: "ly-bnh", label: <>Last Year -<br />{companyName(config)}:</>, value: ratioText(report.lastYear?.bnh, report.lastYear?.decimals ?? 0), position: "left-[3%] top-[42%]", ring: ringNode(rings, "comparison:callout:last-bnh") },
     { key: "ly-market", label: <>Last Year<br />Market Occ.</>, value: <LastYearMarket value={report.lastYear} />, position: "left-[27%] top-[42%]", ring: ringNode(rings, "comparison:callout:last-market") },
   ];
 
@@ -384,7 +388,7 @@ function GoalsPage({ report, config, rings }: { report: ReportData; config: Team
             </p>
           ))}
         </div>
-        <Callout label={<>Current BNH<br />Occupancy</>} value={ratioText(report.callouts.bnh, 0)} ring={ringNode(rings, "goals:callout:bnh")} />
+        <Callout label={<>Current {companyName(config)}<br />Occupancy</>} value={ratioText(report.callouts.bnh, 0)} ring={ringNode(rings, "goals:callout:bnh")} />
       </div>
     </PageFrame>
   );
@@ -397,7 +401,7 @@ function NextSemesterPage({ report, config, rings }: { report: ReportData; confi
   const values = next.monthlyContracts.map((point) => point.value);
   const callouts = [
     { key: "total", label: "Total Contracts:", value: formatNumber(next.callouts.totalContracts), position: "left-[2%] top-[4%]", ring: ringNode(rings, "s27:callout:total") },
-    { key: "bnh", label: <>BNH<br />Occupancy:</>, value: ratioText(next.callouts.bnh, next.callouts.decimals), position: "left-[8%] top-[34%]", ring: ringNode(rings, "s27:callout:bnh") },
+    { key: "bnh", label: <>{companyName(config)}<br />Occupancy:</>, value: ratioText(next.callouts.bnh, next.callouts.decimals), position: "left-[8%] top-[34%]", ring: ringNode(rings, "s27:callout:bnh") },
     { key: "market", label: <>Market<br />Occupancy:</>, value: ratioText(next.callouts.market, next.callouts.decimals), position: "left-[32%] top-[28%]", ring: ringNode(rings, "s27:callout:market") },
   ];
   const snaps = Object.fromEntries(
@@ -408,7 +412,7 @@ function NextSemesterPage({ report, config, rings }: { report: ReportData; confi
   );
 
   return (
-    <PageFrame id="next" title={`BNH Contracts - ${next.semester}`}>
+    <PageFrame id="next" title={`${companyName(config)} Contracts - ${next.semester}`}>
       <ChartPanel
         callouts={callouts}
         chart={
