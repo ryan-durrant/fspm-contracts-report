@@ -64,7 +64,7 @@ export type ReportData = {
   community: Record<string, number>;
   communityAsOf?: string;
   communityHousing?: CommunityHousingData | null;
-  tip?: { intro: string; link: string; closing: string } | null;
+  tip?: { intro?: string; link?: string; closing?: string; paragraphs?: string[] } | null;
 };
 
 export type CommunityCount = {
