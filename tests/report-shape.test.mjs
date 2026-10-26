@@ -204,7 +204,8 @@ const spring1019 = {
   "haven-red": [48, 6],
 };
 
-test("shipped report is the 10/19/2026 Winter week", () => {
+test("10/19 archive stays the week that was published", () => {
+  const report = JSON.parse(fs.readFileSync(path.join(root, "data/archive/2026-10-19.json"), "utf8"));
   assert.equal(report.semester, "Winter 2027");
   assert.equal(report.reportDate, "2026-10-19");
   assert.equal(report.capacity, 700);
@@ -308,7 +309,125 @@ test("shipped report is the 10/19/2026 Winter week", () => {
   assert.equal(report.tip.link, "");
   assert.equal(JSON.stringify(report).includes("notes"), false);
   assert.equal(report.warnings.length, 0);
-  const archive = JSON.parse(fs.readFileSync(path.join(root, "data/archive/2026-10-19.json"), "utf8"));
+});
+
+const approved1026 = {
+  "carriage-house": [234, 233, 0, 8, 233],
+  "carriage-townhouse": [8, 8, 0, 1, 8],
+  "avonlea-house": [14, 14, 0, 0, 14],
+  "avonlea-women": [66, 65, 1, 2, 66],
+  "haven-blue": [140, 131, 6, 12, 128],
+  "haven-179": [7, 5, 1, 1, 7],
+  "haven-175": [7, 7, 0, 0, 6],
+  "haven-163": [7, 6, 1, 0, 6],
+  "haven-149": [12, 12, 0, 0, 11],
+  "haven-white": [24, 24, 0, 1, 23],
+  "avonlea-men": [79, 78, 1, 6, 74],
+  "haven-129": [6, 4, 2, 2, 6],
+  "haven-green": [48, 48, 0, 0, 42],
+  "haven-red": [48, 44, 4, 9, 36],
+};
+
+const spring1026 = {
+  "carriage-house": [234, 91],
+  "carriage-townhouse": [8, 7],
+  "avonlea-house": [14, 4],
+  "avonlea-women": [66, 23],
+  "haven-blue": [140, 46],
+  "haven-179": [7, 3],
+  "haven-175": [7, 5],
+  "haven-163": [7, 1],
+  "haven-149": [12, 1],
+  "haven-white": [24, 9],
+  "avonlea-men": [79, 27],
+  "haven-129": [6, 1],
+  "haven-green": [48, 16],
+  "haven-red": [48, 6],
+};
+
+test("shipped report is the 10/26/2026 Winter week", () => {
+  assert.equal(report.semester, "Winter 2027");
+  assert.equal(report.reportDate, "2026-10-26");
+  assert.equal(report.capacity, 700);
+  let filled = 0;
+  let unapproved = 0;
+  let inactive = 0;
+  let priorFilled = 0;
+  for (const [id, [capacity, approvedCount, green, blue, priorCount]] of Object.entries(approved1026)) {
+    const row = report.properties[id];
+    assert.equal(row.capacity, capacity, id);
+    assert.equal(row.filled, approvedCount, id);
+    assert.equal(row.unapproved, green, id);
+    assert.equal(row.inactive, blue, id);
+    assert.equal(row.lastYear, priorCount, id);
+    filled += approvedCount;
+    unapproved += green;
+    inactive += blue;
+    priorFilled += priorCount;
+  }
+  assert.equal(filled, 679);
+  assert.equal(unapproved, 16);
+  assert.equal(inactive, 42);
+  assert.equal(priorFilled, 660);
+  assert.equal(report.callouts.bnh, 679 / 700);
+  assert.equal(report.callouts.decimals, 0);
+  assert.equal((report.callouts.women * 100).toFixed(0), "97");
+  assert.equal((report.callouts.men * 100).toFixed(0), "96");
+  assert.equal(report.callouts.market, 12849 / 16244);
+  assert.equal(report.highlights.contractsSoldThisWeek, 14);
+  assert.equal(report.highlights.marketSold, 12849);
+  assert.equal(report.highlights.marketCapacity, 16244);
+  assert.equal(report.highlights.women, 6391 / 8333);
+  assert.equal(report.highlights.men, 6458 / 7911);
+  assert.equal(report.highlights.houses.label, "There was a tie");
+  assert.equal(report.highlights.houses.count, 0);
+  assert.equal(report.highlights.apartments.label, "Haven Blue");
+  assert.equal(report.highlights.apartments.count, 9);
+  const history = Object.fromEntries(report.monthlyContracts.map((point) => [point.label, point.value]));
+  assert.equal(history["10/19"], 665);
+  assert.equal(history["10/26"], 679);
+  const prior = report.lastYear.monthlyContracts.filter((point) => point.value != null);
+  assert.deepEqual(prior.at(-1), { label: "10/26", value: 660 });
+  assert.deepEqual(prior.at(-2), { label: "10/19", value: 631 });
+  assert.equal(report.lastYear.bnh, 660 / 700);
+  assert.equal(report.lastYear.marketSold, 13290);
+  assert.equal(report.lastYear.marketCapacity, 16176);
+  assert.equal(report.lastYear.market, 13290 / 16176);
+  assert.equal(report.nextSemester.semester, "Spring 2027");
+  assert.equal(report.nextSemester.reportDate, "2026-10-26");
+  let nextFilled = 0;
+  for (const [id, [capacity, count]] of Object.entries(spring1026)) {
+    const row = report.nextSemester.properties[id];
+    assert.equal(row.capacity, capacity, id);
+    assert.equal(row.filled, count, id);
+    nextFilled += count;
+  }
+  assert.equal(nextFilled, 240);
+  assert.equal(report.nextSemester.callouts.market, 1592 / 16244);
+  assert.equal(report.nextSemester.callouts.decimals, 0);
+  assert.equal(report.nextSemester.callouts.bnh, 240 / 700);
+  assert.equal(report.goals["shalynn-kate"].week, -1);
+  assert.equal(report.goals["kelsee-shaylee"].week, 3);
+  assert.equal(report.goals["kenzie-lauren"].week, 12);
+  assert.equal(report.goals["shalynn-kate"].month, 65);
+  assert.equal(report.goals["kelsee-shaylee"].month, 31);
+  assert.equal(report.goals["kenzie-lauren"].month, 67);
+  assert.equal(report.communityHousing.asOf, "2026-10-16");
+  assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 3, capacity: 3 });
+  assert.deepEqual(report.communityHousing.offices["haven-office"], {
+    name: "Haven Office",
+    filled: 15,
+    capacity: 17,
+  });
+  assert.deepEqual(report.tip.paragraphs, [
+    "Great job on sales, team. We really appreciate the effort you're putting in. We're at 679 of 700 (97%) for Winter and close to full, so let's start shifting our focus to Spring 2027.",
+    "\"Attitude is a little thing that makes a big difference.\" – Winston Churchill. Let's make every resident feel like the most important person we'll see today. Greet them with a smile when they walk in, and let them hear it in your voice when they call. We're always happy to see them.",
+    "Also, remember Trista's social media training and let's build up our online presence, especially Google reviews. They matter most because they also show up on BYU-Idaho's TIS page. I just updated our photos on TIS and our company website with shots taken over the 7-week break, so everything looks a lot fresher. When a resident is happy, ask them for a review.",
+  ]);
+  assert.equal(report.tip.intro, undefined);
+  assert.equal(JSON.stringify(report).includes("notes"), false);
+  assert.equal(report.warnings.length, 0);
+  const archive = JSON.parse(fs.readFileSync(path.join(root, "data/archive/2026-10-26.json"), "utf8"));
   assert.equal(JSON.stringify(archive), JSON.stringify(report));
 });
 

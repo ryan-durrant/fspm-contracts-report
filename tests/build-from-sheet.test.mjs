@@ -53,14 +53,18 @@ test("Fall 2026 tracker matches the 08/24 report totals", () => {
 
 test("Winter 2027 duplicate date column is the unapproved count", () => {
   const tracker = readTracker("contract_tracker-W27.csv");
-  const asOf = "2026-10-19";
+  const asOf = "2026-10-26";
   const index = tracker.dates.indexOf(asOf);
-  assert.equal(tracker.totals[index], 665);
+  assert.equal(tracker.totals[index], 679);
   const carriage = tracker.properties.find((row) => row.sourceName === "The Carriage House");
-  assert.equal(carriage.counts[index], 234);
+  assert.equal(carriage.counts[index], 233);
   assert.equal(carriage.unapproved[asOf], 0);
   const unapproved = tracker.properties.reduce((sum, row) => sum + (row.unapproved[asOf] ?? 0), 0);
-  assert.equal(unapproved, 23);
+  assert.equal(unapproved, 16);
+  const october19 = tracker.dates.indexOf("2026-10-19");
+  assert.equal(tracker.totals[october19], 665);
+  assert.equal(carriage.counts[october19], 234);
+  assert.equal(carriage.unapproved["2026-10-19"], undefined);
   const october5 = tracker.dates.indexOf("2026-10-05");
   assert.equal(tracker.totals[october5], 620);
   assert.equal(carriage.counts[october5], 223);
@@ -171,6 +175,14 @@ test("W27 goals month sums every approved week that ends in the report month", (
   assert.equal(october19.goals["shalynn-kate"].month, 66);
   assert.equal(october19.goals["kelsee-shaylee"].month, 28);
   assert.equal(october19.goals["kenzie-lauren"].month, 55);
+
+  const october26 = buildReport({ teams, tracker, asOf: "2026-10-26" });
+  assert.equal(october26.goals["shalynn-kate"].week, -1);
+  assert.equal(october26.goals["kelsee-shaylee"].week, 3);
+  assert.equal(october26.goals["kenzie-lauren"].week, 12);
+  assert.equal(october26.goals["shalynn-kate"].month, 65);
+  assert.equal(october26.goals["kelsee-shaylee"].month, 31);
+  assert.equal(october26.goals["kenzie-lauren"].month, 67);
 });
 
 test("gender split apportions 10/19 approved contracts and a week file can pin the cover", () => {
@@ -202,6 +214,18 @@ test("gender split apportions 10/19 approved contracts and a week file can pin t
   });
   assert.equal(pinned.callouts.women, 0.96);
   assert.equal(pinned.callouts.men, 0.9);
+
+  const week = JSON.parse(fs.readFileSync(path.join(root, "data/weeks/2026-10-26.json"), "utf8"));
+  assert.equal(week.callouts, undefined);
+  const blue26 = 131;
+  const womenFilled26 = 233 + 8 + 14 + 65 + 7 + 5 + blue26 * (92 / 140) + 48 * (24 / 48) + 44 * (24 / 48);
+  const menFilled26 = 78 + 24 + 4 + 12 + 6 + blue26 * (48 / 140) + 48 * (24 / 48) + 44 * (24 / 48);
+  assert.equal(womenFilled26 + menFilled26, 679);
+  const computed26 = buildReport({ teams, tracker, asOf: "2026-10-26", editorial: week });
+  assert.equal(computed26.callouts.women, womenFilled26 / womenCapacity);
+  assert.equal(computed26.callouts.men, menFilled26 / menCapacity);
+  assert.equal((computed26.callouts.women * 100).toFixed(0), "97");
+  assert.equal((computed26.callouts.men * 100).toFixed(0), "96");
 });
 
 test("report date follows America/Boise", () => {
