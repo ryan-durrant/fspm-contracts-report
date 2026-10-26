@@ -87,7 +87,7 @@ test("standing rules ring Haven Blue inactive and the full Winter cards", () => 
 
 test("10/19 standing rules ring full Winter cards and skip comparison", () => {
   const rules = JSON.parse(fs.readFileSync(path.join(root, "config/highlight-rules.json"), "utf8"));
-  const report = JSON.parse(fs.readFileSync(path.join(root, "data/report.json"), "utf8"));
+  const report = JSON.parse(fs.readFileSync(path.join(root, "data/archive/2026-10-19.json"), "utf8"));
   const file = loadHighlightFile("2026-10-19", root);
   assert.equal(file.rules, true);
   assert.deepEqual(file.entries, []);
@@ -102,6 +102,27 @@ test("10/19 standing rules ring full Winter cards and skip comparison", () => {
   ]);
   assert.equal(standing.some((id) => id.startsWith("comparison:")), false);
   assert.equal(standing.some((id) => id.startsWith("s27:")), false);
+});
+
+test("10/26 standing rules ring full Winter cards and Haven Blue inactive", () => {
+  const rules = JSON.parse(fs.readFileSync(path.join(root, "config/highlight-rules.json"), "utf8"));
+  const report = JSON.parse(fs.readFileSync(path.join(root, "data/report.json"), "utf8"));
+  const file = loadHighlightFile("2026-10-26", root);
+  assert.equal(file.rules, true);
+  assert.deepEqual(file.entries, []);
+  const standing = standingRings(report, teams, rules).map((ring) => ring.id).sort();
+  assert.deepEqual(standing, [
+    "w27:card:avonlea-house:filled",
+    "w27:card:carriage-townhouse:filled",
+    "w27:card:haven-149:filled",
+    "w27:card:haven-175:filled",
+    "w27:card:haven-blue:inactive",
+    "w27:card:haven-green:filled",
+    "w27:card:haven-white:filled",
+  ]);
+  assert.equal(standing.some((id) => id.startsWith("comparison:")), false);
+  assert.equal(standing.some((id) => id.startsWith("s27:")), false);
+  assert.equal(standing.includes("w27:card:carriage-house:filled"), false);
 });
 
 test("unknown highlight targets are ignored", () => {

@@ -107,13 +107,13 @@ node scripts/build-from-sheet.mjs \
   --as-of 2026-10-05
 ```
 
-`npm run report:build` regenerates the current week (`data/report.json` and `data/archive/2026-10-19.json`) from the Winter 2027 tracker as of 10/19/2026, the Spring 2027 tracker, `data/community-housing.json`, and `data/weeks/2026-10-19.json`. The cover date is the build date in America/Boise unless you pass `--ran-on YYYY-MM-DD` (`--ran-on sheet` keeps the tracker column date). The 10/12, 10/5, and 08/24 snapshots stay in `data/archive/`.
+`npm run report:build` regenerates the current week (`data/report.json` and `data/archive/2026-10-26.json`) from the Winter 2027 tracker as of 10/26/2026, the Spring 2027 tracker, `data/community-housing.json`, and `data/weeks/2026-10-26.json`. The cover date is the build date in America/Boise unless you pass `--ran-on YYYY-MM-DD` (`--ran-on sheet` keeps the tracker column date). The 10/19, 10/12, 10/5, and 08/24 snapshots stay in `data/archive/`.
 
 `--weekly` plots every sheet week. Without it, the chart keeps the last snapshot in each month. Team names live in `config/teams.json`. A week file in `data/weeks/<date>.json` can still pin the tip and the cover callouts.
 
 ## Women's and men's occupancy
 
-The cover percentages are FSPM beds, not the BYU-Idaho market. `config/gender-split.json` says which beds count as women's and which count as men's. The Monday build divides approved contracts by that split. A week file can override `callouts.women` and `callouts.men`; the 10/19 file does, at 96% and 90%. Leave those two keys out of the next week file and the config computes them.
+The cover percentages are FSPM beds, not the BYU-Idaho market. `config/gender-split.json` says which beds count as women's and which count as men's. The Monday build divides approved contracts by that split. A week file can override `callouts.women` and `callouts.men`. The 10/19 file pins 96% and 90%. The 10/26 file leaves those keys out, so the cover uses this split.
 
 Whole properties:
 
