@@ -104,6 +104,8 @@ export type OfficeConfig = {
 export type TeamsConfig = {
   quote: { text: string; attribution: string };
   tip: { intro: string; link: string; closing: string };
+  /** Display name on contracts pages. FSPM when omitted. */
+  company?: string;
   marketCapacity: number;
   goalsCopy: { paragraphs: string[]; bonus: string[] };
   communityNote: string;

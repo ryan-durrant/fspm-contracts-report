@@ -30,7 +30,7 @@ Each ring needs a `color`: `red`, `yellow`, or `green`. `label` is optional and 
 | Filled/total on a property card | `"field": "filled"` on `w27`, `s27`, `community`, or `comparison` |
 | Percent on a property card | `"field": "percent"` on `w27`, `s27`, `community`, or `comparison` |
 | Page total (Total Contracts callout) | `"page": "w27"` or `"s27"`, `"field": "total"` |
-| A callout (market %, BNH, women, men) | `"field": "callout"`, `"callout": "market"` (also `bnh`, `women`, `men`, `total`, `last-bnh`, `last-market`) |
+| A callout (market %, FSPM, women, men) | `"field": "callout"`, `"callout": "market"` (also `bnh`, `women`, `men`, `total`, `last-bnh`, `last-market`) |
 | Community office total | `"page": "community"`, `"office": "avonlea-office"` or `"haven-office"`, `"field": "total"` |
 | Every card that shows a field | `"applyToAll": true` and `"field"` (`unapproved`, `inactive`, `filled`, or `percent`). Add `"page"` to limit it to one page. |
 
