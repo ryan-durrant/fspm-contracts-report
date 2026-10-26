@@ -106,7 +106,9 @@ export function ReportDocument({
 }
 
 function CoverPage({ report, config }: { report: ReportData; config: TeamsConfig }) {
-  const tip = report.tip?.intro ? report.tip : config.tip;
+  const custom = report.tip?.paragraphs?.length || report.tip?.intro ? report.tip : null;
+  const tip: { intro?: string; link?: string; closing?: string; paragraphs?: string[] } = custom ?? config.tip;
+  const paragraphs = tip.paragraphs?.filter((paragraph) => paragraph.trim()) ?? [];
   return (
     <section id="cover" className="sheet mx-auto mb-6 flex min-h-[680px] w-full max-w-[920px] flex-col overflow-hidden bg-white shadow-md md:min-h-[980px] md:flex-row print:mb-0 print:shadow-none">
       <aside className="flex flex-col bg-brand px-4 py-4 text-white md:w-[230px] md:px-4 md:py-5">
@@ -125,15 +127,25 @@ function CoverPage({ report, config }: { report: ReportData; config: TeamsConfig
         </div>
         <div className="mt-12 max-w-xl text-[17px] leading-relaxed">
           <p className="text-xl font-bold">Tip of the Week:</p>
-          <p className="mt-4">{tip.intro}</p>
-          {tip.link ? (
-            <p className="mt-4">
-              <a href={tip.link} className="break-all font-semibold text-brand underline">
-                {tip.link}
-              </a>
-            </p>
-          ) : null}
-          {tip.closing ? <p className="mt-4">{tip.closing}</p> : null}
+          {paragraphs.length ? (
+            paragraphs.map((paragraph) => (
+              <p key={paragraph} className="mt-4">
+                {paragraph}
+              </p>
+            ))
+          ) : (
+            <>
+              <p className="mt-4">{tip.intro}</p>
+              {tip.link ? (
+                <p className="mt-4">
+                  <a href={tip.link} className="break-all font-semibold text-brand underline">
+                    {tip.link}
+                  </a>
+                </p>
+              ) : null}
+              {tip.closing ? <p className="mt-4">{tip.closing}</p> : null}
+            </>
+          )}
         </div>
         <p className="mt-auto pt-16 text-lg font-bold">Report Ran on {formatRanOn(report.reportDate)}</p>
       </div>
