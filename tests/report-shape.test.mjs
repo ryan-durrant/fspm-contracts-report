@@ -345,7 +345,8 @@ const spring1026 = {
   "haven-red": [48, 6],
 };
 
-test("shipped report is the 10/26/2026 Winter week", () => {
+test("10/26 archive stays the week that was published", () => {
+  const report = JSON.parse(fs.readFileSync(path.join(root, "data/archive/2026-10-26.json"), "utf8"));
   assert.equal(report.semester, "Winter 2027");
   assert.equal(report.reportDate, "2026-10-26");
   assert.equal(report.capacity, 700);
@@ -427,7 +428,60 @@ test("shipped report is the 10/26/2026 Winter week", () => {
   assert.equal(report.tip.intro, undefined);
   assert.equal(JSON.stringify(report).includes("notes"), false);
   assert.equal(report.warnings.length, 0);
-  const archive = JSON.parse(fs.readFileSync(path.join(root, "data/archive/2026-10-26.json"), "utf8"));
+  assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 3, capacity: 3 });
+});
+
+test("shipped report is the 11/02/2026 Winter week", () => {
+  assert.equal(report.semester, "Winter 2027");
+  assert.equal(report.reportDate, "2026-11-02");
+  assert.equal(report.capacity, 700);
+  const filled = Object.values(report.properties).reduce((sum, property) => sum + property.filled, 0);
+  const unapproved = Object.values(report.properties).reduce((sum, property) => sum + property.unapproved, 0);
+  const inactive = Object.values(report.properties).reduce((sum, property) => sum + property.inactive, 0);
+  assert.equal(filled, 669);
+  assert.equal(unapproved, 13);
+  assert.equal(inactive, 53);
+  assert.equal(report.properties["carriage-house"].filled, 233);
+  assert.equal(report.properties["carriage-house"].inactive, 17);
+  assert.equal(report.properties["haven-blue"].filled, 131);
+  assert.equal(report.properties["haven-blue"].inactive, 11);
+  assert.equal(report.properties["haven-blue"].unapproved, 6);
+  assert.equal(report.callouts.bnh, 669 / 700);
+  assert.equal((report.callouts.women * 100).toFixed(0), "97");
+  assert.equal((report.callouts.men * 100).toFixed(0), "93");
+  assert.equal(report.callouts.market, 13451 / 16244);
+  assert.equal(report.highlights.contractsSoldThisWeek, -10);
+  assert.equal(report.highlights.marketSold, 13451);
+  assert.equal(report.highlights.women, 6623 / 8333);
+  assert.equal(report.highlights.men, 6828 / 7911);
+  assert.equal(report.lastYear.marketSold, 14005);
+  assert.equal(report.lastYear.bnh, 671 / 700);
+  assert.equal(report.properties["carriage-house"].lastYear, 232);
+  assert.equal(report.properties["haven-blue"].lastYear, 132);
+  const prior = report.lastYear.monthlyContracts.filter((point) => point.value != null);
+  assert.deepEqual(prior.at(-1), { label: "11/2", value: 671 });
+  assert.equal(report.nextSemester.properties["carriage-house"].filled, 99);
+  const nextFilled = Object.values(report.nextSemester.properties).reduce((sum, property) => sum + property.filled, 0);
+  assert.equal(nextFilled, 259);
+  assert.equal(report.nextSemester.callouts.market, 1766 / 16244);
+  assert.equal(report.goals["shalynn-kate"].week, 0);
+  assert.equal(report.goals["kelsee-shaylee"].week, -3);
+  assert.equal(report.goals["kenzie-lauren"].week, -7);
+  assert.equal(report.goals["shalynn-kate"].month, 0);
+  assert.equal(report.goals["kelsee-shaylee"].month, -3);
+  assert.equal(report.goals["kenzie-lauren"].month, -7);
+  assert.equal(report.communityHousing.asOf, "2026-10-30");
+  assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 1, capacity: 1 });
+  assert.deepEqual(report.communityHousing.offices["haven-office"], {
+    name: "Haven Office",
+    filled: 13,
+    capacity: 15,
+  });
+  assert.equal(report.tip.paragraphs[0].startsWith("Nice work, team. Winter 2027 is at 669 of 700 (96%)"), true);
+  assert.equal(report.tip.paragraphs[1].startsWith("Also, remember Ava's advice from manager training."), true);
+  assert.equal(JSON.stringify(report).includes("notes"), false);
+  assert.equal(report.warnings.length, 0);
+  const archive = JSON.parse(fs.readFileSync(path.join(root, "data/archive/2026-11-02.json"), "utf8"));
   assert.equal(JSON.stringify(archive), JSON.stringify(report));
 });
 
