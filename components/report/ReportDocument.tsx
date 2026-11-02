@@ -459,6 +459,14 @@ function NextSemesterPage({ report, config, rings }: { report: ReportData; confi
   );
 }
 
+function communityLeaseNote(row?: { note?: string; leaseStarts?: { unit?: string; text: string }[] }) {
+  const starts = (row?.leaseStarts ?? []).filter((start) => start.text?.trim());
+  if (starts.length) {
+    return starts.map((start) => (start.unit ? `${start.unit}, ${start.text}` : start.text)).join("\n");
+  }
+  return row?.note?.trim() || undefined;
+}
+
 function CommunityPage({ report, config, rings }: { report: ReportData; config: TeamsConfig; rings: Ring[] }) {
   const housing = report.communityHousing;
   const submitted = Object.keys(housing?.properties ?? report.community).length > 0;
@@ -494,7 +502,7 @@ function CommunityPage({ report, config, rings }: { report: ReportData; config: 
                     filled={row?.filled ?? report.community[property.id] ?? 0}
                     capacity={row?.capacity ?? property.capacity}
                     variant="simple"
-                    note={row?.note}
+                    note={communityLeaseNote(row)}
                     rings={cardRings(rings, "community", property.id)}
                   />
                 );

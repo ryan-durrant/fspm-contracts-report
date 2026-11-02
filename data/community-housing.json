@@ -15,7 +15,13 @@
     },
     "lc-duplex": {
       "filled": 1,
-      "capacity": 2
+      "capacity": 2,
+      "leaseStarts": [
+        {
+          "unit": "Upstairs",
+          "text": "start date of December 7"
+        }
+      ]
     },
     "t-house": {
       "filled": 1,
@@ -39,7 +45,13 @@
     },
     "classic-122": {
       "filled": 1,
-      "capacity": 2
+      "capacity": 2,
+      "leaseStarts": [
+        {
+          "unit": "Basement",
+          "text": "start date of December 1"
+        }
+      ]
     },
     "piano-casa": {
       "filled": 1,
@@ -51,7 +63,12 @@
     },
     "haven-green-townhouse": {
       "filled": 0,
-      "capacity": 1
+      "capacity": 1,
+      "leaseStarts": [
+        {
+          "text": "start date of December 1"
+        }
+      ]
     },
     "the-nest": {
       "filled": 1,

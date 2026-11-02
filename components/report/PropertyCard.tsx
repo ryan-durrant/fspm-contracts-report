@@ -64,11 +64,20 @@ export function PropertyCard({
                 <Ringed ring={rings?.percent}>{percentText(filled, capacity)}</Ringed>
               </p>
             )}
-            {note ? (
-              <p className="mt-1 inline-block rounded border border-black px-1.5 py-0.5 text-[10px] font-bold leading-none">
-                {note}
-              </p>
-            ) : null}
+            {note
+              ? note
+                  .split("\n")
+                  .map((line) => line.trim())
+                  .filter(Boolean)
+                  .map((line) => (
+                    <p
+                      key={line}
+                      className="mx-auto mt-1 max-w-full rounded border border-black px-1.5 py-0.5 text-[11px] font-bold leading-snug"
+                    >
+                      {line}
+                    </p>
+                  ))
+              : null}
           </>
         )}
       </div>

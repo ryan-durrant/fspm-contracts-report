@@ -4,7 +4,11 @@
  *
  * Bob saves the plain-text body himself. This script does not read Gmail.
  * Free-text notes are ignored. They often name residents, and this repo is
- * public, so only filled/capacity, office totals, and asOf are written.
+ * public, so only filled/capacity, office totals, asOf, and lease-start
+ * dates are written. A lease start is "start date of December 1", with a
+ * unit name when the email names the unit. Resident names are never stored.
+ * A start date already on a card carries forward when a later email does
+ * not give a new one.
  *
  *   node scripts/parse-community-housing.mjs --body email.txt --as-of 2026-10-02 --write
  *
@@ -85,28 +89,94 @@ function guessName(gap) {
  * Parse an email body into property counts. Notes are discarded.
  * `unrecognized` is the property label only, never the note text.
  */
+const UNIT_WORDS = ["upstairs", "downstairs", "basement", "main floor"];
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+function titleUnit(word) {
+  return word
+    .split(" ")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join(" ");
+}
+
+function monthIndex(name) {
+  const lower = String(name ?? "").toLowerCase();
+  return MONTHS.findIndex((month) => month.toLowerCase() === lower);
+}
+
+/**
+ * Pull lease-start and move-in dates out of the words after a count.
+ * Only an allow-listed unit word is kept with the date. Other words,
+ * including resident names, are dropped.
+ */
+export function leaseStartsFromTail(tail) {
+  const text = String(tail ?? "").replace(/\s+/g, " ");
+  const starts = [];
+  const seen = new Set();
+  const add = (unitWord, month, day) => {
+    const monthNumber = typeof month === "number" ? month : monthIndex(month);
+    const dayNumber = Number(day);
+    if (monthNumber < 0 || monthNumber > 11 || !dayNumber || dayNumber > 31) return;
+    const unit = unitWord ? titleUnit(unitWord) : undefined;
+    const entry = { text: `start date of ${MONTHS[monthNumber]} ${dayNumber}` };
+    if (unit) entry.unit = unit;
+    const key = `${entry.unit ?? ""}|${entry.text}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    starts.push(entry);
+  };
+  const unit = `(?:\\b(${UNIT_WORDS.join("|")})\\b(?:\\s+\\w+){0,3}?\\s+)?`;
+  const numeric = new RegExp(`${unit}\\bleased for\\s+(\\d{1,2})\\/(\\d{1,2})(?:\\/\\d{2,4})?`, "gi");
+  const named = new RegExp(
+    `${unit}\\b(?:leased for|moving in)\\s+([A-Za-z]+)\\s+(\\d{1,2})(?:st|nd|rd|th)?`,
+    "gi",
+  );
+  for (const pattern of [numeric, named]) {
+    for (const match of text.matchAll(pattern)) {
+      add(match[1], pattern === numeric ? Number(match[2]) - 1 : match[2], pattern === numeric ? match[3] : match[3]);
+    }
+  }
+  return starts;
+}
+
 export function parseCommunityBody(body, teams) {
   const aliases = communityAliases(teams);
   const found = new Map();
   const unrecognized = [];
   const source = String(body ?? "").replace(/\r\n/g, "\n");
   const ratio = /-\s*(\d+)\s*\/\s*(\d+)/g;
-  let cursor = 0;
-  let match = ratio.exec(source);
-  while (match) {
+  const matches = [...source.matchAll(ratio)];
+  matches.forEach((match, index) => {
+    const cursor = index === 0 ? 0 : matches[index - 1].index + matches[index - 1][0].length;
     const gap = source.slice(cursor, match.index);
     const filled = Number(match[1]);
     const capacity = Number(match[2]);
+    const tailEnd = matches[index + 1]?.index ?? source.length;
+    const tail = source.slice(match.index + match[0].length, tailEnd);
     const alias = suffixAlias(gap, aliases);
     if (alias) {
-      found.set(alias.id, { filled, capacity });
+      const row = { filled, capacity };
+      const leaseStarts = leaseStartsFromTail(tail);
+      if (leaseStarts.length) row.leaseStarts = leaseStarts;
+      found.set(alias.id, row);
     } else {
       const name = guessName(gap);
       if (name) unrecognized.push(name);
     }
-    cursor = ratio.lastIndex;
-    match = ratio.exec(source);
-  }
+  });
   return { found, unrecognized };
 }
 
@@ -155,15 +225,24 @@ export function buildCommunityDocument({ teams, body, asOf, previous = null }) {
   }
   const parsed = parseCommunityBody(body, teams);
   const properties = { ...cardDefaults(teams) };
+  const keepSchedule = (target, source) => {
+    if (!source) return;
+    if (source.leaseStarts?.length) target.leaseStarts = source.leaseStarts;
+    else if (source.note) target.note = source.note;
+  };
   if (previous?.properties) {
     for (const [id, row] of Object.entries(previous.properties)) {
       if (!properties[id] || !row) continue;
       properties[id] = { filled: row.filled, capacity: row.capacity };
+      keepSchedule(properties[id], row);
     }
   }
   for (const [id, row] of parsed.found) {
     if (!properties[id]) continue;
+    const carried = properties[id];
     properties[id] = { filled: row.filled, capacity: row.capacity };
+    if (row.leaseStarts?.length) properties[id].leaseStarts = row.leaseStarts;
+    else keepSchedule(properties[id], carried);
   }
   const seen = new Set(parsed.found.keys());
   const kept = [];
@@ -206,7 +285,10 @@ function printHelp() {
   --write                write the JSON file
   --help
 
-Notes in the email are not stored. If there is no body, or --as-of is not newer
+Resident names and other notes are not stored. A lease start or move-in
+date is stored as leaseStarts ("start date of December 1", plus a unit
+name when the email names the unit) and carries forward when a later
+email does not replace it. If there is no body, or --as-of is not newer
 than the stored file, the stored counts are kept and nothing is written.`);
 }
 

@@ -1,6 +1,6 @@
 # Weekly highlight rings
 
-Craig edits one file each week. The site draws a hand-drawn ring around the numbers in that file. Numbers only. Do not put resident names or notes in the file. A date badge such as `Dec 1 Start` belongs on the community property in `data/community-housing.json` (`note`), not in this file.
+Craig edits one file each week. The site draws a hand-drawn ring around the numbers in that file. Numbers only. Do not put resident names or notes in the file. A lease-start note belongs on the community property in `data/community-housing.json` (`leaseStarts`, or the older `note` badge such as `Dec 1 Start`), not in this file.
 
 Create `highlights/YYYY-MM-DD.json`. The date is the report date, for example `highlights/2026-10-12.json`. If the file is missing, that week has no rings. A bad entry is printed while the site builds and then skipped. It does not stop the build.
 
