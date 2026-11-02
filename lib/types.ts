@@ -67,10 +67,16 @@ export type ReportData = {
   tip?: { intro?: string; link?: string; closing?: string; paragraphs?: string[] } | null;
 };
 
+export type CommunityLeaseStart = {
+  unit?: string;
+  text: string;
+};
+
 export type CommunityCount = {
   filled: number;
   capacity: number;
   note?: string;
+  leaseStarts?: CommunityLeaseStart[];
 };
 
 export type CommunityHousingData = {
