@@ -92,7 +92,7 @@ The parser accepts `Name - filled/total`, including tight spacing such as `Bell 
 
 If you pass no body, or `--as-of` is not newer than the stored file, the last counts stay and the page keeps that as-of date. Cards missing from a newer email keep their stored count, and the script names them on stderr.
 
-Only filled, capacity, office totals, and `asOf` are stored. Notes are not written. The page still shows the note from `config/teams.json` asking managers to email Ryan every Friday.
+Filled, capacity, office totals, and `asOf` are stored. A lease start or move-in date is stored on the property as `leaseStarts`, worded `start date of December 1`, with the unit name when the email names the unit. Resident names and every other note are dropped. A start date already on the card carries forward when a later email does not replace it. An empty `leaseStarts` list renders nothing. The page still shows the note from `config/teams.json` asking managers to email Ryan every Friday.
 
 Then include the file on the Monday build with `--community data/community-housing.json`.
 
