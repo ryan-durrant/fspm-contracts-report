@@ -133,8 +133,11 @@ test("11/02 standing rules ring the two large inactive counts and the full Winte
   assert.deepEqual(file.entries, []);
   const standing = standingRings(report, teams, rules).map((ring) => ring.id).sort();
   assert.deepEqual(standing, [
+    "w27:card:avonlea-house:filled",
+    "w27:card:avonlea-men:filled",
     "w27:card:carriage-house:inactive",
     "w27:card:carriage-townhouse:filled",
+    "w27:card:haven-149:filled",
     "w27:card:haven-175:filled",
     "w27:card:haven-blue:inactive",
     "w27:card:haven-white:filled",
