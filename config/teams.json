@@ -9,6 +9,9 @@
     "closing": "These final weeks always come fast! Make sure each day you are in units or preparing for the Fall Semester checkins."
   },
   "company": "FSPM",
+  "communityOverrides": {
+    "rock-casa": { "filled": 3, "capacity": 3 }
+  },
   "marketCapacity": 16244,
   "goalsCopy": {
     "paragraphs": [
