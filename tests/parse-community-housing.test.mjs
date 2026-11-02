@@ -87,6 +87,48 @@ test("office totals add the cards and a newer email replaces stored counts", () 
   assert.equal(JSON.stringify(newer.document).includes("Cabin"), false);
 });
 
+test("lease start dates are stored without resident names and carry forward", () => {
+  const body = [
+    "LCD - 1/2 Upstairs has been leased for 12/7/26",
+    "Haven Green Townhouse - 0/1 ZZZNAME moving in December 1st",
+    "#122 Classic -1/2 Basement leased for 12/1/26",
+    "North Triplex - 3/3 Basement unit moves out 11/30, released for 12/14/26",
+    "LC - 17/18 #1 is vacant and listed",
+  ].join("\n");
+  const first = buildCommunityDocument({ teams, body, asOf: "2026-10-30" });
+  assert.deepEqual(first.document.properties["lc-duplex"].leaseStarts, [
+    { unit: "Upstairs", text: "start date of December 7" },
+  ]);
+  assert.deepEqual(first.document.properties["haven-green-townhouse"].leaseStarts, [
+    { text: "start date of December 1" },
+  ]);
+  assert.deepEqual(first.document.properties["classic-122"].leaseStarts, [
+    { unit: "Basement", text: "start date of December 1" },
+  ]);
+  assert.equal(first.document.properties["north-triplex"].leaseStarts, undefined);
+  assert.equal(first.document.properties["liberty-corner"].leaseStarts, undefined);
+  const packed = JSON.stringify(first.document);
+  assert.equal(packed.includes("ZZZNAME"), false);
+  assert.equal(packed.includes("vacant"), false);
+  assert.equal(packed.includes("released"), false);
+  assert.equal(packed.includes("notes"), false);
+
+  const next = buildCommunityDocument({
+    teams,
+    body: "Haven Green Townhouse - 1/1",
+    asOf: "2026-11-06",
+    previous: first.document,
+  });
+  assert.equal(next.carriedForward, false);
+  assert.equal(next.document.properties["haven-green-townhouse"].filled, 1);
+  assert.deepEqual(next.document.properties["haven-green-townhouse"].leaseStarts, [
+    { text: "start date of December 1" },
+  ]);
+  assert.deepEqual(next.document.properties["lc-duplex"].leaseStarts, [
+    { unit: "Upstairs", text: "start date of December 7" },
+  ]);
+});
+
 test("no email keeps the stored as-of date", () => {
   const stored = buildCommunityDocument({
     teams,
