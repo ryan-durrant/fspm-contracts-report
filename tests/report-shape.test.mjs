@@ -471,7 +471,8 @@ test("shipped report is the 11/02/2026 Winter week", () => {
   assert.equal(report.goals["kelsee-shaylee"].month, -3);
   assert.equal(report.goals["kenzie-lauren"].month, -7);
   assert.equal(report.communityHousing.asOf, "2026-10-30");
-  assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 1, capacity: 1 });
+  assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 3, capacity: 3 });
+  assert.equal(report.community["rock-casa"], 3);
   assert.deepEqual(report.communityHousing.offices["haven-office"], {
     name: "Haven Office",
     filled: 13,

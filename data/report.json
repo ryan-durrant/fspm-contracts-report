@@ -577,7 +577,7 @@
     "north-triplex": 3,
     "classic-122": 1,
     "piano-casa": 1,
-    "rock-casa": 1,
+    "rock-casa": 3,
     "haven-green-townhouse": 0,
     "the-nest": 1
   },
@@ -636,8 +636,8 @@
         "capacity": 1
       },
       "rock-casa": {
-        "filled": 1,
-        "capacity": 1
+        "filled": 3,
+        "capacity": 3
       },
       "haven-green-townhouse": {
         "filled": 0,
