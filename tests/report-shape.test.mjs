@@ -324,8 +324,8 @@ const approved1026 = {
   "haven-white": [24, 24, 0, 1, 23],
   "avonlea-men": [79, 78, 1, 6, 74],
   "haven-129": [6, 4, 2, 2, 6],
-  "haven-green": [48, 47, 1, 4, 43],
-  "haven-red": [48, 42, 6, 9, 24],
+  "haven-green": [48, 48, 0, 0, 42],
+  "haven-red": [48, 44, 4, 9, 36],
 };
 
 const spring1026 = {
@@ -422,7 +422,7 @@ test("10/26 archive stays the week that was published", () => {
   });
   assert.deepEqual(report.tip.paragraphs, [
     "Great job on sales, team. We really appreciate the effort you're putting in. We're at 679 of 700 (97%) for Winter and close to full, so let's start shifting our focus to Spring 2027.",
-    "\"Attitude is a little thing that makes a big difference.\" – Winston Churchill. Let's make every resident feel like the most important person we'll see today. Greet them with a smile when they walk in, and let them hear it in your voice when they call. We're always happy to see them.",
+    "\"Attitude is a little thing that makes a big difference.\" \u2013 Winston Churchill. Let's make every resident feel like the most important person we'll see today. Greet them with a smile when they walk in, and let them hear it in your voice when they call. We're always happy to see them.",
     "Also, remember Trista's social media training and let's build up our online presence, especially Google reviews. They matter most because they also show up on BYU-Idaho's TIS page. I just updated our photos on TIS and our company website with shots taken over the 7-week break, so everything looks a lot fresher. When a resident is happy, ask them for a review.",
   ]);
   assert.equal(report.tip.intro, undefined);
