@@ -4,9 +4,9 @@
   "capacity": 700,
   "callouts": {
     "totalContracts": 700,
-    "bnh": 0.9557142857142857,
-    "women": 0.9665666266506603,
-    "men": 0.9326530612244898,
+    "bnh": 0.9828571428571429,
+    "women": 0.9839735894357743,
+    "men": 0.980484693877551,
     "market": 0.8280595912336863,
     "decimals": 0
   },
@@ -105,12 +105,12 @@
     },
     {
       "label": "11/2",
-      "value": 669
+      "value": 688
     }
   ],
   "properties": {
     "carriage-house": {
-      "filled": 233,
+      "filled": 232,
       "capacity": 234,
       "unapproved": 2,
       "inactive": 17,
@@ -126,42 +126,42 @@
     "avonlea-women": {
       "filled": 65,
       "capacity": 66,
-      "unapproved": 1,
+      "unapproved": 0,
       "inactive": 1,
       "lastYear": 66
     },
     "avonlea-men": {
-      "filled": 76,
+      "filled": 79,
       "capacity": 79,
-      "unapproved": 1,
+      "unapproved": 0,
       "inactive": 5,
       "lastYear": 77
     },
     "avonlea-house": {
-      "filled": 13,
+      "filled": 14,
       "capacity": 14,
       "unapproved": 0,
       "inactive": 0,
       "lastYear": 14
     },
     "haven-blue": {
-      "filled": 131,
+      "filled": 136,
       "capacity": 140,
-      "unapproved": 6,
+      "unapproved": 4,
       "inactive": 11,
       "lastYear": 132
     },
     "haven-green": {
-      "filled": 43,
+      "filled": 47,
       "capacity": 48,
-      "unapproved": 1,
+      "unapproved": 0,
       "inactive": 3,
       "lastYear": 46
     },
     "haven-red": {
-      "filled": 41,
+      "filled": 47,
       "capacity": 48,
-      "unapproved": 1,
+      "unapproved": 0,
       "inactive": 8,
       "lastYear": 39
     },
@@ -180,7 +180,7 @@
       "lastYear": 6
     },
     "haven-149": {
-      "filled": 11,
+      "filled": 12,
       "capacity": 12,
       "unapproved": 0,
       "inactive": 0,
@@ -330,14 +330,14 @@
     }
   },
   "highlights": {
-    "contractsSoldThisWeek": -10,
+    "contractsSoldThisWeek": 9,
     "houses": {
       "label": "There was a tie",
       "count": 1
     },
     "apartments": {
-      "label": "There was a tie",
-      "count": 0
+      "label": "Haven Blue",
+      "count": 5
     },
     "marketCapacity": 16244,
     "marketSold": 13451,
@@ -446,16 +446,16 @@
   },
   "goals": {
     "shalynn-kate": {
-      "week": 0,
-      "month": 0
+      "week": -1,
+      "month": -1
     },
     "kelsee-shaylee": {
-      "week": -3,
-      "month": -3
+      "week": 1,
+      "month": 1
     },
     "kenzie-lauren": {
-      "week": -7,
-      "month": -7
+      "week": 9,
+      "month": 9
     }
   },
   "nextSemester": {
@@ -464,7 +464,7 @@
     "capacity": 700,
     "callouts": {
       "totalContracts": 700,
-      "bnh": 0.37,
+      "bnh": 0.37142857142857144,
       "market": 0.1087170647623738,
       "decimals": 0
     },
@@ -503,7 +503,7 @@
       },
       {
         "label": "11/2",
-        "value": 259
+        "value": 260
       }
     ],
     "properties": {
@@ -524,7 +524,7 @@
         "capacity": 66
       },
       "haven-blue": {
-        "filled": 47,
+        "filled": 48,
         "capacity": 140
       },
       "haven-179": {
@@ -584,7 +584,7 @@
   "warnings": [],
   "tip": {
     "paragraphs": [
-      "Nice work, team. Winter 2027 is at 669 of 700 (96%), and the BYUI market is at 83%, so we're well ahead. The cancellation deadline is this Wednesday, November 4. Before then, let's get the 13 Unapproved residents and the 72 still choosing a bed through to approval. Work the 53 inactive leads too, starting with Carriage House (17) and Haven Blue (11). Every contract after Wednesday counts toward a full Winter, so Winter stays our focus until it's full. Don't pivot to Spring yet.",
+      "Nice work, team. Winter 2027 is at 688 of 700 (98%), and the BYUI market is at 83%, so we're well ahead. The cancellation deadline is this Wednesday, November 4. Before then, let's get the 7 Unapproved residents through to approval and work the 53 inactive leads, starting with Carriage House (17) and Haven Blue (11). Every contract after Wednesday counts toward a full Winter, so Winter stays our focus until it's full. Don't pivot to Spring yet.",
       "Also, remember Ava's advice from manager training. Make a personal connection, or add a personal touch, with each resident this semester. Our easiest customers are the ones who already live with us."
     ]
   },
