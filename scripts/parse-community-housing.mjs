@@ -251,16 +251,26 @@ export function buildCommunityDocument({ teams, body, asOf, previous = null }) {
       if (!seen.has(property.id)) kept.push(property.name);
     }
   }
+  const offices = officeTotals(teams, properties);
+  applyCommunityOverrides(properties, teams);
   return {
     document: {
       asOf,
       properties,
-      offices: officeTotals(teams, properties),
+      offices,
     },
     unrecognized: parsed.unrecognized,
     kept,
     carriedForward: false,
   };
+}
+
+export function applyCommunityOverrides(properties, teams) {
+  if (!properties) return;
+  for (const [id, override] of Object.entries(teams?.communityOverrides ?? {})) {
+    if (!override || typeof override.filled !== "number" || typeof override.capacity !== "number") continue;
+    properties[id] = { ...(properties[id] ?? {}), filled: override.filled, capacity: override.capacity };
+  }
 }
 
 function readStored(file) {

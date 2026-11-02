@@ -438,19 +438,26 @@ test("shipped report is the 11/02/2026 Winter week", () => {
   const filled = Object.values(report.properties).reduce((sum, property) => sum + property.filled, 0);
   const unapproved = Object.values(report.properties).reduce((sum, property) => sum + property.unapproved, 0);
   const inactive = Object.values(report.properties).reduce((sum, property) => sum + property.inactive, 0);
-  assert.equal(filled, 669);
-  assert.equal(unapproved, 13);
+  assert.equal(filled, 688);
+  assert.equal(unapproved, 7);
   assert.equal(inactive, 53);
-  assert.equal(report.properties["carriage-house"].filled, 233);
+  assert.equal(report.properties["carriage-house"].filled, 232);
   assert.equal(report.properties["carriage-house"].inactive, 17);
-  assert.equal(report.properties["haven-blue"].filled, 131);
+  assert.equal(report.properties["haven-blue"].filled, 136);
   assert.equal(report.properties["haven-blue"].inactive, 11);
-  assert.equal(report.properties["haven-blue"].unapproved, 6);
-  assert.equal(report.callouts.bnh, 669 / 700);
-  assert.equal((report.callouts.women * 100).toFixed(0), "97");
-  assert.equal((report.callouts.men * 100).toFixed(0), "93");
+  assert.equal(report.properties["haven-blue"].unapproved, 4);
+  assert.equal(report.properties["avonlea-men"].filled, 79);
+  assert.equal(report.properties["haven-red"].filled, 47);
+  assert.equal(report.callouts.bnh, 688 / 700);
+  const womenFilled = 232 + 8 + 14 + 65 + 7 + 6 + 136 * (92 / 140) + 47 * (24 / 48) + 47 * (24 / 48);
+  const menFilled = 79 + 24 + 5 + 12 + 6 + 136 * (48 / 140) + 47 * (24 / 48) + 47 * (24 / 48);
+  assert.equal(womenFilled + menFilled, 688);
+  assert.equal(report.callouts.women, womenFilled / 476);
+  assert.equal(report.callouts.men, menFilled / 224);
+  assert.equal((report.callouts.women * 100).toFixed(0), "98");
+  assert.equal((report.callouts.men * 100).toFixed(0), "98");
   assert.equal(report.callouts.market, 13451 / 16244);
-  assert.equal(report.highlights.contractsSoldThisWeek, -10);
+  assert.equal(report.highlights.contractsSoldThisWeek, 9);
   assert.equal(report.highlights.marketSold, 13451);
   assert.equal(report.highlights.women, 6623 / 8333);
   assert.equal(report.highlights.men, 6828 / 7911);
@@ -462,14 +469,16 @@ test("shipped report is the 11/02/2026 Winter week", () => {
   assert.deepEqual(prior.at(-1), { label: "11/2", value: 671 });
   assert.equal(report.nextSemester.properties["carriage-house"].filled, 99);
   const nextFilled = Object.values(report.nextSemester.properties).reduce((sum, property) => sum + property.filled, 0);
-  assert.equal(nextFilled, 259);
+  assert.equal(nextFilled, 260);
+  assert.equal(report.nextSemester.properties["haven-blue"].filled, 48);
+  assert.equal(report.nextSemester.callouts.bnh, 260 / 700);
   assert.equal(report.nextSemester.callouts.market, 1766 / 16244);
-  assert.equal(report.goals["shalynn-kate"].week, 0);
-  assert.equal(report.goals["kelsee-shaylee"].week, -3);
-  assert.equal(report.goals["kenzie-lauren"].week, -7);
-  assert.equal(report.goals["shalynn-kate"].month, 0);
-  assert.equal(report.goals["kelsee-shaylee"].month, -3);
-  assert.equal(report.goals["kenzie-lauren"].month, -7);
+  assert.equal(report.goals["shalynn-kate"].week, -1);
+  assert.equal(report.goals["kelsee-shaylee"].week, 1);
+  assert.equal(report.goals["kenzie-lauren"].week, 9);
+  assert.equal(report.goals["shalynn-kate"].month, -1);
+  assert.equal(report.goals["kelsee-shaylee"].month, 1);
+  assert.equal(report.goals["kenzie-lauren"].month, 9);
   assert.equal(report.communityHousing.asOf, "2026-10-30");
   assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 3, capacity: 3 });
   assert.equal(report.community["rock-casa"], 3);
@@ -488,7 +497,10 @@ test("shipped report is the 11/02/2026 Winter week", () => {
     filled: 13,
     capacity: 15,
   });
-  assert.equal(report.tip.paragraphs[0].startsWith("Nice work, team. Winter 2027 is at 669 of 700 (96%)"), true);
+  assert.equal(
+    report.tip.paragraphs[0],
+    "Nice work, team. Winter 2027 is at 688 of 700 (98%), and the BYUI market is at 83%, so we're well ahead. The cancellation deadline is this Wednesday, November 4. Before then, let's get the 7 Unapproved residents through to approval and work the 53 inactive leads, starting with Carriage House (17) and Haven Blue (11). Every contract after Wednesday counts toward a full Winter, so Winter stays our focus until it's full. Don't pivot to Spring yet.",
+  );
   assert.equal(report.tip.paragraphs[1].startsWith("Also, remember Ava's advice from manager training."), true);
   assert.equal(JSON.stringify(report).includes("notes"), false);
   assert.equal(report.warnings.length, 0);

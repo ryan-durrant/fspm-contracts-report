@@ -35,6 +35,7 @@
  */
 
 import fs from "node:fs";
+import { applyCommunityOverrides } from "./parse-community-housing.mjs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -803,7 +804,7 @@ export function buildReport({
   if (weekly && editorial?.lastYearChart && report.lastYear && contractPoints.length) {
     report.lastYear.monthlyContracts = alignLastYearChart(contractPoints, editorial.lastYearChart);
   }
-  applyCommunity(report, communityFile);
+  applyCommunity(report, communityFile, teams);
   return report;
 }
 
@@ -897,10 +898,11 @@ export function fetchTrackerFromSheets() {
   );
 }
 
-function applyCommunity(report, communityFile) {
+function applyCommunity(report, communityFile, teams) {
   if (!communityFile) return;
   const housing = readJson(communityFile);
   if (!housing?.properties) return;
+  applyCommunityOverrides(housing.properties, teams);
   report.communityHousing = housing;
   if (housing.asOf) report.communityAsOf = housing.asOf;
   const filled = {};

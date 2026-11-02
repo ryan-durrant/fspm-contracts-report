@@ -112,6 +112,8 @@ export type TeamsConfig = {
   tip: { intro: string; link: string; closing: string };
   /** Display name on contracts pages. FSPM when omitted. */
   company?: string;
+  /** Community cards forced on every build, after the email counts. */
+  communityOverrides?: Record<string, { filled: number; capacity: number }>;
   marketCapacity: number;
   goalsCopy: { paragraphs: string[]; bonus: string[] };
   communityNote: string;

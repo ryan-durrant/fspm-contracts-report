@@ -129,6 +129,42 @@ test("lease start dates are stored without resident names and carry forward", ()
   ]);
 });
 
+test("Rock Casa stays 3/3 even when the email lists 1/1", () => {
+  const parsed = buildCommunityDocument({
+    teams,
+    body: "Rock Casa - 1/1",
+    asOf: "2026-11-02",
+  });
+  assert.equal(parsed.document.properties["rock-casa"].filled, 3);
+  assert.equal(parsed.document.properties["rock-casa"].capacity, 3);
+  assert.equal(parsed.document.offices["haven-office"].filled, 1);
+  assert.equal(parsed.document.offices["haven-office"].capacity, 15);
+
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "rock-casa-"));
+  const communityFile = path.join(dir, "community-housing.json");
+  fs.writeFileSync(
+    communityFile,
+    JSON.stringify({
+      asOf: "2026-11-02",
+      properties: { "rock-casa": { filled: 1, capacity: 1 } },
+      offices: { "haven-office": { name: "Haven Office", filled: 13, capacity: 15 } },
+    }),
+  );
+  const report = buildReport({
+    teams,
+    countsFile: path.join(root, "data/samples/counts-w27.json"),
+    asOf: "2026-10-05",
+    communityFile,
+  });
+  assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 3, capacity: 3 });
+  assert.equal(report.community["rock-casa"], 3);
+  assert.deepEqual(report.communityHousing.offices["haven-office"], {
+    name: "Haven Office",
+    filled: 13,
+    capacity: 15,
+  });
+});
+
 test("no email keeps the stored as-of date", () => {
   const stored = buildCommunityDocument({
     teams,
