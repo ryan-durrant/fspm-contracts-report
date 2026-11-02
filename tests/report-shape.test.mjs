@@ -473,6 +473,16 @@ test("shipped report is the 11/02/2026 Winter week", () => {
   assert.equal(report.communityHousing.asOf, "2026-10-30");
   assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 3, capacity: 3 });
   assert.equal(report.community["rock-casa"], 3);
+  assert.equal(report.communityHousing.properties["rock-casa"].leaseStarts, undefined);
+  assert.deepEqual(report.communityHousing.properties["lc-duplex"].leaseStarts, [
+    { unit: "Upstairs", text: "start date of December 7" },
+  ]);
+  assert.deepEqual(report.communityHousing.properties["classic-122"].leaseStarts, [
+    { unit: "Basement", text: "start date of December 1" },
+  ]);
+  assert.deepEqual(report.communityHousing.properties["haven-green-townhouse"].leaseStarts, [
+    { text: "start date of December 1" },
+  ]);
   assert.deepEqual(report.communityHousing.offices["haven-office"], {
     name: "Haven Office",
     filled: 13,
