@@ -1,13 +1,13 @@
 {
   "semester": "Winter 2027",
-  "reportDate": "2026-10-26",
+  "reportDate": "2026-11-02",
   "capacity": 700,
   "callouts": {
     "totalContracts": 700,
-    "bnh": 0.97,
-    "women": 0.9749699879951981,
-    "men": 0.9594387755102041,
-    "market": 0.7909997537552327,
+    "bnh": 0.9557142857142857,
+    "women": 0.9665666266506603,
+    "men": 0.9326530612244898,
+    "market": 0.8280595912336863,
     "decimals": 0
   },
   "monthlyContracts": [
@@ -102,39 +102,43 @@
     {
       "label": "10/26",
       "value": 679
+    },
+    {
+      "label": "11/2",
+      "value": 669
     }
   ],
   "properties": {
     "carriage-house": {
       "filled": 233,
       "capacity": 234,
-      "unapproved": 0,
-      "inactive": 8,
-      "lastYear": 233
+      "unapproved": 2,
+      "inactive": 17,
+      "lastYear": 232
     },
     "carriage-townhouse": {
       "filled": 8,
       "capacity": 8,
       "unapproved": 0,
-      "inactive": 1,
-      "lastYear": 8
+      "inactive": 0,
+      "lastYear": 7
     },
     "avonlea-women": {
       "filled": 65,
       "capacity": 66,
       "unapproved": 1,
-      "inactive": 2,
+      "inactive": 1,
       "lastYear": 66
     },
     "avonlea-men": {
-      "filled": 78,
+      "filled": 76,
       "capacity": 79,
       "unapproved": 1,
-      "inactive": 6,
-      "lastYear": 74
+      "inactive": 5,
+      "lastYear": 77
     },
     "avonlea-house": {
-      "filled": 14,
+      "filled": 13,
       "capacity": 14,
       "unapproved": 0,
       "inactive": 0,
@@ -144,39 +148,39 @@
       "filled": 131,
       "capacity": 140,
       "unapproved": 6,
-      "inactive": 12,
-      "lastYear": 128
+      "inactive": 11,
+      "lastYear": 132
     },
     "haven-green": {
-      "filled": 48,
+      "filled": 43,
       "capacity": 48,
-      "unapproved": 0,
-      "inactive": 0,
-      "lastYear": 42
+      "unapproved": 1,
+      "inactive": 3,
+      "lastYear": 46
     },
     "haven-red": {
-      "filled": 44,
+      "filled": 41,
       "capacity": 48,
-      "unapproved": 4,
-      "inactive": 9,
-      "lastYear": 36
+      "unapproved": 1,
+      "inactive": 8,
+      "lastYear": 39
     },
     "haven-white": {
       "filled": 24,
       "capacity": 24,
       "unapproved": 0,
-      "inactive": 1,
+      "inactive": 5,
       "lastYear": 23
     },
     "haven-129": {
-      "filled": 4,
+      "filled": 5,
       "capacity": 6,
-      "unapproved": 2,
-      "inactive": 2,
+      "unapproved": 1,
+      "inactive": 3,
       "lastYear": 6
     },
     "haven-149": {
-      "filled": 12,
+      "filled": 11,
       "capacity": 12,
       "unapproved": 0,
       "inactive": 0,
@@ -185,9 +189,9 @@
     "haven-163": {
       "filled": 6,
       "capacity": 7,
-      "unapproved": 1,
+      "unapproved": 0,
       "inactive": 0,
-      "lastYear": 6
+      "lastYear": 5
     },
     "haven-175": {
       "filled": 7,
@@ -197,17 +201,17 @@
       "lastYear": 6
     },
     "haven-179": {
-      "filled": 5,
+      "filled": 6,
       "capacity": 7,
-      "unapproved": 1,
-      "inactive": 1,
+      "unapproved": 0,
+      "inactive": 0,
       "lastYear": 7
     }
   },
   "lastYear": {
-    "bnh": 0.9428571428571428,
-    "market": 0.8215875370919882,
-    "marketSold": 13290,
+    "bnh": 0.9585714285714285,
+    "market": 0.8657888229475766,
+    "marketSold": 14005,
     "marketCapacity": 16176,
     "decimals": 0,
     "monthlyContracts": [
@@ -302,40 +306,44 @@
       {
         "label": "10/26",
         "value": 660
+      },
+      {
+        "label": "11/2",
+        "value": 671
       }
     ],
     "byProperty": {
-      "carriage-house": 233,
-      "carriage-townhouse": 8,
+      "carriage-house": 232,
+      "carriage-townhouse": 7,
       "avonlea-house": 14,
       "avonlea-women": 66,
-      "haven-blue": 128,
+      "haven-blue": 132,
       "haven-179": 7,
       "haven-175": 6,
-      "haven-163": 6,
+      "haven-163": 5,
       "haven-149": 11,
       "haven-white": 23,
-      "avonlea-men": 74,
+      "avonlea-men": 77,
       "haven-129": 6,
-      "haven-green": 42,
-      "haven-red": 36
+      "haven-green": 46,
+      "haven-red": 39
     }
   },
   "highlights": {
-    "contractsSoldThisWeek": 14,
+    "contractsSoldThisWeek": -10,
     "houses": {
+      "label": "There was a tie",
+      "count": 1
+    },
+    "apartments": {
       "label": "There was a tie",
       "count": 0
     },
-    "apartments": {
-      "label": "Haven Blue",
-      "count": 9
-    },
     "marketCapacity": 16244,
-    "marketSold": 12849,
-    "women": 0.7669506780271211,
-    "men": 0.8163316900518266,
-    "market": 0.7909997537552327,
+    "marketSold": 13451,
+    "women": 0.7947917916716669,
+    "men": 0.863102009859689,
+    "market": 0.8280595912336863,
     "decimals": 0,
     "monthlyMarketBeds": [
       {
@@ -429,31 +437,35 @@
       {
         "label": "10/26",
         "value": 12849
+      },
+      {
+        "label": "11/2",
+        "value": 13451
       }
     ]
   },
   "goals": {
     "shalynn-kate": {
-      "week": -1,
-      "month": 65
+      "week": 0,
+      "month": 0
     },
     "kelsee-shaylee": {
-      "week": 3,
-      "month": 31
+      "week": -3,
+      "month": -3
     },
     "kenzie-lauren": {
-      "week": 12,
-      "month": 67
+      "week": -7,
+      "month": -7
     }
   },
   "nextSemester": {
     "semester": "Spring 2027",
-    "reportDate": "2026-10-26",
+    "reportDate": "2026-11-02",
     "capacity": 700,
     "callouts": {
       "totalContracts": 700,
-      "bnh": 0.34285714285714286,
-      "market": 0.09800541738488057,
+      "bnh": 0.37,
+      "market": 0.1087170647623738,
       "decimals": 0
     },
     "monthlyContracts": [
@@ -488,11 +500,15 @@
       {
         "label": "10/26",
         "value": 240
+      },
+      {
+        "label": "11/2",
+        "value": 259
       }
     ],
     "properties": {
       "carriage-house": {
-        "filled": 91,
+        "filled": 99,
         "capacity": 234
       },
       "carriage-townhouse": {
@@ -500,15 +516,15 @@
         "capacity": 8
       },
       "avonlea-house": {
-        "filled": 4,
+        "filled": 5,
         "capacity": 14
       },
       "avonlea-women": {
-        "filled": 23,
+        "filled": 25,
         "capacity": 66
       },
       "haven-blue": {
-        "filled": 46,
+        "filled": 47,
         "capacity": 140
       },
       "haven-179": {
@@ -520,7 +536,7 @@
         "capacity": 7
       },
       "haven-163": {
-        "filled": 1,
+        "filled": 2,
         "capacity": 7
       },
       "haven-149": {
@@ -532,7 +548,7 @@
         "capacity": 24
       },
       "avonlea-men": {
-        "filled": 27,
+        "filled": 30,
         "capacity": 79
       },
       "haven-129": {
@@ -540,11 +556,11 @@
         "capacity": 6
       },
       "haven-green": {
-        "filled": 16,
+        "filled": 18,
         "capacity": 48
       },
       "haven-red": {
-        "filled": 6,
+        "filled": 7,
         "capacity": 48
       }
     }
@@ -561,20 +577,19 @@
     "north-triplex": 3,
     "classic-122": 1,
     "piano-casa": 1,
-    "rock-casa": 3,
+    "rock-casa": 1,
     "haven-green-townhouse": 0,
     "the-nest": 1
   },
   "warnings": [],
   "tip": {
     "paragraphs": [
-      "Great job on sales, team. We really appreciate the effort you're putting in. We're at 679 of 700 (97%) for Winter and close to full, so let's start shifting our focus to Spring 2027.",
-      "\"Attitude is a little thing that makes a big difference.\" – Winston Churchill. Let's make every resident feel like the most important person we'll see today. Greet them with a smile when they walk in, and let them hear it in your voice when they call. We're always happy to see them.",
-      "Also, remember Trista's social media training and let's build up our online presence, especially Google reviews. They matter most because they also show up on BYU-Idaho's TIS page. I just updated our photos on TIS and our company website with shots taken over the 7-week break, so everything looks a lot fresher. When a resident is happy, ask them for a review."
+      "Nice work, team. Winter 2027 is at 669 of 700 (96%), and the BYUI market is at 83%, so we're well ahead. The cancellation deadline is this Wednesday, November 4. Before then, let's get the 13 Unapproved residents and the 72 still choosing a bed through to approval. Work the 53 inactive leads too, starting with Carriage House (17) and Haven Blue (11). Every contract after Wednesday counts toward a full Winter, so Winter stays our focus until it's full. Don't pivot to Spring yet.",
+      "Also, remember Ava's advice from manager training. Make a personal connection, or add a personal touch, with each resident this semester. Our easiest customers are the ones who already live with us."
     ]
   },
   "communityHousing": {
-    "asOf": "2026-10-16",
+    "asOf": "2026-10-30",
     "properties": {
       "liberty-corner": {
         "filled": 17,
@@ -614,21 +629,19 @@
       },
       "classic-122": {
         "filled": 1,
-        "capacity": 2,
-        "note": "Dec 1 Start"
+        "capacity": 2
       },
       "piano-casa": {
         "filled": 1,
         "capacity": 1
       },
       "rock-casa": {
-        "filled": 3,
-        "capacity": 3
+        "filled": 1,
+        "capacity": 1
       },
       "haven-green-townhouse": {
         "filled": 0,
-        "capacity": 1,
-        "note": "Dec 1 Start"
+        "capacity": 1
       },
       "the-nest": {
         "filled": 1,
@@ -643,10 +656,10 @@
       },
       "haven-office": {
         "name": "Haven Office",
-        "filled": 15,
-        "capacity": 17
+        "filled": 13,
+        "capacity": 15
       }
     }
   },
-  "communityAsOf": "2026-10-16"
+  "communityAsOf": "2026-10-30"
 }
