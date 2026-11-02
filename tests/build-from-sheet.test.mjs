@@ -53,14 +53,18 @@ test("Fall 2026 tracker matches the 08/24 report totals", () => {
 
 test("Winter 2027 duplicate date column is the unapproved count", () => {
   const tracker = readTracker("contract_tracker-W27.csv");
-  const asOf = "2026-10-26";
+  const asOf = "2026-11-02";
   const index = tracker.dates.indexOf(asOf);
-  assert.equal(tracker.totals[index], 679);
+  assert.equal(tracker.totals[index], 669);
   const carriage = tracker.properties.find((row) => row.sourceName === "The Carriage House");
   assert.equal(carriage.counts[index], 233);
-  assert.equal(carriage.unapproved[asOf], 0);
+  assert.equal(carriage.unapproved[asOf], 2);
   const unapproved = tracker.properties.reduce((sum, row) => sum + (row.unapproved[asOf] ?? 0), 0);
-  assert.equal(unapproved, 16);
+  assert.equal(unapproved, 13);
+  const october26 = tracker.dates.indexOf("2026-10-26");
+  assert.equal(tracker.totals[october26], 679);
+  assert.equal(carriage.counts[october26], 233);
+  assert.equal(carriage.unapproved["2026-10-26"], undefined);
   const october19 = tracker.dates.indexOf("2026-10-19");
   assert.equal(tracker.totals[october19], 665);
   assert.equal(carriage.counts[october19], 234);
@@ -183,6 +187,20 @@ test("W27 goals month sums every approved week that ends in the report month", (
   assert.equal(october26.goals["shalynn-kate"].month, 65);
   assert.equal(october26.goals["kelsee-shaylee"].month, 31);
   assert.equal(october26.goals["kenzie-lauren"].month, 67);
+
+  const november2 = buildReport({ teams, tracker, asOf: "2026-11-02" });
+  assert.equal(november2.goals["shalynn-kate"].week, 0);
+  assert.equal(november2.goals["kelsee-shaylee"].week, -3);
+  assert.equal(november2.goals["kenzie-lauren"].week, -7);
+  assert.equal(november2.goals["shalynn-kate"].month, 0);
+  assert.equal(november2.goals["kelsee-shaylee"].month, -3);
+  assert.equal(november2.goals["kenzie-lauren"].month, -7);
+  assert.equal(
+    november2.goals["shalynn-kate"].month +
+      november2.goals["kelsee-shaylee"].month +
+      november2.goals["kenzie-lauren"].month,
+    -10,
+  );
 });
 
 test("gender split apportions 10/19 approved contracts and a week file can pin the cover", () => {
