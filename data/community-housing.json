@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-06",
+  "asOf": "2026-11-09",
   "properties": {
     "liberty-corner": {
       "filled": 17,
@@ -14,7 +14,7 @@
       "capacity": 3
     },
     "lc-duplex": {
-      "filled": 1,
+      "filled": 2,
       "capacity": 2
     },
     "t-house": {
@@ -56,11 +56,11 @@
       "capacity": 3
     },
     "haven-green-townhouse": {
-      "filled": 0,
+      "filled": 1,
       "capacity": 1,
       "leaseStarts": [
         {
-          "text": "start date of December 1"
+          "text": "Moving in now, finishing this week"
         }
       ]
     },
@@ -72,13 +72,13 @@
   "offices": {
     "avonlea-office": {
       "name": "Avonlea Office",
-      "filled": 28,
+      "filled": 29,
       "capacity": 31
     },
     "haven-office": {
       "name": "Haven Office",
-      "filled": 13,
-      "capacity": 15
+      "filled": 16,
+      "capacity": 17
     }
   }
 }
