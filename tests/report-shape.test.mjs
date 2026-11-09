@@ -26,3 +26,37 @@ const approved = {
   "haven-green": [48, 47, 1, 2],
   "haven-red": [48, 43, 3, 6],
 };
+
+const spring = {
+  "carriage-house": [234, 78],
+  "carriage-townhouse": [8, 6],
+  "avonlea-house": [14, 4],
+  "avonlea-women": [66, 21],
+  "haven-blue": [140, 38],
+  "haven-179": [7, 3],
+  "haven-175": [7, 5],
+  "haven-163": [7, 0],
+  "haven-149": [12, 1],
+  "haven-white": [24, 9],
+  "avonlea-men": [79, 21],
+  "haven-129": [6, 1],
+  "haven-green": [48, 12],
+  "haven-red": [48, 6],
+};
+
+const lastYear = {
+  "carriage-house": 232,
+  "carriage-townhouse": 7,
+  "avonlea-house": 14,
+  "avonlea-women": 63,
+  "haven-blue": 115,
+  "haven-179": 6,
+  "haven-175": 5,
+  "haven-163": 6,
+  "haven-149": 11,
+  "haven-white": 19,
+  "avonlea-men": 50,
+  "haven-129": 4,
+  "haven-green": 38,
+  "haven-red": 18,
+};
