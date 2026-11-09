@@ -542,13 +542,30 @@ test("shipped report is the 11/09/2026 Winter week", () => {
   assert.equal(report.goals["kelsee-shaylee"].month, -3);
   assert.equal(report.goals["kenzie-lauren"].month, 15);
   assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 3, capacity: 3 });
+  assert.deepEqual(report.communityHousing.properties["lc-duplex"], { filled: 2, capacity: 2 });
+  assert.equal(report.community["lc-duplex"], 2);
   assert.equal(report.communityHousing.properties["lc-duplex"].leaseStarts, undefined);
   assert.deepEqual(report.communityHousing.properties["classic-122"].leaseStarts, [
     { text: "start date of December 1", unit: "Basement" },
   ]);
-  assert.deepEqual(report.communityHousing.properties["haven-green-townhouse"].leaseStarts, [
-    { text: "start date of December 1" },
-  ]);
+  assert.deepEqual(report.communityHousing.properties["haven-green-townhouse"], {
+    filled: 1,
+    capacity: 1,
+    leaseStarts: [{ text: "Moving in now, finishing this week" }],
+  });
+  assert.equal(report.community["haven-green-townhouse"], 1);
+  assert.deepEqual(report.communityHousing.offices["avonlea-office"], {
+    name: "Avonlea Office",
+    filled: 29,
+    capacity: 31,
+  });
+  assert.deepEqual(report.communityHousing.offices["haven-office"], {
+    name: "Haven Office",
+    filled: 16,
+    capacity: 17,
+  });
+  assert.equal(report.communityHousing.asOf, "2026-11-09");
+  assert.equal(report.communityAsOf, "2026-11-09");
   assert.deepEqual(report.tip.paragraphs, [
     "Keep making a personal connection with each resident. Our easiest customers already live with us.",
     "Things feel a little slow right now, so let's use that time well. Get ready for check-outs and check-ins now, because Christmas break is going to go fast.",
