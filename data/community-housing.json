@@ -69,16 +69,8 @@
       "capacity": 1
     }
   },
-  "offices": {
-    "avonlea-office": {
-      "name": "Avonlea Office",
-      "filled": 29,
-      "capacity": 31
-    },
-    "haven-office": {
-      "name": "Haven Office",
-      "filled": 16,
-      "capacity": 17
-    }
+  "total": {
+    "filled": 45,
+    "capacity": 48
   }
 }
