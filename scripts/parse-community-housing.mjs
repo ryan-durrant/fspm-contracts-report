@@ -4,7 +4,7 @@
  *
  * Bob saves the plain-text body himself. This script does not read Gmail.
  * Free-text notes are ignored. They often name residents, and this repo is
- * public, so only filled/capacity, office totals, asOf, and lease-start
+ * public, so only filled/capacity, the single community total, asOf, and lease-start
  * dates are written. A lease start is "start date of December 1", with a
  * unit name when the email names the unit. Resident names are never stored.
  * A start date already on a card carries forward when a later email does
@@ -53,12 +53,30 @@ function loadTeams(file) {
   return JSON.parse(fs.readFileSync(file, "utf8"));
 }
 
+export function communityPropertyList(teams) {
+  if (Array.isArray(teams?.communityProperties) && teams.communityProperties.length) {
+    return teams.communityProperties;
+  }
+  return (teams?.offices ?? []).flatMap((office) => office.properties ?? []);
+}
+
+/** Sum of the community cards. Call this after standing overrides such as Rock Casa 3/3. */
+export function communityTotal(teams, properties) {
+  let filled = 0;
+  let capacity = 0;
+  for (const property of communityPropertyList(teams)) {
+    const row = properties?.[property.id];
+    if (!row) continue;
+    filled += row.filled;
+    capacity += row.capacity;
+  }
+  return { filled, capacity };
+}
+
 export function communityAliases(teams) {
   const aliases = [];
-  for (const office of teams.offices ?? []) {
-    for (const property of office.properties) {
-      aliases.push({ id: property.id, norm: normalizeLabel(property.name), label: property.name });
-    }
+  for (const property of communityPropertyList(teams)) {
+    aliases.push({ id: property.id, norm: normalizeLabel(property.name), label: property.name });
   }
   for (const [label, id] of EXTRA_ALIASES) {
     aliases.push({ id, norm: normalizeLabel(label), label });
@@ -210,28 +228,10 @@ export function parseCommunityBody(body, teams, asOf = null) {
   return { found, unrecognized };
 }
 
-export function officeTotals(teams, properties) {
-  const offices = {};
-  for (const office of teams.offices ?? []) {
-    let filled = 0;
-    let capacity = 0;
-    for (const property of office.properties) {
-      const row = properties[property.id];
-      if (!row) continue;
-      filled += row.filled;
-      capacity += row.capacity;
-    }
-    offices[office.id] = { name: office.name, filled, capacity };
-  }
-  return offices;
-}
-
 function cardDefaults(teams) {
   const properties = {};
-  for (const office of teams.offices ?? []) {
-    for (const property of office.properties) {
-      properties[property.id] = { filled: 0, capacity: property.capacity };
-    }
+  for (const property of communityPropertyList(teams)) {
+    properties[property.id] = { filled: 0, capacity: property.capacity };
   }
   return properties;
 }
@@ -247,7 +247,7 @@ export function buildCommunityDocument({ teams, body, asOf, previous = null }) {
   }
   if (body == null || (previous?.asOf && asOf <= previous.asOf)) {
     return {
-      document: previous ?? { asOf, properties: {}, offices: {} },
+      document: previous ?? { asOf, properties: {}, total: { filled: 0, capacity: 0 } },
       unrecognized: [],
       kept: [],
       carriedForward: true,
@@ -276,18 +276,15 @@ export function buildCommunityDocument({ teams, body, asOf, previous = null }) {
   }
   const seen = new Set(parsed.found.keys());
   const kept = [];
-  for (const office of teams.offices ?? []) {
-    for (const property of office.properties) {
-      if (!seen.has(property.id)) kept.push(property.name);
-    }
+  for (const property of communityPropertyList(teams)) {
+    if (!seen.has(property.id)) kept.push(property.name);
   }
-  const offices = officeTotals(teams, properties);
   applyCommunityOverrides(properties, teams);
   return {
     document: {
       asOf,
       properties,
-      offices,
+      total: communityTotal(teams, properties),
     },
     unrecognized: parsed.unrecognized,
     kept,
@@ -328,8 +325,10 @@ function printHelp() {
 Resident names and other notes are not stored. A lease start or move-in
 date is stored as leaseStarts ("start date of December 1", plus a unit
 name when the email names the unit) and carries forward when a later
-email does not replace it. If there is no body, or --as-of is not newer
-than the stored file, the stored counts are kept and nothing is written.`);
+email does not replace it. The community total is the sum of the cards
+after standing overrides (Rock Casa stays 3/3). If there is no body, or
+--as-of is not newer than the stored file, the stored counts are kept
+and nothing is written.`);
 }
 
 export function main(argv = process.argv.slice(2)) {

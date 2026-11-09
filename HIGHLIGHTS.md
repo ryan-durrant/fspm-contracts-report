@@ -31,7 +31,7 @@ Each ring needs a `color`: `red`, `yellow`, or `green`. `label` is optional and 
 | Percent on a property card | `"field": "percent"` on `w27`, `s27`, `community`, or `comparison` |
 | Page total (Total Contracts callout) | `"page": "w27"` or `"s27"`, `"field": "total"` |
 | A callout (market %, FSPM, women, men) | `"field": "callout"`, `"callout": "market"` (also `bnh`, `women`, `men`, `total`, `last-bnh`, `last-market`) |
-| Community office total | `"page": "community"`, `"office": "avonlea-office"` or `"haven-office"`, `"field": "total"` |
+| Community Housing total | `"page": "community"`, `"field": "total"` |
 | Every card that shows a field | `"applyToAll": true` and `"field"` (`unapproved`, `inactive`, `filled`, or `percent`). Add `"page"` to limit it to one page. |
 
 `w27` is the current-semester contracts page. `s27` is the next semester. Other pages: `highlights`, `comparison`, `goals`, `community`.
@@ -54,10 +54,10 @@ Yellow rings on every inactive count:
 {"field":"inactive","applyToAll":true,"color":"yellow"}
 ```
 
-Green ring on a community office total:
+Green ring on the Community Housing total:
 
 ```json
-{"page":"community","office":"haven-office","field":"total","color":"green"}
+{"page":"community","field":"total","color":"green"}
 ```
 
 A week file that opts into the standing rules looks like this. `rings` is the manual list:

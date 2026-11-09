@@ -44,7 +44,7 @@ test("older email style maps LC 1, LC 2, and Red Brick House", () => {
   assert.equal(packed.includes("offline"), false);
 });
 
-test("office totals add the cards and a newer email replaces stored counts", () => {
+test("community total adds the cards and a newer email replaces stored counts", () => {
   const first = buildCommunityDocument({
     teams,
     body: readFixture("community-housing-f26.txt"),
@@ -52,15 +52,10 @@ test("office totals add the cards and a newer email replaces stored counts", () 
   });
   assert.equal(first.carriedForward, false);
   assert.equal(first.document.asOf, "2026-08-24");
-  assert.deepEqual(first.document.offices["avonlea-office"], {
-    name: "Avonlea Office",
-    filled: 17 + 8 + 2 + 2,
-    capacity: 18 + 8 + 3 + 2,
-  });
-  assert.deepEqual(first.document.offices["haven-office"], {
-    name: "Haven Office",
-    filled: 1 + 1 + 1 + 3 + 3 + 1 + 1 + 3 + 1 + 1,
-    capacity: 1 + 1 + 1 + 3 + 3 + 2 + 1 + 3 + 1 + 1,
+  assert.equal(first.document.offices, undefined);
+  assert.deepEqual(first.document.total, {
+    filled: 17 + 8 + 2 + 2 + 1 + 1 + 1 + 3 + 3 + 1 + 1 + 3 + 1 + 1,
+    capacity: 18 + 8 + 3 + 2 + 1 + 1 + 1 + 3 + 3 + 2 + 1 + 3 + 1 + 1,
   });
 
   const sameDay = buildCommunityDocument({
@@ -137,8 +132,8 @@ test("Rock Casa stays 3/3 even when the email lists 1/1", () => {
   });
   assert.equal(parsed.document.properties["rock-casa"].filled, 3);
   assert.equal(parsed.document.properties["rock-casa"].capacity, 3);
-  assert.equal(parsed.document.offices["haven-office"].filled, 1);
-  assert.equal(parsed.document.offices["haven-office"].capacity, 15);
+  assert.equal(parsed.document.offices, undefined);
+  assert.deepEqual(parsed.document.total, { filled: 3, capacity: 48 });
 
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "rock-casa-"));
   const communityFile = path.join(dir, "community-housing.json");
@@ -158,11 +153,8 @@ test("Rock Casa stays 3/3 even when the email lists 1/1", () => {
   });
   assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 3, capacity: 3 });
   assert.equal(report.community["rock-casa"], 3);
-  assert.deepEqual(report.communityHousing.offices["haven-office"], {
-    name: "Haven Office",
-    filled: 13,
-    capacity: 15,
-  });
+  assert.equal(report.communityHousing.offices, undefined);
+  assert.deepEqual(report.communityHousing.total, { filled: 3, capacity: 3 });
 });
 
 test("a move-in that already happened is dropped and names are not stored", () => {
@@ -223,6 +215,7 @@ test("build-from-sheet --community overrides editorial counts", () => {
   });
   assert.equal(report.community["liberty-corner"], 10);
   assert.equal(report.communityAsOf, "2026-10-02");
-  assert.equal(report.communityHousing.offices["avonlea-office"].filled, 10);
+  assert.deepEqual(report.communityHousing.total, { filled: 13, capacity: 48 });
+  assert.equal(report.communityHousing.offices, undefined);
   assert.equal(JSON.stringify(report).includes("Hello"), false);
 });

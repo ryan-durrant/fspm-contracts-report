@@ -467,50 +467,70 @@ function communityLeaseNote(row?: { note?: string; leaseStarts?: { unit?: string
   return row?.note?.trim() || undefined;
 }
 
+function communityCards(config: TeamsConfig) {
+  if (config.communityProperties?.length) return config.communityProperties;
+  return (config.offices ?? []).flatMap((office) =>
+    office.properties.map((property) => ({ ...property, color: office.headerColor })),
+  );
+}
+
+function communityTotal(
+  cards: { id: string; capacity: number }[],
+  housing: ReportData["communityHousing"],
+  community: Record<string, number>,
+) {
+  if (housing?.total && typeof housing.total.filled === "number" && typeof housing.total.capacity === "number") {
+    return housing.total;
+  }
+  let filled = 0;
+  let capacity = 0;
+  for (const property of cards) {
+    const row = housing?.properties?.[property.id];
+    filled += row?.filled ?? community[property.id] ?? 0;
+    capacity += row?.capacity ?? property.capacity;
+  }
+  return { filled, capacity };
+}
+
 function CommunityPage({ report, config, rings }: { report: ReportData; config: TeamsConfig; rings: Ring[] }) {
   const housing = report.communityHousing;
+  const cards = communityCards(config);
   const submitted = Object.keys(housing?.properties ?? report.community).length > 0;
   const asOf = housing?.asOf ?? report.communityAsOf ?? report.reportDate;
+  const total = communityTotal(cards, housing, report.community);
   return (
     <PageFrame id="community" title={`Community Housing - #'s as of ${formatRanOn(asOf)}`}>
       {!submitted && (
         <p className="bg-white px-3 py-3 text-sm">Community housing numbers have not been entered for this week.</p>
       )}
-      {config.offices.map((office) => {
-        const totals = housing?.offices?.[office.id];
-        return (
-          <section key={office.id}>
-            <h3 className="mb-2 text-[15px] font-bold">
-              {office.name}
-              {totals ? (
-                <>
-                  {" - "}
-                  <Ringed ring={ringNode(rings, `community:office:${office.id}:total`)}>
-                    {totals.filled}/{totals.capacity}
-                  </Ringed>
-                </>
-              ) : null}
-            </h3>
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-              {office.properties.map((property) => {
-                const row = housing?.properties?.[property.id];
-                return (
-                  <PropertyCard
-                    key={property.id}
-                    name={property.name}
-                    color={office.headerColor}
-                    filled={row?.filled ?? report.community[property.id] ?? 0}
-                    capacity={row?.capacity ?? property.capacity}
-                    variant="simple"
-                    note={communityLeaseNote(row)}
-                    rings={cardRings(rings, "community", property.id)}
-                  />
-                );
-              })}
-            </div>
-          </section>
-        );
-      })}
+      {submitted && (
+        <section>
+          <h3 className="mb-2 text-[15px] font-bold">
+            Community Housing
+            {" - "}
+            <Ringed ring={ringNode(rings, "community:total")}>
+              {total.filled}/{total.capacity}
+            </Ringed>
+          </h3>
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+            {cards.map((property) => {
+              const row = housing?.properties?.[property.id];
+              return (
+                <PropertyCard
+                  key={property.id}
+                  name={property.name}
+                  color={property.color ?? "#0088E8"}
+                  filled={row?.filled ?? report.community[property.id] ?? 0}
+                  capacity={row?.capacity ?? property.capacity}
+                  variant="simple"
+                  note={communityLeaseNote(row)}
+                  rings={cardRings(rings, "community", property.id)}
+                />
+              );
+            })}
+          </div>
+        </section>
+      )}
       <div className="mx-auto max-w-md border-2 border-black bg-white px-4 py-4 text-center text-[15px] leading-snug">
         {config.communityNote}
       </div>

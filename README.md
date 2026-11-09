@@ -28,7 +28,7 @@ Edit `config/teams.json`. No component changes.
 - `tip` — Tip of the Week (intro, link, closing)
 - `teams` — manager group name, header color, and property order
 - `properties` — display name, bed capacity, apt vs house, and sheet-name aliases
-- `offices` — community housing groups and bed counts
+- `communityProperties` — community housing cards and bed counts (one total, not the student-housing teams)
 - `goalsCopy` and `communityNote` — the goals essay, the $200 bonus, and the Friday reminder
 
 Capacities used for Winter 2027 (and this Fall report) are on each property: Carriage 234, Townhouse 8, Avonlea House 14, Avonlea Women 66, Haven Blue 140, Haven 179 / 175 / 163 = 7, Haven 149 = 12, Haven White 24, Avonlea Men 79, Haven 129 = 6, Haven Green and Haven Red 48.
@@ -92,9 +92,9 @@ The parser accepts `Name - filled/total`, including tight spacing such as `Bell 
 
 If you pass no body, or `--as-of` is not newer than the stored file, the last counts stay and the page keeps that as-of date. Cards missing from a newer email keep their stored count, and the script names them on stderr.
 
-Filled, capacity, office totals, and `asOf` are stored. A lease start or move-in date is stored on the property as `leaseStarts`, worded `start date of December 1`, with the unit name when the email names the unit. Resident names and every other note are dropped. A start date already on the card carries forward when a later email does not replace it. An empty `leaseStarts` list renders nothing. The page still shows the note from `config/teams.json` asking managers to email Ryan every Friday.
+Filled, capacity, one community total, and `asOf` are stored. A lease start or move-in date is stored on the property as `leaseStarts`, worded `start date of December 1`, with the unit name when the email names the unit. Resident names and every other note are dropped. A start date already on the card carries forward when a later email does not replace it. An empty `leaseStarts` list renders nothing. The page still shows the note from `config/teams.json` asking managers to email Ryan every Friday.
 
-Then include the file on the Monday build with `--community data/community-housing.json`. `communityOverrides` in `config/teams.json` is applied on that build, and when the email is parsed. Rock Casa is forced to 3/3. Office totals stay on the email counts.
+Then include the file on the Monday build with `--community data/community-housing.json`. `communityOverrides` in `config/teams.json` is applied on that build, and when the email is parsed. Rock Casa is forced to 3/3. The Community Housing total is the sum of those cards after that override. Haven, Carriage House, and Avonlea student-housing totals stay on their own pages.
 
 Aggregated JSON also works if you already rolled the tab up:
 
@@ -180,7 +180,7 @@ data/report.json           current week, read by / and /latest
 data/archive/<date>.json   snapshot written by --write
 data/editorial/            numbers the sheet does not store (YoY, goals, pinned chart labels)
 data/weeks/                per-week tip, occupancy callouts, and last-year chart marks
-data/community-housing.json  Friday email counts (filled/total, office totals, asOf, optional date note)
+data/community-housing.json  Friday email counts (filled/total, one community total, asOf, optional date note)
 config/highlight-rules.json  standing ring thresholds
 data/samples/              F26 / W27 / S27 tracker exports and count files (counts only; no resident names)
 scripts/build-from-sheet.mjs
