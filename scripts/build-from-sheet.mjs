@@ -35,7 +35,7 @@
  */
 
 import fs from "node:fs";
-import { applyCommunityOverrides } from "./parse-community-housing.mjs";
+import { applyCommunityOverrides, communityTotal } from "./parse-community-housing.mjs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -903,6 +903,8 @@ function applyCommunity(report, communityFile, teams) {
   const housing = readJson(communityFile);
   if (!housing?.properties) return;
   applyCommunityOverrides(housing.properties, teams);
+  housing.total = communityTotal(teams, housing.properties);
+  delete housing.offices;
   report.communityHousing = housing;
   if (housing.asOf) report.communityAsOf = housing.asOf;
   const filled = {};
@@ -932,7 +934,7 @@ function printHelp() {
   --market <json>         market beds sold, when not using the tracker market row
   --last-year <csv>       prior-year tracker used for the comparison page
   --editorial <json>      pinned chart labels, goals, YoY overrides
-  --community <json>      community-housing.json (filled/total, office totals, asOf)
+  --community <json>      community-housing.json (filled/total, one community total, asOf)
   --previous <json>       last report.json; carries community and callouts forward
   --teams <json>          default config/teams.json
   --out <file>            write the report JSON here
