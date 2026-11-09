@@ -82,7 +82,10 @@ export type CommunityCount = {
 export type CommunityHousingData = {
   asOf: string;
   properties: Record<string, CommunityCount>;
-  offices: Record<string, CommunityCount & { name: string }>;
+  /** Sum of the community cards, including standing overrides such as Rock Casa 3/3. */
+  total?: { filled: number; capacity: number };
+  /** Older archives stored Avonlea Office and Haven Office rollups. New reports use total. */
+  offices?: Record<string, CommunityCount & { name: string }>;
 };
 
 export type PropertyConfig = {
@@ -98,6 +101,13 @@ export type TeamConfig = {
   name: string;
   headerColor: string;
   propertyIds: string[];
+};
+
+export type CommunityPropertyConfig = {
+  id: string;
+  name: string;
+  capacity: number;
+  color?: string;
 };
 
 export type OfficeConfig = {
@@ -119,5 +129,8 @@ export type TeamsConfig = {
   communityNote: string;
   teams: TeamConfig[];
   properties: PropertyConfig[];
-  offices: OfficeConfig[];
+  /** Shalynn's community cards. One list, one total. Not the student-housing teams. */
+  communityProperties?: CommunityPropertyConfig[];
+  /** Legacy two-office community grouping. Ignored when communityProperties is set. */
+  offices?: OfficeConfig[];
 };
