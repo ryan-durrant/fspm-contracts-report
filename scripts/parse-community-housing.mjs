@@ -81,7 +81,7 @@ export function communityAliases(teams) {
   for (const [label, id] of EXTRA_ALIASES) {
     aliases.push({ id, norm: normalizeLabel(label), label });
   }
-  aliases.sort((a, b) => b.norm.length);
+  aliases.sort((a, b) => b.norm.length - a.norm.length);
   return aliases;
 }
 
