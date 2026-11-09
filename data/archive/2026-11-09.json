@@ -1,0 +1,692 @@
+{
+  "semester": "Winter 2027",
+  "reportDate": "2026-11-09",
+  "capacity": 700,
+  "callouts": {
+    "totalContracts": 700,
+    "bnh": 0.9842857142857143,
+    "women": 0.981812725090036,
+    "men": 0.9895408163265306,
+    "market": 0.8561930558975622,
+    "decimals": 0
+  },
+  "monthlyContracts": [
+    {
+      "label": "4/27",
+      "value": 72
+    },
+    {
+      "label": "5/4",
+      "value": 110
+    },
+    {
+      "label": "5/11",
+      "value": 130
+    },
+    {
+      "label": "5/18",
+      "value": 154
+    },
+    {
+      "label": "5/25",
+      "value": 168
+    },
+    {
+      "label": "6/1",
+      "value": 175
+    },
+    {
+      "label": "6/8",
+      "value": 185
+    },
+    {
+      "label": "6/15",
+      "value": 204
+    },
+    {
+      "label": "6/22",
+      "value": 220
+    },
+    {
+      "label": "6/29",
+      "value": 242
+    },
+    {
+      "label": "7/7",
+      "value": 265
+    },
+    {
+      "label": "7/13",
+      "value": 276
+    },
+    {
+      "label": "7/20",
+      "value": 284
+    },
+    {
+      "label": "8/24",
+      "value": 361
+    },
+    {
+      "label": "9/1",
+      "value": 389
+    },
+    {
+      "label": "9/14",
+      "value": 389
+    },
+    {
+      "label": "9/21",
+      "value": 440
+    },
+    {
+      "label": "9/22",
+      "value": 490
+    },
+    {
+      "label": "9/28",
+      "value": 516
+    },
+    {
+      "label": "10/5",
+      "value": 620
+    },
+    {
+      "label": "10/12",
+      "value": 657
+    },
+    {
+      "label": "10/19",
+      "value": 665
+    },
+    {
+      "label": "10/26",
+      "value": 679
+    },
+    {
+      "label": "11/2",
+      "value": 688
+    },
+    {
+      "label": "11/9",
+      "value": 689
+    }
+  ],
+  "properties": {
+    "carriage-house": {
+      "filled": 231,
+      "capacity": 234,
+      "unapproved": 2,
+      "inactive": 29,
+      "lastYear": 232
+    },
+    "carriage-townhouse": {
+      "filled": 8,
+      "capacity": 8,
+      "unapproved": 0,
+      "inactive": 0,
+      "lastYear": 7
+    },
+    "avonlea-women": {
+      "filled": 63,
+      "capacity": 66,
+      "unapproved": 2,
+      "inactive": 4,
+      "lastYear": 66
+    },
+    "avonlea-men": {
+      "filled": 78,
+      "capacity": 79,
+      "unapproved": 1,
+      "inactive": 6,
+      "lastYear": 77
+    },
+    "avonlea-house": {
+      "filled": 13,
+      "capacity": 14,
+      "unapproved": 1,
+      "inactive": 2,
+      "lastYear": 14
+    },
+    "haven-blue": {
+      "filled": 139,
+      "capacity": 140,
+      "unapproved": 1,
+      "inactive": 7,
+      "lastYear": 132
+    },
+    "haven-green": {
+      "filled": 48,
+      "capacity": 48,
+      "unapproved": 0,
+      "inactive": 2,
+      "lastYear": 46
+    },
+    "haven-red": {
+      "filled": 48,
+      "capacity": 48,
+      "unapproved": 0,
+      "inactive": 1,
+      "lastYear": 39
+    },
+    "haven-white": {
+      "filled": 24,
+      "capacity": 24,
+      "unapproved": 0,
+      "inactive": 0,
+      "lastYear": 23
+    },
+    "haven-129": {
+      "filled": 6,
+      "capacity": 6,
+      "unapproved": 0,
+      "inactive": 0,
+      "lastYear": 6
+    },
+    "haven-149": {
+      "filled": 11,
+      "capacity": 12,
+      "unapproved": 1,
+      "inactive": 1,
+      "lastYear": 11
+    },
+    "haven-163": {
+      "filled": 7,
+      "capacity": 7,
+      "unapproved": 0,
+      "inactive": 0,
+      "lastYear": 5
+    },
+    "haven-175": {
+      "filled": 6,
+      "capacity": 7,
+      "unapproved": 1,
+      "inactive": 2,
+      "lastYear": 6
+    },
+    "haven-179": {
+      "filled": 7,
+      "capacity": 7,
+      "unapproved": 0,
+      "inactive": 0,
+      "lastYear": 7
+    }
+  },
+  "lastYear": {
+    "bnh": 0.9585714285714285,
+    "market": 0.8657888229475766,
+    "marketSold": 14005,
+    "marketCapacity": 16176,
+    "decimals": 0,
+    "monthlyContracts": [
+      {
+        "label": "4/27",
+        "value": 66
+      },
+      {
+        "label": "5/4",
+        "value": 107
+      },
+      {
+        "label": "5/11",
+        "value": 127
+      },
+      {
+        "label": "5/18",
+        "value": 154
+      },
+      {
+        "label": "5/25",
+        "value": null
+      },
+      {
+        "label": "6/1",
+        "value": 187
+      },
+      {
+        "label": "6/8",
+        "value": 201
+      },
+      {
+        "label": "6/15",
+        "value": 220
+      },
+      {
+        "label": "6/22",
+        "value": null
+      },
+      {
+        "label": "6/29",
+        "value": 232
+      },
+      {
+        "label": "7/7",
+        "value": 237
+      },
+      {
+        "label": "7/13",
+        "value": null
+      },
+      {
+        "label": "7/20",
+        "value": 283
+      },
+      {
+        "label": "8/24",
+        "value": 394
+      },
+      {
+        "label": "9/1",
+        "value": 399
+      },
+      {
+        "label": "9/14",
+        "value": 425
+      },
+      {
+        "label": "9/21",
+        "value": null
+      },
+      {
+        "label": "9/22",
+        "value": 457
+      },
+      {
+        "label": "9/28",
+        "value": null
+      },
+      {
+        "label": "10/5",
+        "value": null
+      },
+      {
+        "label": "10/12",
+        "value": 588
+      },
+      {
+        "label": "10/19",
+        "value": 631
+      },
+      {
+        "label": "10/26",
+        "value": 660
+      },
+      {
+        "label": "11/2",
+        "value": 671
+      },
+      {
+        "label": "11/9",
+        "value": null
+      }
+    ],
+    "byProperty": {
+      "carriage-house": 232,
+      "carriage-townhouse": 7,
+      "avonlea-house": 14,
+      "avonlea-women": 66,
+      "haven-blue": 132,
+      "haven-179": 7,
+      "haven-175": 6,
+      "haven-163": 5,
+      "haven-149": 11,
+      "haven-white": 23,
+      "avonlea-men": 77,
+      "haven-129": 6,
+      "haven-green": 46,
+      "haven-red": 39
+    }
+  },
+  "highlights": {
+    "contractsSoldThisWeek": 1,
+    "houses": {
+      "label": "There was a tie",
+      "count": 1
+    },
+    "apartments": {
+      "label": "Haven Blue",
+      "count": 3
+    },
+    "marketCapacity": 16244,
+    "marketSold": 13908,
+    "women": 0.8099123964958599,
+    "men": 0.9049424851472633,
+    "market": 0.8561930558975622,
+    "decimals": 0,
+    "monthlyMarketBeds": [
+      {
+        "label": "4/27",
+        "value": 0
+      },
+      {
+        "label": "5/4",
+        "value": 0
+      },
+      {
+        "label": "5/11",
+        "value": 0
+      },
+      {
+        "label": "5/18",
+        "value": 0
+      },
+      {
+        "label": "5/25",
+        "value": 0
+      },
+      {
+        "label": "6/1",
+        "value": 0
+      },
+      {
+        "label": "6/8",
+        "value": 0
+      },
+      {
+        "label": "6/15",
+        "value": 0
+      },
+      {
+        "label": "6/22",
+        "value": 3506
+      },
+      {
+        "label": "6/29",
+        "value": 3715
+      },
+      {
+        "label": "7/7",
+        "value": 3990
+      },
+      {
+        "label": "7/13",
+        "value": 4126
+      },
+      {
+        "label": "7/20",
+        "value": 4244
+      },
+      {
+        "label": "8/24",
+        "value": 5199
+      },
+      {
+        "label": "9/1",
+        "value": 5392
+      },
+      {
+        "label": "9/14",
+        "value": 5807
+      },
+      {
+        "label": "9/21",
+        "value": 6880
+      },
+      {
+        "label": "9/22",
+        "value": 7185
+      },
+      {
+        "label": "9/28",
+        "value": 7997
+      },
+      {
+        "label": "10/5",
+        "value": 9529
+      },
+      {
+        "label": "10/12",
+        "value": 10563
+      },
+      {
+        "label": "10/19",
+        "value": 11607
+      },
+      {
+        "label": "10/26",
+        "value": 12849
+      },
+      {
+        "label": "11/2",
+        "value": 13451
+      },
+      {
+        "label": "11/9",
+        "value": 13908
+      }
+    ]
+  },
+  "goals": {
+    "shalynn-kate": {
+      "week": -1,
+      "month": -2
+    },
+    "kelsee-shaylee": {
+      "week": -4,
+      "month": -3
+    },
+    "kenzie-lauren": {
+      "week": 6,
+      "month": 15
+    }
+  },
+  "nextSemester": {
+    "semester": "Spring 2027",
+    "reportDate": "2026-11-09",
+    "capacity": 700,
+    "callouts": {
+      "totalContracts": 700,
+      "bnh": 0.38285714285714284,
+      "market": 0.11585816301403595,
+      "decimals": 0
+    },
+    "monthlyContracts": [
+      {
+        "label": "9/14",
+        "value": 102
+      },
+      {
+        "label": "9/21",
+        "value": 136
+      },
+      {
+        "label": "9/22",
+        "value": 152
+      },
+      {
+        "label": "9/28",
+        "value": 162
+      },
+      {
+        "label": "10/5",
+        "value": 195
+      },
+      {
+        "label": "10/12",
+        "value": 205
+      },
+      {
+        "label": "10/19",
+        "value": 210
+      },
+      {
+        "label": "10/26",
+        "value": 240
+      },
+      {
+        "label": "11/2",
+        "value": 260
+      },
+      {
+        "label": "11/9",
+        "value": 268
+      }
+    ],
+    "properties": {
+      "carriage-house": {
+        "filled": 102,
+        "capacity": 234
+      },
+      "carriage-townhouse": {
+        "filled": 7,
+        "capacity": 8
+      },
+      "avonlea-house": {
+        "filled": 6,
+        "capacity": 14
+      },
+      "avonlea-women": {
+        "filled": 27,
+        "capacity": 66
+      },
+      "haven-blue": {
+        "filled": 50,
+        "capacity": 140
+      },
+      "haven-179": {
+        "filled": 2,
+        "capacity": 7
+      },
+      "haven-175": {
+        "filled": 5,
+        "capacity": 7
+      },
+      "haven-163": {
+        "filled": 2,
+        "capacity": 7
+      },
+      "haven-149": {
+        "filled": 1,
+        "capacity": 12
+      },
+      "haven-white": {
+        "filled": 9,
+        "capacity": 24
+      },
+      "avonlea-men": {
+        "filled": 31,
+        "capacity": 79
+      },
+      "haven-129": {
+        "filled": 1,
+        "capacity": 6
+      },
+      "haven-green": {
+        "filled": 17,
+        "capacity": 48
+      },
+      "haven-red": {
+        "filled": 8,
+        "capacity": 48
+      }
+    }
+  },
+  "community": {
+    "liberty-corner": 17,
+    "lc-ii": 7,
+    "lc-house": 3,
+    "lc-duplex": 1,
+    "t-house": 1,
+    "bell-house": 1,
+    "birch-house": 1,
+    "east-triplex": 3,
+    "north-triplex": 3,
+    "classic-122": 1,
+    "piano-casa": 1,
+    "rock-casa": 1,
+    "haven-green-townhouse": 0,
+    "the-nest": 1
+  },
+  "warnings": [],
+  "tip": {
+    "paragraphs": [
+      "Keep making a personal connection with each resident. Our easiest customers already live with us.",
+      "Things feel a little slow right now, so let's use that time well. Get ready for check-outs and check-ins now, because Christmas break is going to go fast."
+    ]
+  },
+  "communityHousing": {
+    "asOf": "2026-11-06",
+    "properties": {
+      "liberty-corner": {
+        "filled": 17,
+        "capacity": 18
+      },
+      "lc-ii": {
+        "filled": 7,
+        "capacity": 8
+      },
+      "lc-house": {
+        "filled": 3,
+        "capacity": 3
+      },
+      "lc-duplex": {
+        "filled": 1,
+        "capacity": 2
+      },
+      "t-house": {
+        "filled": 1,
+        "capacity": 1
+      },
+      "bell-house": {
+        "filled": 1,
+        "capacity": 1
+      },
+      "birch-house": {
+        "filled": 1,
+        "capacity": 1
+      },
+      "east-triplex": {
+        "filled": 3,
+        "capacity": 3
+      },
+      "north-triplex": {
+        "filled": 3,
+        "capacity": 3
+      },
+      "classic-122": {
+        "filled": 1,
+        "capacity": 2,
+        "leaseStarts": [
+          {
+            "text": "start date of December 1",
+            "unit": "Basement"
+          }
+        ]
+      },
+      "piano-casa": {
+        "filled": 1,
+        "capacity": 1
+      },
+      "rock-casa": {
+        "filled": 3,
+        "capacity": 3
+      },
+      "haven-green-townhouse": {
+        "filled": 0,
+        "capacity": 1,
+        "leaseStarts": [
+          {
+            "text": "start date of December 1"
+          }
+        ]
+      },
+      "the-nest": {
+        "filled": 1,
+        "capacity": 1
+      }
+    },
+    "offices": {
+      "avonlea-office": {
+        "name": "Avonlea Office",
+        "filled": 28,
+        "capacity": 31
+      },
+      "haven-office": {
+        "name": "Haven Office",
+        "filled": 13,
+        "capacity": 15
+      }
+    }
+  },
+  "communityAsOf": "2026-11-06"
+}
