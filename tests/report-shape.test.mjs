@@ -431,7 +431,8 @@ test("10/26 archive stays the week that was published", () => {
   assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 3, capacity: 3 });
 });
 
-test("shipped report is the 11/02/2026 Winter week", () => {
+test("11/02 archive stays the corrected week", () => {
+  const report = JSON.parse(fs.readFileSync(path.join(root, "data/archive/2026-11-02.json"), "utf8"));
   assert.equal(report.semester, "Winter 2027");
   assert.equal(report.reportDate, "2026-11-02");
   assert.equal(report.capacity, 700);
@@ -505,6 +506,55 @@ test("shipped report is the 11/02/2026 Winter week", () => {
   assert.equal(JSON.stringify(report).includes("notes"), false);
   assert.equal(report.warnings.length, 0);
   const archive = JSON.parse(fs.readFileSync(path.join(root, "data/archive/2026-11-02.json"), "utf8"));
+  assert.equal(JSON.stringify(archive), JSON.stringify(report));
+});
+
+test("shipped report is the 11/09/2026 Winter week", () => {
+  assert.equal(report.reportDate, "2026-11-09");
+  assert.equal(report.capacity, 700);
+  const filled = Object.values(report.properties).reduce((sum, property) => sum + property.filled, 0);
+  const unapproved = Object.values(report.properties).reduce((sum, property) => sum + property.unapproved, 0);
+  const inactive = Object.values(report.properties).reduce((sum, property) => sum + property.inactive, 0);
+  assert.equal(filled, 689);
+  assert.equal(unapproved, 9);
+  assert.equal(inactive, 54);
+  assert.equal(report.properties["avonlea-house"].filled, 13);
+  assert.equal(report.properties["avonlea-men"].filled, 78);
+  assert.equal(report.properties["carriage-house"].filled, 231);
+  assert.equal(report.properties["carriage-house"].inactive, 29);
+  assert.equal(report.callouts.bnh, 689 / 700);
+  const womenFilled = 231 + 8 + 13 + 63 + 6 + 7 + 139 * (92 / 140) + 48 * (24 / 48) + 48 * (24 / 48);
+  const menFilled = 78 + 24 + 6 + 11 + 7 + 139 * (48 / 140) + 48 * (24 / 48) + 48 * (24 / 48);
+  assert.equal(womenFilled + menFilled, 689);
+  assert.equal(report.callouts.women, womenFilled / 476);
+  assert.equal(report.callouts.men, menFilled / 224);
+  assert.equal((report.callouts.women * 100).toFixed(0), "98");
+  assert.equal((report.callouts.men * 100).toFixed(0), "99");
+  assert.equal(report.highlights.women, 6749 / 8333);
+  assert.equal(report.highlights.men, 7159 / 7911);
+  assert.equal(report.highlights.marketSold, 13908);
+  assert.equal((report.callouts.market * 100).toFixed(0), "86");
+  assert.equal(report.highlights.contractsSoldThisWeek, 1);
+  assert.equal(report.nextSemester.callouts.bnh, 268 / 700);
+  assert.equal(report.nextSemester.callouts.market, 1882 / 16244);
+  assert.equal((report.nextSemester.callouts.market * 100).toFixed(0), "12");
+  assert.equal(report.goals["shalynn-kate"].month, -2);
+  assert.equal(report.goals["kelsee-shaylee"].month, -3);
+  assert.equal(report.goals["kenzie-lauren"].month, 15);
+  assert.deepEqual(report.communityHousing.properties["rock-casa"], { filled: 3, capacity: 3 });
+  assert.equal(report.communityHousing.properties["lc-duplex"].leaseStarts, undefined);
+  assert.deepEqual(report.communityHousing.properties["classic-122"].leaseStarts, [
+    { text: "start date of December 1", unit: "Basement" },
+  ]);
+  assert.deepEqual(report.communityHousing.properties["haven-green-townhouse"].leaseStarts, [
+    { text: "start date of December 1" },
+  ]);
+  assert.deepEqual(report.tip.paragraphs, [
+    "Keep making a personal connection with each resident. Our easiest customers already live with us.",
+    "Things feel a little slow right now, so let's use that time well. Get ready for check-outs and check-ins now, because Christmas break is going to go fast.",
+  ]);
+  assert.equal(JSON.stringify(report).includes("notes"), false);
+  const archive = JSON.parse(fs.readFileSync(path.join(root, "data/archive/2026-11-09.json"), "utf8"));
   assert.equal(JSON.stringify(archive), JSON.stringify(report));
 });
 

@@ -122,7 +122,13 @@ function monthIndex(name) {
  * Only an allow-listed unit word is kept with the date. Other words,
  * including resident names, are dropped.
  */
-export function leaseStartsFromTail(tail) {
+function shiftIso(iso, days) {
+  const [year, month, day] = iso.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day + days));
+  return { year: date.getUTCFullYear(), month: date.getUTCMonth(), day: date.getUTCDate() };
+}
+
+export function leaseStartsFromTail(tail, asOf = null) {
   const text = String(tail ?? "").replace(/\s+/g, " ");
   const starts = [];
   const seen = new Set();
@@ -149,10 +155,34 @@ export function leaseStartsFromTail(tail) {
       add(match[1], pattern === numeric ? Number(match[2]) - 1 : match[2], pattern === numeric ? match[3] : match[3]);
     }
   }
+  if (asOf) {
+    const relative = /\bmove into the (upstairs|downstairs|basement)\b[^.]*?\btomorrow\b/gi;
+    for (const match of text.matchAll(relative)) {
+      const next = shiftIso(asOf, 1);
+      add(match[1], next.month, next.day);
+    }
+  }
   return starts;
 }
 
-export function parseCommunityBody(body, teams) {
+export function prunePassedLeaseStarts(properties, asOf) {
+  if (!properties || !/^\d{4}-\d{2}-\d{2}$/.test(asOf ?? "")) return;
+  const [year, month, day] = asOf.split("-").map(Number);
+  const cutoff = Date.UTC(year, month - 1, day);
+  for (const row of Object.values(properties)) {
+    if (!row?.leaseStarts?.length) continue;
+    row.leaseStarts = row.leaseStarts.filter((start) => {
+      const match = String(start?.text ?? "").match(/start date of ([A-Za-z]+) (\d{1,2})/);
+      if (!match) return true;
+      const monthNumber = monthIndex(match[1]);
+      if (monthNumber < 0) return true;
+      return Date.UTC(year, monthNumber, Number(match[2])) >= cutoff;
+    });
+    if (!row.leaseStarts.length) delete row.leaseStarts;
+  }
+}
+
+export function parseCommunityBody(body, teams, asOf = null) {
   const aliases = communityAliases(teams);
   const found = new Map();
   const unrecognized = [];
@@ -169,7 +199,7 @@ export function parseCommunityBody(body, teams) {
     const alias = suffixAlias(gap, aliases);
     if (alias) {
       const row = { filled, capacity };
-      const leaseStarts = leaseStartsFromTail(tail);
+      const leaseStarts = leaseStartsFromTail(tail, asOf);
       if (leaseStarts.length) row.leaseStarts = leaseStarts;
       found.set(alias.id, row);
     } else {
@@ -223,7 +253,7 @@ export function buildCommunityDocument({ teams, body, asOf, previous = null }) {
       carriedForward: true,
     };
   }
-  const parsed = parseCommunityBody(body, teams);
+  const parsed = parseCommunityBody(body, teams, asOf);
   const properties = { ...cardDefaults(teams) };
   const keepSchedule = (target, source) => {
     if (!source) return;

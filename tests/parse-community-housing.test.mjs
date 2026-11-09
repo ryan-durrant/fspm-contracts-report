@@ -5,7 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { buildReport } from "../scripts/build-from-sheet.mjs";
-import { buildCommunityDocument, parseCommunityBody } from "../scripts/parse-community-housing.mjs";
+import { buildCommunityDocument, parseCommunityBody, prunePassedLeaseStarts } from "../scripts/parse-community-housing.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const teams = JSON.parse(fs.readFileSync(path.join(root, "config/teams.json"), "utf8"));
@@ -163,6 +163,28 @@ test("Rock Casa stays 3/3 even when the email lists 1/1", () => {
     filled: 13,
     capacity: 15,
   });
+});
+
+test("a move-in that already happened is dropped and names are not stored", () => {
+  const previous = buildCommunityDocument({
+    teams,
+    body: "LCD - 1/2 Upstairs has been leased for 12/7/26",
+    asOf: "2026-10-30",
+  }).document;
+  const next = buildCommunityDocument({
+    teams,
+    body: "LCD - 1/2 ZZZNAME move into the upstairs tomorrow\nHaven Green Townhouse - 0/1 moving in December 1st",
+    asOf: "2026-11-06",
+    previous,
+  }).document;
+  prunePassedLeaseStarts(next.properties, "2026-11-09");
+  assert.equal(next.properties["lc-duplex"].leaseStarts, undefined);
+  assert.deepEqual(next.properties["haven-green-townhouse"].leaseStarts, [
+    { text: "start date of December 1" },
+  ]);
+  const packed = JSON.stringify(next);
+  assert.equal(packed.includes("ZZZNAME"), false);
+  assert.equal(packed.includes("December 7"), false);
 });
 
 test("no email keeps the stored as-of date", () => {
