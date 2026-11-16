@@ -57,12 +57,7 @@
     },
     "haven-green-townhouse": {
       "filled": 1,
-      "capacity": 1,
-      "leaseStarts": [
-        {
-          "text": "Moving in now, finishing this week"
-        }
-      ]
+      "capacity": 1
     },
     "the-nest": {
       "filled": 1,
