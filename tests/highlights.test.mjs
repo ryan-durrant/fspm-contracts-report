@@ -168,7 +168,7 @@ test("11/09 rings Carriage House inactive and the full Winter cards", () => {
 
 test("11/16 rings the full Winter cards and no count of 10 or more", () => {
   const rules = JSON.parse(fs.readFileSync(path.join(root, "config/highlight-rules.json"), "utf8"));
-  const report = JSON.parse(fs.readFileSync(path.join(root, "data/report.json"), "utf8"));
+  const report = JSON.parse(fs.readFileSync(path.join(root, "data/archive/2026-11-16.json"), "utf8"));
   const file = loadHighlightFile("2026-11-16", root);
   assert.equal(file.rules, true);
   const standing = standingRings(report, teams, rules).map((ring) => ring.id).sort();
@@ -185,6 +185,30 @@ test("11/16 rings the full Winter cards and no count of 10 or more", () => {
   ]);
   assert.equal(standing.some((id) => id.endsWith(":inactive") || id.endsWith(":unapproved")), false);
   assert.equal(standing.some((id) => id.startsWith("s27:")), false);
+});
+
+test("11/23 rings the full Winter cards, Spring Carriage House Townhouse, and no count of 10 or more", () => {
+  const rules = JSON.parse(fs.readFileSync(path.join(root, "config/highlight-rules.json"), "utf8"));
+  const report = JSON.parse(fs.readFileSync(path.join(root, "data/report.json"), "utf8"));
+  const file = loadHighlightFile("2026-11-23", root);
+  assert.equal(file.rules, true);
+  const standing = standingRings(report, teams, rules).map((ring) => ring.id).sort();
+  assert.deepEqual(standing, [
+    "s27:card:carriage-townhouse:filled",
+    "w27:card:avonlea-men:filled",
+    "w27:card:avonlea-women:filled",
+    "w27:card:carriage-house:filled",
+    "w27:card:carriage-townhouse:filled",
+    "w27:card:haven-129:filled",
+    "w27:card:haven-149:filled",
+    "w27:card:haven-163:filled",
+    "w27:card:haven-179:filled",
+    "w27:card:haven-blue:filled",
+    "w27:card:haven-green:filled",
+    "w27:card:haven-red:filled",
+    "w27:card:haven-white:filled",
+  ]);
+  assert.equal(standing.some((id) => id.endsWith(":inactive") || id.endsWith(":unapproved")), false);
 });
 
 test("unknown highlight targets are ignored", () => {
