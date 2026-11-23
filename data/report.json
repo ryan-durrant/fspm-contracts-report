@@ -1,13 +1,13 @@
 {
   "semester": "Winter 2027",
-  "reportDate": "2026-11-16",
+  "reportDate": "2026-11-23",
   "capacity": 700,
   "callouts": {
     "totalContracts": 700,
-    "bnh": 0.9914285714285714,
-    "women": 0.9881152460984394,
-    "men": 0.998469387755102,
-    "market": 0.8786013297217434,
+    "bnh": 0.9971428571428571,
+    "women": 0.9957983193277311,
+    "men": 1,
+    "market": 0.9008864811622753,
     "decimals": 0
   },
   "monthlyContracts": [
@@ -114,14 +114,18 @@
     {
       "label": "11/16",
       "value": 694
+    },
+    {
+      "label": "11/23",
+      "value": 698
     }
   ],
   "properties": {
     "carriage-house": {
-      "filled": 232,
+      "filled": 234,
       "capacity": 234,
-      "unapproved": 1,
-      "inactive": 8,
+      "unapproved": 0,
+      "inactive": 3,
       "lastYear": 234
     },
     "carriage-townhouse": {
@@ -132,9 +136,9 @@
       "lastYear": 8
     },
     "avonlea-women": {
-      "filled": 65,
+      "filled": 66,
       "capacity": 66,
-      "unapproved": 1,
+      "unapproved": 0,
       "inactive": 4,
       "lastYear": 66
     },
@@ -142,8 +146,8 @@
       "filled": 79,
       "capacity": 79,
       "unapproved": 0,
-      "inactive": 5,
-      "lastYear": 77
+      "inactive": 3,
+      "lastYear": 78
     },
     "avonlea-house": {
       "filled": 13,
@@ -153,16 +157,16 @@
       "lastYear": 14
     },
     "haven-blue": {
-      "filled": 139,
+      "filled": 140,
       "capacity": 140,
-      "unapproved": 1,
-      "inactive": 7,
+      "unapproved": 0,
+      "inactive": 2,
       "lastYear": 139
     },
     "haven-green": {
       "filled": 48,
       "capacity": 48,
-      "unapproved": 0,
+      "unapproved": 1,
       "inactive": 1,
       "lastYear": 48
     },
@@ -170,7 +174,7 @@
       "filled": 48,
       "capacity": 48,
       "unapproved": 0,
-      "inactive": 2,
+      "inactive": 0,
       "lastYear": 48
     },
     "haven-white": {
@@ -212,14 +216,14 @@
       "filled": 7,
       "capacity": 7,
       "unapproved": 0,
-      "inactive": 2,
+      "inactive": 0,
       "lastYear": 7
     }
   },
   "lastYear": {
-    "bnh": 0.9942857142857143,
-    "market": 0.9137611275964391,
-    "marketSold": 14781,
+    "bnh": 0.9957142857142857,
+    "market": 0.9358308605341247,
+    "marketSold": 15138,
     "marketCapacity": 16176,
     "decimals": 0,
     "monthlyContracts": [
@@ -326,6 +330,10 @@
       {
         "label": "11/16",
         "value": 696
+      },
+      {
+        "label": "11/23",
+        "value": 697
       }
     ],
     "byProperty": {
@@ -339,27 +347,27 @@
       "haven-163": 6,
       "haven-149": 12,
       "haven-white": 24,
-      "avonlea-men": 77,
+      "avonlea-men": 78,
       "haven-129": 6,
       "haven-green": 48,
       "haven-red": 48
     }
   },
   "highlights": {
-    "contractsSoldThisWeek": 5,
+    "contractsSoldThisWeek": 4,
     "houses": {
-      "label": "Haven 149",
-      "count": 1
+      "label": "There was a tie",
+      "count": 0
     },
     "apartments": {
-      "label": "Avonlea Women",
+      "label": "Carriage House",
       "count": 2
     },
     "marketCapacity": 16244,
-    "marketSold": 14272,
-    "women": 0.8335533421336854,
-    "men": 0.926052332195677,
-    "market": 0.8786013297217434,
+    "marketSold": 14634,
+    "women": 0.8468738749549982,
+    "men": 0.9577803059031728,
+    "market": 0.9008864811622753,
     "decimals": 0,
     "monthlyMarketBeds": [
       {
@@ -465,31 +473,35 @@
       {
         "label": "11/16",
         "value": 14272
+      },
+      {
+        "label": "11/23",
+        "value": 14634
       }
     ]
   },
   "goals": {
     "shalynn-kate": {
-      "week": 1,
-      "month": -1
+      "week": 2,
+      "month": 1
     },
     "kelsee-shaylee": {
-      "week": 3,
-      "month": 0
+      "week": 1,
+      "month": 1
     },
     "kenzie-lauren": {
       "week": 1,
-      "month": 16
+      "month": 17
     }
   },
   "nextSemester": {
     "semester": "Spring 2027",
-    "reportDate": "2026-11-16",
+    "reportDate": "2026-11-23",
     "capacity": 700,
     "callouts": {
       "totalContracts": 700,
-      "bnh": 0.4014285714285714,
-      "market": 0.12552327013050973,
+      "bnh": 0.41714285714285715,
+      "market": 0.13586555035705492,
       "decimals": 0
     },
     "monthlyContracts": [
@@ -536,15 +548,19 @@
       {
         "label": "11/16",
         "value": 281
+      },
+      {
+        "label": "11/23",
+        "value": 292
       }
     ],
     "properties": {
       "carriage-house": {
-        "filled": 108,
+        "filled": 114,
         "capacity": 234
       },
       "carriage-townhouse": {
-        "filled": 7,
+        "filled": 8,
         "capacity": 8
       },
       "avonlea-house": {
@@ -552,15 +568,15 @@
         "capacity": 14
       },
       "avonlea-women": {
-        "filled": 28,
+        "filled": 31,
         "capacity": 66
       },
       "haven-blue": {
-        "filled": 53,
+        "filled": 54,
         "capacity": 140
       },
       "haven-179": {
-        "filled": 2,
+        "filled": 3,
         "capacity": 7
       },
       "haven-175": {
@@ -588,7 +604,7 @@
         "capacity": 6
       },
       "haven-green": {
-        "filled": 18,
+        "filled": 17,
         "capacity": 48
       },
       "haven-red": {
@@ -616,20 +632,30 @@
   "warnings": [],
   "tip": {
     "paragraphs": [
-      "Christmas break will be here before we know it, and check-outs and check-ins are going to come fast. Get fully prepped as soon as you can. Everything we finish now makes that week smoother for everyone.",
-      "Winter is almost full. Keep working those last few open beds, and follow up with anyone who hasn't finished signing."
+      "Thanksgiving week is here, so take a minute to thank your residents. A quick note or a hello at the door goes a long way.",
+      "Winter is down to the last couple of beds, so let's finish strong. A few Unapproved contracts have been sitting way too long. Nico at Avonlea House has been open for three weeks, and Emily at Haven House 175 and Maria at Haven Green still need to finish. Since we're this close to filling, people now get 24 hours to finish signing, or we deny the contract and open the bed back up. Reach out today to anyone still in process and get them across the finish line before the break."
     ]
   },
   "communityHousing": {
-    "asOf": "2026-11-09",
+    "asOf": "2026-11-20",
     "properties": {
       "liberty-corner": {
         "filled": 17,
-        "capacity": 18
+        "capacity": 18,
+        "leaseStarts": [
+          {
+            "text": "#1 vacant, application under review"
+          }
+        ]
       },
       "lc-ii": {
         "filled": 7,
-        "capacity": 8
+        "capacity": 8,
+        "leaseStarts": [
+          {
+            "text": "#7 leased for 12/12"
+          }
+        ]
       },
       "lc-house": {
         "filled": 3,
@@ -657,7 +683,12 @@
       },
       "north-triplex": {
         "filled": 3,
-        "capacity": 3
+        "capacity": 3,
+        "leaseStarts": [
+          {
+            "text": "basement moves out 11/30, re-leased for 12/14"
+          }
+        ]
       },
       "classic-122": {
         "filled": 1,
@@ -691,5 +722,5 @@
       "capacity": 48
     }
   },
-  "communityAsOf": "2026-11-09"
+  "communityAsOf": "2026-11-20"
 }
