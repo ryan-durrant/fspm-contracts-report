@@ -711,7 +711,8 @@ test("shipped report is the 11/23/2026 Winter week", () => {
   ]);
   assert.deepEqual(report.tip.paragraphs, [
     "Thanksgiving week is here, so take a minute to thank your residents. A quick note or a hello at the door goes a long way.",
-    "Winter is down to the last couple of beds, so let's finish strong. A few Unapproved contracts have been sitting way too long. Nico at Avonlea House has been open for three weeks, and Emily at Haven House 175 and Maria at Haven Green still need to finish. Since we're this close to filling, people now get 24 hours to finish signing, or we deny the contract and open the bed back up. Reach out today to anyone still in process and get them across the finish line before the break.",
+    "We are two beds away from being completely full! Great work! Time to start focusing on spring of next year.",
+    "To wrap things up, there are some people that have been unapproved for a while now, specifically Nico at Avonlea House. At this point, and in future semesters as we get closer to filling, we should give people time limits of when they have to sign by, or we're going to open up the bed to allow others to sign.",
   ]);
   assert.equal(JSON.stringify(report).includes("notes"), false);
   assert.equal(report.warnings.length, 0);
