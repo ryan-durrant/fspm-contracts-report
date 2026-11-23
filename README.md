@@ -107,7 +107,7 @@ node scripts/build-from-sheet.mjs \
   --as-of 2026-10-05
 ```
 
-`npm run report:build` regenerates the current week (`data/report.json` and `data/archive/2026-11-16.json`) from the Winter 2027 tracker as of 11/16/2026, the Spring 2027 tracker, `data/community-housing.json`, and `data/weeks/2026-11-16.json`. The cover date is the build date in America/Boise unless you pass `--ran-on YYYY-MM-DD` (`--ran-on sheet` keeps the tracker column date). The 10/26, 10/19, 10/12, 10/5, and 08/24 snapshots stay in `data/archive/`.
+`npm run report:build` regenerates the current week (`data/report.json` and `data/archive/2026-11-23.json`) from the Winter 2027 tracker as of 11/23/2026, the Spring 2027 tracker, `data/community-housing.json`, and `data/weeks/2026-11-23.json`. The cover date is the build date in America/Boise unless you pass `--ran-on YYYY-MM-DD` (`--ran-on sheet` keeps the tracker column date). The 10/26, 10/19, 10/12, 10/5, and 08/24 snapshots stay in `data/archive/`.
 
 `--weekly` plots every sheet week. Without it, the chart keeps the last snapshot in each month. Team names live in `config/teams.json`. A week file in `data/weeks/<date>.json` can still pin the tip and the cover callouts.
 

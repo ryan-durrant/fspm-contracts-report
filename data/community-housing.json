@@ -1,13 +1,23 @@
 {
-  "asOf": "2026-11-09",
+  "asOf": "2026-11-20",
   "properties": {
     "liberty-corner": {
       "filled": 17,
-      "capacity": 18
+      "capacity": 18,
+      "leaseStarts": [
+        {
+          "text": "#1 vacant, application under review"
+        }
+      ]
     },
     "lc-ii": {
       "filled": 7,
-      "capacity": 8
+      "capacity": 8,
+      "leaseStarts": [
+        {
+          "text": "#7 leased for 12/12"
+        }
+      ]
     },
     "lc-house": {
       "filled": 3,
@@ -35,7 +45,12 @@
     },
     "north-triplex": {
       "filled": 3,
-      "capacity": 3
+      "capacity": 3,
+      "leaseStarts": [
+        {
+          "text": "basement moves out 11/30, re-leased for 12/14"
+        }
+      ]
     },
     "classic-122": {
       "filled": 1,
